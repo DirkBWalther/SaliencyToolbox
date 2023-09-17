@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of conv2PreserveEnergy</title>
+  <meta name="keywords" content="conv2PreserveEnergy">
+  <meta name="description" content="conv2PreserveEnergy - 2d convolution that avoids bleeding energy over the edge.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; conv2PreserveEnergy.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>conv2PreserveEnergy
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>conv2PreserveEnergy - 2d convolution that avoids bleeding energy over the edge.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function result = conv2PreserveEnergy(src, f) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> conv2PreserveEnergy - 2d convolution that avoids bleeding energy over the edge.
+
+ result = conv2PreserveEnergy(data,filter)
+    Convolves data with the 2d (non-separable) filter.
+    At the boundary, the value of missing pixels is assumed
+    to be equal to the mean over the present pixels
+    to avoid border artefacts.
+
+ See also <a href="sepConv2PreserveEnergy.html" class="code" title="function result = sepConv2PreserveEnergy(filter1,filter2,data)">sepConv2PreserveEnergy</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="gaborFilterMap.html" class="code" title="function resultMap = gaborFilterMap(map,gaborParams,angle)">gaborFilterMap</a>	gaborFilterMap - compute a gabor-filtered version of a map.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function result = conv2PreserveEnergy(src, f)</a>
+0002 <span class="comment">% conv2PreserveEnergy - 2d convolution that avoids bleeding energy over the edge.</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% result = conv2PreserveEnergy(data,filter)</span>
+0005 <span class="comment">%    Convolves data with the 2d (non-separable) filter.</span>
+0006 <span class="comment">%    At the boundary, the value of missing pixels is assumed</span>
+0007 <span class="comment">%    to be equal to the mean over the present pixels</span>
+0008 <span class="comment">%    to avoid border artefacts.</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% See also sepConv2PreserveEnergy.</span>
+0011 
+0012 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0013 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0014 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0015 <span class="comment">% More information about this project is available at:</span>
+0016 <span class="comment">% http://www.saliencytoolbox.net</span>
+0017 
+0018     [sh sw] = size(src);
+0019     [fh fw] = size(f);
+0020     fw2 = floor((fw-1)/2);
+0021     fh2 = floor((fh-1)/2);
+0022     result = zeros(sh, sw);
+0023     
+0024     <span class="comment">% results for the interior, away from the image boundary</span>
+0025     partialResult = conv2(src, f, <span class="string">'full'</span>);
+0026     [prh prw] = size(partialResult);
+0027     result = partialResult(fh2+1:prh-fh2,fw2+1:prw-fw2);
+0028    
+0029     filt2 = rot90(f,2); <span class="comment">% rotate filter by 180 degrees for easier processing</span>
+0030     fsum = sum(f(:));
+0031     
+0032     <span class="comment">% rescale results along the top and bottom borders to reflect truncated filter</span>
+0033     <span class="keyword">if</span> (fh2 &gt; 0) &amp; (fh2 &lt;= sh) 
+0034         <span class="comment">% top scale factor</span>
+0035         TcSum = sum(cumsum(f),2);
+0036         sT = fsum./TcSum(fh2+[1:fh2],1);
+0037         sTmat = repmat(sT, 1, (sw-fw2)-(1+fw2)+1);
+0038         result(1:fh2,1+fw2:sw-fw2) = result(1:fh2,1+fw2:end-fw2).*sTmat;
+0039         
+0040         <span class="comment">% bottom scale factor</span>
+0041         BcSum = sum(cumsum(filt2),2);
+0042         sB = flipud(fsum./BcSum(fh2+[1:fh2],1));
+0043         sBmat = repmat(sB, 1, (sw-fw2)-(1+fw2)+1);
+0044         result(sh-fh2+1:sh,1+fw2:sw-fw2) = result(sh-fh2+1:sh,1+fw2:sw-fw2).*sBmat;
+0045     <span class="keyword">end</span>
+0046     
+0047     <span class="comment">% rescale results along the left and right borders to reflect truncated filter</span>
+0048     <span class="keyword">if</span> (fw2 &gt; sw) &amp; (fw2 &lt;= sw)
+0049         <span class="comment">% left scale factor</span>
+0050         LcSum = sum(cumsum(f,2),1);
+0051         sL = fsum./LcSum(1,fw2+[1:fw2]);
+0052         sLmat = repmat(sL, (sh-fh2)-(1+fh2)+1, 1);
+0053         result(1+fh2:sh-fh2,1:fw2) = result(1+fh2:sh-fh2,1:fw2).*sLmat;
+0054         
+0055         <span class="comment">% right scale factor</span>
+0056         RcSum = sum(cumsum(filt2,2),1);
+0057         sR = fliplr(fsum./RcSum(1,fw2+[1:fw2]));
+0058         sRmat = repmat(sR, (sh-fh2)-(1+fh2)+1, 1); 
+0059         result(1+fh2:sh-fh2,sw-fw2+1:sw) = result(1+fh2:sh-fh2,sw-fw2+1:sw).*sRmat;
+0060     <span class="keyword">end</span>
+0061     
+0062     <span class="comment">% treat corners</span>
+0063     <span class="keyword">if</span> (fh2 &gt; 0) &amp; (fh2 &lt;= sh) &amp; (fw2 &gt; sw) &amp; (fw2 &lt;= sw)
+0064       TL = zeros(fh2,fw2);
+0065       TR = zeros(fh2,fw2);
+0066       BL = zeros(fh2,fw2);
+0067       BR = zeros(fh2,fw2);
+0068       <span class="keyword">for</span> x = 1:fw2
+0069           <span class="keyword">for</span> y = 1:fh2
+0070               TL(y,x) = fsum/sum(sum(filt2(1+(fh2-y+1):<span class="keyword">end</span>,1+(fw2-x+1):end)));
+0071               BL(end+1-y,x) = fsum/sum(sum(filt2(1:end-(fh2-y+1),1+(fw2-x+1):end)));
+0072               BR(end+1-y,end+1-x) = fsum/sum(sum(filt2(1:end-(fh2-y+1),1:end-(fw2-x+1))));
+0073               TR(y,end+1-x) = fsum/sum(sum(filt2(1+(fh2-y+1):<span class="keyword">end</span>,1:end-(fw2-x+1))));
+0074           <span class="keyword">end</span>
+0075       <span class="keyword">end</span>
+0076       result(1:fh2,1:fw2) = times(result(1:fh2,1:fw2),TL);
+0077       result(1:fh2,end-fw2+1:end) = times(result(1:fh2,end-fw2+1:end),TR);
+0078       result(end-fh2+1:<span class="keyword">end</span>,1:fw2) = times(result(end-fh2+1:<span class="keyword">end</span>,1:fw2),BL);
+0079       result(end-fh2+1:<span class="keyword">end</span>,end-fw2+1:end) = times(result(end-fh2+1:<span class="keyword">end</span>,end-fw2+1:end),BR);
+0080     <span class="keyword">end</span>
+0081 <span class="keyword">end</span>
+0082</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

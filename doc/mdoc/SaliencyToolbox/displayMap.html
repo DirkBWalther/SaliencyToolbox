@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of displayMap</title>
+  <meta name="keywords" content="displayMap">
+  <meta name="description" content="displayMap - displays a map in the current axes.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; displayMap.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>displayMap
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>displayMap - displays a map in the current axes.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function displayMap(map,varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> displayMap - displays a map in the current axes.
+
+ displayMap(map)
+    Display map in the current axes object.
+
+ displayMap(map,normalizeFlag)
+    If normalizeFlag is 1, the map is maximum-normalized,
+    if it is 2, then the map is max-normalized and scaled
+    to the dimensions of map.origImage (default: 0 - no normalization).
+
+ See also <a href="displayMaps.html" class="code" title="function displayMaps(maps,varargin)">displayMaps</a>, <a href="displayPyramid.html" class="code" title="function displayPyramid(pyr,varargin)">displayPyramid</a>, <a href="dataStructures.html" class="code" title="">dataStructures</a>, <a href="showImage.html" class="code" title="function h = showImage(img,varargin)">showImage</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="displayMaps.html" class="code" title="function displayMaps(maps,varargin)">displayMaps</a>	displayMaps - displays a set of maps in the current figure.</li><li><a href="displayPyramid.html" class="code" title="function displayPyramid(pyr,varargin)">displayPyramid</a>	displayPyramid - displays a pyramid in a new figure.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% displayMap - displays a map in the current axes.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% displayMap(map)</span>
+0004 <span class="comment">%    Display map in the current axes object.</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">% displayMap(map,normalizeFlag)</span>
+0007 <span class="comment">%    If normalizeFlag is 1, the map is maximum-normalized,</span>
+0008 <span class="comment">%    if it is 2, then the map is max-normalized and scaled</span>
+0009 <span class="comment">%    to the dimensions of map.origImage (default: 0 - no normalization).</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">% See also displayMaps, displayPyramid, dataStructures, showImage.</span>
+0012 
+0013 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0014 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0015 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0016 <span class="comment">% More information about this project is available at:</span>
+0017 <span class="comment">% http://www.saliencytoolbox.net</span>
+0018 
+0019 <a name="_sub0" href="#_subfunctions" class="code">function displayMap(map,varargin)</a>
+0020 
+0021 <span class="keyword">if</span> isempty(varargin)
+0022   normalizeFlag = 0;
+0023 <span class="keyword">else</span>
+0024   normalizeFlag = varargin{1};
+0025 <span class="keyword">end</span>
+0026 
+0027 <span class="keyword">if</span> isstruct(map)
+0028   img = map.data;
+0029   <span class="keyword">if</span> (normalizeFlag == 2)
+0030     img = imresize(img,map.origImage.size(1:2),<span class="string">'bilinear'</span>);
+0031   <span class="keyword">end</span>
+0032 <span class="keyword">else</span>
+0033   img = map;
+0034 <span class="keyword">end</span>
+0035 
+0036 <span class="keyword">if</span> (normalizeFlag &gt;= 1)
+0037   img = 255*mat2gray(img);
+0038 <span class="keyword">end</span>
+0039 
+0040 image(img);
+0041 colormap(gray(255));
+0042 axis image;
+0043 
+0044 <span class="keyword">if</span> isstruct(map)
+0045   title(map.label);
+0046 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

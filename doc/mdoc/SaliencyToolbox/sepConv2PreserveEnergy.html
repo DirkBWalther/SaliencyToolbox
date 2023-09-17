@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of sepConv2PreserveEnergy</title>
+  <meta name="keywords" content="sepConv2PreserveEnergy">
+  <meta name="description" content="sepConv2PreserveEnergy - energy preserving 2d convolution with separable filter">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; sepConv2PreserveEnergy.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>sepConv2PreserveEnergy
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>sepConv2PreserveEnergy - energy preserving 2d convolution with separable filter</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function result = sepConv2PreserveEnergy(filter1,filter2,data) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> sepConv2PreserveEnergy - energy preserving 2d convolution with separable filter
+
+ result = sepConv2PreserveEnergy(yFilter,xFilter,data)
+
+    Convolves data with the separable filters xFilter and
+    yFilter. For border elements, the filters are truncated
+    and the filter energy is renormalized to avoid bleeding
+    over the edge. The result has the same size as data.
+
+ See also <a href="conv2PreserveEnergy.html" class="code" title="function result = conv2PreserveEnergy(src, f)">conv2PreserveEnergy</a>, <a href="maxNormalizeIterative.html" class="code" title="function result = maxNormalizeIterative(data,numIter,varargin)">maxNormalizeIterative</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="estimateShape.html" class="code" title="function shapeData = estimateShape(salmap,saliencyData,winner,params)">estimateShape</a>	estimateShape - estimates the shape of the attended proto-object region.</li><li><a href="gaussianSubsample.html" class="code" title="function result = gaussianSubsample(img)">gaussianSubsample</a>	gaussianSubsample - smooths and subsamples image.</li><li><a href="maxNormalizeIterative.html" class="code" title="function result = maxNormalizeIterative(data,numIter,varargin)">maxNormalizeIterative</a>	maxNormalizeIterative - normalize data with the an iterative algorithm.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% sepConv2PreserveEnergy - energy preserving 2d convolution with separable filter</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% result = sepConv2PreserveEnergy(yFilter,xFilter,data)</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">%    Convolves data with the separable filters xFilter and</span>
+0006 <span class="comment">%    yFilter. For border elements, the filters are truncated</span>
+0007 <span class="comment">%    and the filter energy is renormalized to avoid bleeding</span>
+0008 <span class="comment">%    over the edge. The result has the same size as data.</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% See also conv2PreserveEnergy, maxNormalizeIterative.</span>
+0011 
+0012 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0013 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0014 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0015 <span class="comment">% More information about this project is available at:</span>
+0016 <span class="comment">% http://www.saliencytoolbox.net</span>
+0017 
+0018 <a name="_sub0" href="#_subfunctions" class="code">function result = sepConv2PreserveEnergy(filter1,filter2,data)</a>
+0019 
+0020 [sd1,sd2] = size(data);
+0021 
+0022 <span class="comment">% 2d convolution with zero padding from Matlab</span>
+0023 result = conv2(filter1,filter2,data,<span class="string">'same'</span>);
+0024 
+0025 <span class="comment">% filter length and half-length for the vertical filter</span>
+0026 fl1 = length(filter1);
+0027 fl1b = floor((fl1-1)/2);
+0028 
+0029 <span class="comment">% cumulative sums forward and backward</span>
+0030 fc1a = cumsum(filter1);
+0031 fc1b = cumsum(filter1(end:-1:1));
+0032 fs1 = sum(filter1);
+0033 
+0034 <span class="comment">% Is data field very small?</span>
+0035 <span class="keyword">if</span> (fl1 &gt; sd1)
+0036   <span class="comment">% very small -&gt; need to find the various sums of filter</span>
+0037   <span class="comment">% elements used for each convolution</span>
+0038   tmp = [zeros(1,fl1) fc1a(:)' fs1*ones(1,fl1)];
+0039   range = fl1+fl1b+(1:sd1);
+0040   ff1 = repmat((tmp(range)-tmp(range-sd1))',1,sd2);
+0041   
+0042   <span class="comment">% normalize result by (actual filter size / full filter size)</span>
+0043   result = result * fs1 ./ ff1;
+0044 <span class="keyword">else</span>
+0045   <span class="comment">% border with incomplete filter coverage at top</span>
+0046   ff1a = repmat(fc1a(fl1b+1:end-1)',1,sd2);
+0047   result(1:fl1b,:) = result(1:fl1b,:) * fs1 ./ ff1a;
+0048   
+0049   <span class="comment">% border with incomplete filter coverage at bottom</span>
+0050   ff1b = repmat(fc1b(fl1b+1:end-1)',1,sd2);
+0051   result(end:-1:end-fl1b+1,:) = result(end:-1:end-fl1b+1,:) * fs1 ./ ff1b;
+0052 <span class="keyword">end</span>
+0053 
+0054 <span class="comment">% now the same again for the horizontal filter</span>
+0055 
+0056 <span class="comment">% filter length and half-length</span>
+0057 fl2 = length(filter2);
+0058 fl2b = floor((fl2-1)/2);
+0059 
+0060 <span class="comment">% cumulative sums forward and backward</span>
+0061 fc2a = cumsum(filter2);
+0062 fc2b = cumsum(filter2(end:-1:1));
+0063 fs2 = sum(filter2);
+0064 
+0065 <span class="comment">% Is data field very small?</span>
+0066 <span class="keyword">if</span> (fl2 &gt; sd2)
+0067   <span class="comment">% very small -&gt; need to find the various sums of filter</span>
+0068   <span class="comment">% elements used for each convolution</span>
+0069   tmp = [zeros(1,fl2) fc2a(:)' fs2*ones(1,fl2)];
+0070   range = fl2+fl2b+(1:sd2);
+0071   ff2 = repmat((tmp(range)-tmp(range-sd2)),sd1,1);
+0072   
+0073   <span class="comment">% normalize result by (actual filter size / full filter size)</span>
+0074   result = result * fs2 ./ ff2;
+0075 <span class="keyword">else</span>
+0076   <span class="comment">% border with incomplete filter coverage at the left</span>
+0077   ff2a = repmat(fc2a(fl2b+1:end-1),sd1,1);
+0078   result(:,1:fl2b) = result(:,1:fl2b) * fs2 ./ ff2a;
+0079   
+0080   <span class="comment">% border with incomplete filter coverage at the right</span>
+0081   ff2b = repmat(fc2b(fl2b+1:end-1),sd1,1);
+0082   result(:,end:-1:end-fl2b+1) = result(:,end:-1:end-fl2b+1) * fs2 ./ ff2b;
+0083 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

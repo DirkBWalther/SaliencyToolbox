@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of applyIOR</title>
+  <meta name="keywords" content="applyIOR">
+  <meta name="description" content="applyIOR - applies inhibition of return.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; applyIOR.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>applyIOR
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>applyIOR - applies inhibition of return.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function wta = applyIOR(oldWTA,winner,params,varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> applyIOR - applies inhibition of return.
+
+ wta = applyIOR(oldWTA,winner,saliencyParams)
+    Applies inihibition of return to the winner-take-all
+    network as specified in saliencyParams.IORtype.
+
+ wta = applyIOR(oldWTA,winner,saliencyParams,shapeData)
+    For saliencyParams.IORtype = 'shape', the shapeData
+    from estimateShape are needed.
+
+ See also <a href="diskIOR.html" class="code" title="function wta = diskIOR(oldWTA,winner,params)">diskIOR</a>, <a href="shapeIOR.html" class="code" title="function wta = shapeIOR(wta,winner,params,shapeData)">shapeIOR</a>, <a href="estimateShape.html" class="code" title="function shapeData = estimateShape(salmap,saliencyData,winner,params)">estimateShape</a>, <a href="runSaliency.html" class="code" title="function runSaliency(inputImage,varargin)">runSaliency</a>, <a href="dataStructures.html" class="code" title="">dataStructures</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="diskIOR.html" class="code" title="function wta = diskIOR(oldWTA,winner,params)">diskIOR</a>	diskIOR - applies disk-shaped inhibition of return.</li><li><a href="shapeIOR.html" class="code" title="function wta = shapeIOR(wta,winner,params,shapeData)">shapeIOR</a>	shapeIOR - applies shape-based inhibition of return.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="batchSaliency.html" class="code" title="function [salMaps,fixations] = batchSaliency(images,numFixations,params)">batchSaliency</a>	batchSaliency - batch processing of lists of images.</li><li><a href="guiSaliency.html" class="code" title="function varargout = guiSaliency(varargin)">guiSaliency</a>	guiSaliency - a graphical user interface (GUI) version of the saliency code.</li><li><a href="runSaliency.html" class="code" title="function runSaliency(inputImage,varargin)">runSaliency</a>	runSaliency - compute and display saliency map and fixations.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% applyIOR - applies inhibition of return.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% wta = applyIOR(oldWTA,winner,saliencyParams)</span>
+0004 <span class="comment">%    Applies inihibition of return to the winner-take-all</span>
+0005 <span class="comment">%    network as specified in saliencyParams.IORtype.</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% wta = applyIOR(oldWTA,winner,saliencyParams,shapeData)</span>
+0008 <span class="comment">%    For saliencyParams.IORtype = 'shape', the shapeData</span>
+0009 <span class="comment">%    from estimateShape are needed.</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">% See also diskIOR, shapeIOR, estimateShape, runSaliency, dataStructures.</span>
+0012 
+0013 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0014 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0015 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0016 <span class="comment">% More information about this project is available at:</span>
+0017 <span class="comment">% http://www.saliencytoolbox.net</span>
+0018 
+0019 <a name="_sub0" href="#_subfunctions" class="code">function wta = applyIOR(oldWTA,winner,params,varargin)</a>
+0020 
+0021 <span class="keyword">switch</span> params.IORtype
+0022   <span class="keyword">case</span> <span class="string">'None'</span>
+0023     wta = oldWTA;
+0024   <span class="keyword">case</span> <span class="string">'disk'</span>
+0025     wta = <a href="diskIOR.html" class="code" title="function wta = diskIOR(oldWTA,winner,params)">diskIOR</a>(oldWTA,winner,params);
+0026   <span class="keyword">case</span> <span class="string">'shape'</span>
+0027     <span class="keyword">if</span> (isempty(varargin))
+0028       error(<span class="string">'shapeIOR requires shapeData as an additional argument!'</span>);
+0029     <span class="keyword">end</span>
+0030     <span class="keyword">if</span> (isempty(varargin{1}))
+0031       wta = <a href="diskIOR.html" class="code" title="function wta = diskIOR(oldWTA,winner,params)">diskIOR</a>(oldWTA,winner,params);
+0032     <span class="keyword">else</span>
+0033       wta = <a href="shapeIOR.html" class="code" title="function wta = shapeIOR(wta,winner,params,shapeData)">shapeIOR</a>(oldWTA,winner,params,varargin{1});
+0034     <span class="keyword">end</span>
+0035   <span class="keyword">otherwise</span>
+0036     error([<span class="string">'Unknown IORtype: '</span> params.IORtype]);
+0037 <span class="keyword">end</span>
+0038</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of drawDisk</title>
+  <meta name="keywords" content="drawDisk">
+  <meta name="description" content="drawDisk - draws a solid disk into a 2d image.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; drawDisk.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>drawDisk
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>drawDisk - draws a solid disk into a 2d image.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function resultMap = drawDisk(bgMap,center,radius,value) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> drawDisk - draws a solid disk into a 2d image.
+
+ resultMap = drawDisk(bgMap,center,radius,value)
+    Draws a solid disk with radius 'radius' around 'center'
+    into the background map 'bgMap' and fills it
+    with 'value'.
+    Returns a map structure if bgMap is given as a map structure.
+    Returns a 2d array if bgMap is given as a 2d array.
+
+ See also <a href="plotSalientLocation.html" class="code" title="function plotSalientLocation(winner,lastWinner,img,params,varargin)">plotSalientLocation</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="plotSalientLocation.html" class="code" title="function plotSalientLocation(winner,lastWinner,img,params,varargin)">plotSalientLocation</a>	plotSalientLocation - plots the attended location into an existing figure.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% drawDisk - draws a solid disk into a 2d image.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% resultMap = drawDisk(bgMap,center,radius,value)</span>
+0004 <span class="comment">%    Draws a solid disk with radius 'radius' around 'center'</span>
+0005 <span class="comment">%    into the background map 'bgMap' and fills it</span>
+0006 <span class="comment">%    with 'value'.</span>
+0007 <span class="comment">%    Returns a map structure if bgMap is given as a map structure.</span>
+0008 <span class="comment">%    Returns a 2d array if bgMap is given as a 2d array.</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% See also plotSalientLocation.</span>
+0011 
+0012 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0013 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0014 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0015 <span class="comment">% More information about this project is available at:</span>
+0016 <span class="comment">% http://www.saliencytoolbox.net</span>
+0017 
+0018 <a name="_sub0" href="#_subfunctions" class="code">function resultMap = drawDisk(bgMap,center,radius,value)</a>
+0019 
+0020 <span class="keyword">if</span> isstruct(bgMap)
+0021   bg = bgMap.data;
+0022 <span class="keyword">else</span>
+0023   bg = bgMap;
+0024 <span class="keyword">end</span>
+0025 
+0026 <span class="comment">% create the disk</span>
+0027 [xx,yy] = meshgrid(-radius:radius);
+0028 disk = (xx.^2 + yy.^2 &lt;= radius^2);
+0029 
+0030 <span class="comment">% need to clip the top?</span>
+0031 tb = center(1) - radius; td = 1;
+0032 <span class="keyword">if</span> (tb &lt; 1)
+0033   td = 2 - tb;
+0034   tb = 1;
+0035 <span class="keyword">end</span>
+0036 
+0037 <span class="comment">% need to clip the bottom?</span>
+0038 bb = center(1) + radius; bd = size(disk,2);
+0039 <span class="keyword">if</span> (bb &gt; size(bg,1))
+0040   bd = bd - (bb - size(bg,1));
+0041   bb = size(bg,1);
+0042 <span class="keyword">end</span>
+0043 
+0044 <span class="comment">% need to clip left?</span>
+0045 lb = center(2) - radius; ld = 1;
+0046 <span class="keyword">if</span> (lb &lt; 1)
+0047   ld = 2 - lb;
+0048   lb = 1;
+0049 <span class="keyword">end</span>
+0050 
+0051 <span class="comment">% need to clip right?</span>
+0052 rb = center(2) + radius; rd = size(disk,2);
+0053 <span class="keyword">if</span> (rb &gt; size(bg,2))
+0054   rd = rd - (rb - size(bg,2));
+0055   rb = size(bg,2);
+0056 <span class="keyword">end</span>
+0057 
+0058 <span class="comment">% draw the disk into the result</span>
+0059 result = bg;
+0060 cutRes = result(tb:bb,lb:rb);
+0061 cutDisk = disk(td:bd,ld:rd);
+0062 cutRes(cutDisk) = value;
+0063 result(tb:bb,lb:rb) = cutRes;
+0064 
+0065 <span class="keyword">if</span> isstruct(bgMap)
+0066   resultMap = bgMap;
+0067   resultMap.data = result;
+0068   resultMap.label = [resultMap.label <span class="string">' disk'</span>];
+0069 <span class="keyword">else</span>
+0070   resultMap = result;
+0071 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

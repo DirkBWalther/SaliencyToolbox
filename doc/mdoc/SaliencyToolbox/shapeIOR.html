@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of shapeIOR</title>
+  <meta name="keywords" content="shapeIOR">
+  <meta name="description" content="shapeIOR - applies shape-based inhibition of return.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; shapeIOR.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>shapeIOR
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>shapeIOR - applies shape-based inhibition of return.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function wta = shapeIOR(wta,winner,params,shapeData) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> shapeIOR - applies shape-based inhibition of return.
+
+ wta = shapeIOR(wta,winner,saliencyParams,shapeData)
+    Applies shape-based inhibition of return to the wta
+    winner-take-all network at the winner location,
+    based on the settings in saliencyParams and on the
+    shape information in shapeData.
+
+ See also <a href="estimateShape.html" class="code" title="function shapeData = estimateShape(salmap,saliencyData,winner,params)">estimateShape</a>, <a href="applyIOR.html" class="code" title="function wta = applyIOR(oldWTA,winner,params,varargin)">applyIOR</a>, <a href="diskIOR.html" class="code" title="function wta = diskIOR(oldWTA,winner,params)">diskIOR</a>, <a href="defaultSaliencyParams.html" class="code" title="function params = defaultSaliencyParams(varargin)">defaultSaliencyParams</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="diskIOR.html" class="code" title="function wta = diskIOR(oldWTA,winner,params)">diskIOR</a>	diskIOR - applies disk-shaped inhibition of return.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="applyIOR.html" class="code" title="function wta = applyIOR(oldWTA,winner,params,varargin)">applyIOR</a>	applyIOR - applies inhibition of return.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% shapeIOR - applies shape-based inhibition of return.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% wta = shapeIOR(wta,winner,saliencyParams,shapeData)</span>
+0004 <span class="comment">%    Applies shape-based inhibition of return to the wta</span>
+0005 <span class="comment">%    winner-take-all network at the winner location,</span>
+0006 <span class="comment">%    based on the settings in saliencyParams and on the</span>
+0007 <span class="comment">%    shape information in shapeData.</span>
+0008 <span class="comment">%</span>
+0009 <span class="comment">% See also estimateShape, applyIOR, diskIOR, defaultSaliencyParams.</span>
+0010 
+0011 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0012 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0013 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0014 <span class="comment">% More information about this project is available at:</span>
+0015 <span class="comment">% http://www.saliencytoolbox.net</span>
+0016 
+0017 <a name="_sub0" href="#_subfunctions" class="code">function wta = shapeIOR(wta,winner,params,shapeData)</a>
+0018 
+0019 <span class="comment">% is shape estimator map valid? if not, revert to diskIOR</span>
+0020 <span class="keyword">if</span> (max(shapeData.binaryMap.data(:)) == 0)
+0021   wta = <a href="diskIOR.html" class="code" title="function wta = diskIOR(oldWTA,winner,params)">diskIOR</a>(wta,winner,params);
+0022   <span class="keyword">return</span>
+0023 <span class="keyword">end</span>
+0024 
+0025 ampl = 0.1 * wta.sm.V(winner(1),winner(2));
+0026 
+0027 <span class="keyword">if</span> isequal(size(shapeData.iorMask.data),size(wta.sm.V))
+0028   binMap = shapeData.iorMask.data;
+0029 <span class="keyword">else</span>
+0030   binMap = imresize(shapeData.iorMask.data,size(wta.sm.V),<span class="string">'nearest'</span>);
+0031 <span class="keyword">end</span>
+0032 
+0033 wta.sm.Ginh = wta.sm.Ginh + ampl * binMap;</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

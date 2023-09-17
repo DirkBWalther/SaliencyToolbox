@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of makeLTUsegmentNetwork</title>
+  <meta name="keywords" content="makeLTUsegmentNetwork">
+  <meta name="description" content="makeLTUsegmentNetwork - creates an LTU network for map segmentation.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; makeLTUsegmentNetwork.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>makeLTUsegmentNetwork
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>makeLTUsegmentNetwork - creates an LTU network for map segmentation.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function LTUnetwork = makeLTUsegmentNetwork(mapSize,thresh) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> makeLTUsegmentNetwork - creates an LTU network for map segmentation.
+
+ LTUnetwork = makeLTUSsegmentNetwork(mapSize,thresh)
+    Creates a network of linear threshold units for segmenting
+    a map of size mapSize with threshold thresh.
+    See section 3 of this paper for details:
+      Walther, D., and Koch, C. (2006). Modeling attention to salient 
+      proto-objects. Neural Networks 19, pp. 1395-1407.
+
+ See also <a href="LTUsegmentMap.html" class="code" title="function [resultMap,segMaps] = LTUsegmentMap(map,seedPoint,varargin)">LTUsegmentMap</a>, <a href="LTUsimulate.html" class="code" title="function [output,newStates] = LTUsimulate(LTUnetwork,states,inputs,numIter)">LTUsimulate</a>, <a href="dataStructures.html" class="code" title="">dataStructures</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="LTUsegmentMap.html" class="code" title="function [resultMap,segMaps] = LTUsegmentMap(map,seedPoint,varargin)">LTUsegmentMap</a>	LTUsegmentMap - segment map using a network of linear threshold units.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% makeLTUsegmentNetwork - creates an LTU network for map segmentation.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% LTUnetwork = makeLTUSsegmentNetwork(mapSize,thresh)</span>
+0004 <span class="comment">%    Creates a network of linear threshold units for segmenting</span>
+0005 <span class="comment">%    a map of size mapSize with threshold thresh.</span>
+0006 <span class="comment">%    See section 3 of this paper for details:</span>
+0007 <span class="comment">%      Walther, D., and Koch, C. (2006). Modeling attention to salient</span>
+0008 <span class="comment">%      proto-objects. Neural Networks 19, pp. 1395-1407.</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% See also LTUsegmentMap, LTUsimulate, dataStructures.</span>
+0011 
+0012 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0013 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0014 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0015 <span class="comment">% More information about this project is available at:</span>
+0016 <span class="comment">% http://www.saliencytoolbox.net</span>
+0017 
+0018 <a name="_sub0" href="#_subfunctions" class="code">function LTUnetwork = makeLTUsegmentNetwork(mapSize,thresh)</a>
+0019 
+0020 numPix = prod(mapSize);
+0021 h = mapSize(1);
+0022 w = mapSize(2);
+0023 
+0024 units = 5;
+0025 numCells = numPix * units;
+0026 
+0027 <span class="comment">% set up the connection matrix as a sparse matrix</span>
+0028 con = sparse(numCells,numCells);
+0029 
+0030 <span class="comment">% now wire up all the connections</span>
+0031 <span class="comment">% cell 1 is the input from the select signal</span>
+0032 <span class="comment">% cell 2 is the input from the image</span>
+0033 <span class="comment">% cell 3 is an inhibitory interneuron fed from cell 2</span>
+0034 <span class="comment">% cell 4 pools the lateral input from the neighbors (P cell)</span>
+0035 <span class="comment">% cell 5 computes the output from all this (S cell)</span>
+0036 
+0037 <span class="comment">% set up the network connections</span>
+0038 hunits = h * units;
+0039 <span class="keyword">for</span> x = 1:w
+0040   <span class="keyword">for</span> y = 1:h
+0041     base = (x-1)*hunits + (y-1)*units + 1;
+0042     
+0043     <span class="comment">% cell 1 to cell 5</span>
+0044     con(base,base+4) = 1;
+0045     
+0046     <span class="comment">% cell 2 to cell 3 to cell 5</span>
+0047     con(base+1,base+2) = -1;
+0048     con(base+2,base+4) = -2;
+0049     
+0050     <span class="comment">% inputs from neighboring pixels to cell 4</span>
+0051     <span class="keyword">if</span> (x &gt; 1) con(base-hunits+4,base+3) = 1; <span class="keyword">end</span>
+0052     <span class="keyword">if</span> (x &lt; w) con(base+hunits+4,base+3) = 1; <span class="keyword">end</span>
+0053     <span class="keyword">if</span> (y &gt; 1) con(base- units+4,base+3) = 1; <span class="keyword">end</span>
+0054     <span class="keyword">if</span> (y &lt; h) con(base+ units+4,base+3) = 1; <span class="keyword">end</span>
+0055     
+0056     <span class="comment">% finally, connect cell 4 to cell 5</span>
+0057     con(base+3,base+4) = 1;
+0058   <span class="keyword">end</span>
+0059 <span class="keyword">end</span>
+0060 
+0061 LTUnetwork.connections = con;
+0062 LTUnetwork.thresholds = repmat([0 0 -thresh 1 1],1,numPix);
+0063 idx = ([1:numPix] - 1) * units + 1;
+0064 LTUnetwork.input_idx = [idx+1,idx];
+0065 LTUnetwork.output_idx = idx+4;
+0066 LTUnetwork.numCells = numCells;
+0067 LTUnetwork.label = sprintf(<span class="string">'segmentation network for %d x %d maps'</span>,w,h);</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

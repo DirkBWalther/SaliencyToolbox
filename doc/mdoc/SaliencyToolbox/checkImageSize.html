@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of checkImageSize</title>
+  <meta name="keywords" content="checkImageSize">
+  <meta name="description" content="checkImageSize - downsamples too large images after user confirmation.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; checkImageSize.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>checkImageSize
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>checkImageSize - downsamples too large images after user confirmation.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function img = checkImageSize(img,mode,targetSize) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> checkImageSize - downsamples too large images after user confirmation.
+
+ img = checkImageSize(img,mode,targetSize)
+    If any of the dimensions of img is larger than targetSize (one scalar
+    number), the function opens a dialog box asking the user if it is okay
+    to downsample the image. If the user confirms, the returned image is
+    downsampled such that its largest dimension is targetSize. Otherwise,
+    the original img is returned.
+    Possible values for mode are:
+      'GUI' - use a GUI dialog box to get user confirmation.
+      'Prompt' - ask user on the command prompt.
+      'None' - no user confirmation, downsample image if necessary.
+
+ img - checkImageSize(img,mode)
+    Uses 800 as the default for targetSize.
+
+ See also <a href="dataStructures.html" class="code" title="">dataStructures</a>, <a href="runSaliency.html" class="code" title="function runSaliency(inputImage,varargin)">runSaliency</a>, <a href="guiSaliency.html" class="code" title="function varargout = guiSaliency(varargin)">guiSaliency</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>	debugMsg displays a debug message with line number and filename.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="guiSaliency.html" class="code" title="function varargout = guiSaliency(varargin)">guiSaliency</a>	guiSaliency - a graphical user interface (GUI) version of the saliency code.</li><li><a href="runSaliency.html" class="code" title="function runSaliency(inputImage,varargin)">runSaliency</a>	runSaliency - compute and display saliency map and fixations.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% checkImageSize - downsamples too large images after user confirmation.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% img = checkImageSize(img,mode,targetSize)</span>
+0004 <span class="comment">%    If any of the dimensions of img is larger than targetSize (one scalar</span>
+0005 <span class="comment">%    number), the function opens a dialog box asking the user if it is okay</span>
+0006 <span class="comment">%    to downsample the image. If the user confirms, the returned image is</span>
+0007 <span class="comment">%    downsampled such that its largest dimension is targetSize. Otherwise,</span>
+0008 <span class="comment">%    the original img is returned.</span>
+0009 <span class="comment">%    Possible values for mode are:</span>
+0010 <span class="comment">%      'GUI' - use a GUI dialog box to get user confirmation.</span>
+0011 <span class="comment">%      'Prompt' - ask user on the command prompt.</span>
+0012 <span class="comment">%      'None' - no user confirmation, downsample image if necessary.</span>
+0013 <span class="comment">%</span>
+0014 <span class="comment">% img - checkImageSize(img,mode)</span>
+0015 <span class="comment">%    Uses 800 as the default for targetSize.</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">% See also dataStructures, runSaliency, guiSaliency.</span>
+0018 
+0019 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0020 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0021 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0022 <span class="comment">% More information about this project is available at:</span>
+0023 <span class="comment">% http://www.saliencytoolbox.net</span>
+0024 
+0025 <a name="_sub0" href="#_subfunctions" class="code">function img = checkImageSize(img,mode,targetSize)</a>
+0026 
+0027 <span class="keyword">if</span> isempty(img)
+0028   <span class="keyword">return</span>;
+0029 <span class="keyword">end</span>
+0030 
+0031 <span class="keyword">if</span> isempty(img.data)
+0032   <span class="keyword">return</span>;
+0033 <span class="keyword">end</span>
+0034 
+0035 <span class="keyword">if</span> (nargin &lt; 3)
+0036   targetSize = 800;
+0037 <span class="keyword">end</span>
+0038 
+0039 oldSize = img.size(1:2);
+0040 mx = max(oldSize);
+0041 <span class="keyword">if</span> (mx &gt; targetSize)
+0042   newSize = round(oldSize/mx * targetSize);
+0043   question = <span class="string">'Is it okay to downsample the image?'</span>;
+0044   text = {sprintf(<span class="string">'The image is fairly large (%d x %d pixels).'</span>,oldSize(2),oldSize(1)),<span class="string">''</span>,<span class="keyword">...</span>
+0045           <span class="string">'For processing in the SaliencyToolbox it is recommended to downsample'</span>,<span class="keyword">...</span>
+0046           sprintf(<span class="string">'the image to %d x %d pixels.'</span>,newSize(2),newSize(1)),<span class="string">''</span>,<span class="keyword">...</span>
+0047           question,<span class="string">''</span>};
+0048   <span class="keyword">switch</span> mode
+0049     <span class="keyword">case</span> <span class="string">'GUI'</span>
+0050       reply = questdlg(text,<span class="string">'Downsample image?'</span>,<span class="string">'Yes'</span>,<span class="string">'No'</span>,<span class="string">'Yes'</span>);
+0051       doit = strcmp(reply,<span class="string">'Yes'</span>);
+0052     <span class="keyword">case</span> <span class="string">'Prompt'</span>
+0053       <span class="keyword">for</span> t = 1:length(text)-2
+0054         <span class="keyword">if</span> ~isempty(text{t})
+0055           fprintf(<span class="string">'%s\n'</span>,text{t});
+0056         <span class="keyword">end</span>
+0057       <span class="keyword">end</span>
+0058       reply = input([question <span class="string">' [y]|n '</span>],<span class="string">'s'</span>);
+0059       doit = ismember(reply,{<span class="string">''</span>,<span class="string">'y'</span>,<span class="string">'Y'</span>,<span class="string">'yes'</span>,<span class="string">'Yes'</span>});
+0060     <span class="keyword">case</span> <span class="string">'None'</span>
+0061       doit = 1;
+0062     <span class="keyword">otherwise</span>
+0063       <a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>([<span class="string">'Unknown mode: '</span> mode]);
+0064   <span class="keyword">end</span>
+0065   <span class="keyword">if</span> doit
+0066     img.data = imresize(img.data,newSize);
+0067     img.size = size(img.data);
+0068   <span class="keyword">end</span>
+0069 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

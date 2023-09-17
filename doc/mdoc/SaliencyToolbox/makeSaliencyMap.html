@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of makeSaliencyMap</title>
+  <meta name="keywords" content="makeSaliencyMap">
+  <meta name="description" content="makeSaliencyMap - creates a saliency map for an image.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; makeSaliencyMap.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>makeSaliencyMap
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>makeSaliencyMap - creates a saliency map for an image.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [salmap, saliencyData] = makeSaliencyMap(img, salParams, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> makeSaliencyMap - creates a saliency map for an image.
+
+ [salmap, saliencyData] = makeSaliencyMap(img, salParams, varargin)
+    Creates a saliency map for img according to salParams.
+       img: Image structure for the input image.
+       salParams: the saliency parameters structure
+       varargin: additional data needed by individual channels.
+          Currently, varargin may hold a vector of auxiliary pyramids
+          used for TopDown attention.
+
+       salmap: a map structure containing the saliency map
+       saliencyData: a vector of structures for each feature with 
+                     additional information with the fields:
+          origImage: Image structure of the input image.
+          label: the feature name.
+          pyr: a vector of pyramids for this feature.
+          FM: a vector of feature maps.
+          csLevels: the center and surround levels used to
+                    compute the feature maps.
+          CM: the conspicuity map for this feature.
+          date: the time and date when this structure was created.
+
+ See also <a href="runSaliency.html" class="code" title="function runSaliency(inputImage,varargin)">runSaliency</a>, <a href="batchSaliency.html" class="code" title="function [salMaps,fixations] = batchSaliency(images,numFixations,params)">batchSaliency</a>, <a href="estimateShape.html" class="code" title="function shapeData = estimateShape(salmap,saliencyData,winner,params)">estimateShape</a>, <a href="defaultSaliencyParams.html" class="code" title="function params = defaultSaliencyParams(varargin)">defaultSaliencyParams</a>,
+          <a href="initializeImage.html" class="code" title="function [Img,err] = initializeImage(varargin);">initializeImage</a>, <a href="dataStructures.html" class="code" title="">dataStructures</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="centerSurround.html" class="code" title="function [featureMaps,csLevels] = centerSurround(pyr,params)">centerSurround</a>	centerSurround - computes center-surround difference maps.</li><li><a href="centerSurroundTopDown.html" class="code" title="function [featureMaps,csLevels] = centerSurroundTopDown(pyr,salParams)">centerSurroundTopDown</a>	centerSurroundTopDown - pseudo center-surround for top-down maps.</li><li><a href="combineMaps.html" class="code" title="function result = combineMaps(maps,label)">combineMaps</a>	combineMaps - returns the sum of a vector of maps.</li><li><a href="makeFeaturePyramids.html" class="code" title="function pyrs = makeFeaturePyramids(img,featureType,salParams,varargin)">makeFeaturePyramids</a>	makeFeaturePyramids - creates a pyramid for featureType.</li><li><a href="maxNormalize.html" class="code" title="function result = maxNormalize(maps,params,varargin)">maxNormalize</a>	maxNormalize - normalizes a set of maps according to params.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="batchSaliency.html" class="code" title="function [salMaps,fixations] = batchSaliency(images,numFixations,params)">batchSaliency</a>	batchSaliency - batch processing of lists of images.</li><li><a href="computeAllSaliencyMaps.html" class="code" title="function computeAllSaliencyMaps(imageFile,salmapFile,salParams,fid)">computeAllSaliencyMaps</a>	computeAllSaliencyMaps - computes the saliency maps for many images.</li><li><a href="guiSaliency.html" class="code" title="function varargout = guiSaliency(varargin)">guiSaliency</a>	guiSaliency - a graphical user interface (GUI) version of the saliency code.</li><li><a href="runSaliency.html" class="code" title="function runSaliency(inputImage,varargin)">runSaliency</a>	runSaliency - compute and display saliency map and fixations.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% makeSaliencyMap - creates a saliency map for an image.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% [salmap, saliencyData] = makeSaliencyMap(img, salParams, varargin)</span>
+0004 <span class="comment">%    Creates a saliency map for img according to salParams.</span>
+0005 <span class="comment">%       img: Image structure for the input image.</span>
+0006 <span class="comment">%       salParams: the saliency parameters structure</span>
+0007 <span class="comment">%       varargin: additional data needed by individual channels.</span>
+0008 <span class="comment">%          Currently, varargin may hold a vector of auxiliary pyramids</span>
+0009 <span class="comment">%          used for TopDown attention.</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">%       salmap: a map structure containing the saliency map</span>
+0012 <span class="comment">%       saliencyData: a vector of structures for each feature with</span>
+0013 <span class="comment">%                     additional information with the fields:</span>
+0014 <span class="comment">%          origImage: Image structure of the input image.</span>
+0015 <span class="comment">%          label: the feature name.</span>
+0016 <span class="comment">%          pyr: a vector of pyramids for this feature.</span>
+0017 <span class="comment">%          FM: a vector of feature maps.</span>
+0018 <span class="comment">%          csLevels: the center and surround levels used to</span>
+0019 <span class="comment">%                    compute the feature maps.</span>
+0020 <span class="comment">%          CM: the conspicuity map for this feature.</span>
+0021 <span class="comment">%          date: the time and date when this structure was created.</span>
+0022 <span class="comment">%</span>
+0023 <span class="comment">% See also runSaliency, batchSaliency, estimateShape, defaultSaliencyParams,</span>
+0024 <span class="comment">%          initializeImage, dataStructures.</span>
+0025 
+0026 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0027 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0028 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0029 <span class="comment">% More information about this project is available at:</span>
+0030 <span class="comment">% http://www.saliencytoolbox.net</span>
+0031 
+0032 <a name="_sub0" href="#_subfunctions" class="code">function [salmap, saliencyData] = makeSaliencyMap(img, salParams, varargin)</a>
+0033 
+0034 <span class="comment">% ensure that salParams.features is a cell array</span>
+0035 <span class="keyword">if</span> ischar(salParams.features)
+0036   salParams.features = {salParam.features};
+0037 <span class="keyword">end</span>
+0038 numFeat = length(salParams.features);
+0039 
+0040 <span class="comment">% loop over all requested features</span>
+0041 <span class="keyword">for</span> f = 1:numFeat
+0042   saliencyData(f).origImage = img;
+0043   saliencyData(f).label = salParams.features{f};
+0044   
+0045   <span class="keyword">if</span> (strcmp(<span class="string">'Orientation'</span>,salParams.features{f}))   
+0046      
+0047     <span class="comment">% for orientation computation, see if we already have an</span>
+0048     <span class="comment">% intensity pyramid that we can borrow to make things faster</span>
+0049     idx = strmatch(<span class="string">'Intensity'</span>,{saliencyData(1:f-1).label});
+0050     <span class="keyword">if</span> isempty(idx)
+0051       <span class="comment">% found no intensity pyramid</span>
+0052       saliencyData(f).pyr = <a href="makeFeaturePyramids.html" class="code" title="function pyrs = makeFeaturePyramids(img,featureType,salParams,varargin)">makeFeaturePyramids</a>(img,salParams.features{f},<span class="keyword">...</span>
+0053                               salParams)
+0054     <span class="keyword">else</span>
+0055       <span class="comment">% found an intensity pyramid - hand it over to be used for orientation filtering</span>
+0056       saliencyData(f).pyr = <a href="makeFeaturePyramids.html" class="code" title="function pyrs = makeFeaturePyramids(img,featureType,salParams,varargin)">makeFeaturePyramids</a>(img,salParams.features{f},<span class="keyword">...</span>
+0057                               salParams,saliencyData(idx(1)).pyr(1));
+0058     <span class="keyword">end</span>
+0059   <span class="keyword">else</span>
+0060 
+0061     <span class="comment">% for all other features: call with the auxiliary data in varargin</span>
+0062     saliencyData(f).pyr = <a href="makeFeaturePyramids.html" class="code" title="function pyrs = makeFeaturePyramids(img,featureType,salParams,varargin)">makeFeaturePyramids</a>(img,salParams.features{f},salParams,varargin{:});
+0063   <span class="keyword">end</span>
+0064   
+0065   combFM = [];
+0066   numPyr = length(saliencyData(f).pyr);
+0067   
+0068   <span class="comment">% center-surround contrasts for all pyramids</span>
+0069   <span class="keyword">for</span> p = 1:numPyr
+0070     <span class="keyword">if</span> (strcmp(<span class="string">'TopDown'</span>,salParams.features{f}))
+0071       
+0072       <span class="comment">% special version of centerSurround for TopDown</span>
+0073       [FM,csLevels] = <a href="centerSurroundTopDown.html" class="code" title="function [featureMaps,csLevels] = centerSurroundTopDown(pyr,salParams)">centerSurroundTopDown</a>(saliencyData(f).pyr(p),salParams);
+0074     <span class="keyword">else</span>
+0075       
+0076       <span class="comment">% Plain vanilla version for everything else</span>
+0077       [FM,csLevels] = <a href="centerSurround.html" class="code" title="function [featureMaps,csLevels] = centerSurround(pyr,params)">centerSurround</a>(saliencyData(f).pyr(p),salParams);
+0078     <span class="keyword">end</span>
+0079     
+0080     saliencyData(f).FM(p,:) = <a href="maxNormalize.html" class="code" title="function result = maxNormalize(maps,params,varargin)">maxNormalize</a>(FM,salParams,[0,10]);
+0081     saliencyData(f).csLevels(p,:) = csLevels;
+0082     
+0083     <span class="comment">% combine the feature maps over all scales</span>
+0084     combFM = [combFM <a href="combineMaps.html" class="code" title="function result = combineMaps(maps,label)">combineMaps</a>(saliencyData(f).FM(p,:),<span class="keyword">...</span>
+0085                                  [salParams.features{f} <span class="string">'CM'</span>])];
+0086   <span class="keyword">end</span>
+0087   
+0088   <span class="comment">% normalize the combined feature maps</span>
+0089   combFM = <a href="maxNormalize.html" class="code" title="function result = maxNormalize(maps,params,varargin)">maxNormalize</a>(combFM,salParams,[0,0]);
+0090   
+0091   <span class="comment">% compute conspicuity maps over all sub-features</span>
+0092   <span class="keyword">if</span> (numPyr == 1)
+0093     saliencyData(f).CM = combFM;
+0094   <span class="keyword">else</span>
+0095     <span class="comment">% more than 1 sub-feature: additional normalization step</span>
+0096     saliencyData(f).CM = <a href="maxNormalize.html" class="code" title="function result = maxNormalize(maps,params,varargin)">maxNormalize</a>(<a href="combineMaps.html" class="code" title="function result = combineMaps(maps,label)">combineMaps</a>(combFM,[salParams.features{f} <span class="string">'CM'</span>]),<span class="keyword">...</span>
+0097                                       salParams,[0,0]);
+0098   <span class="keyword">end</span>
+0099     
+0100   <span class="comment">% weigh the conspicuity map appropriately</span>
+0101   saliencyData(f).CM.data = salParams.weights(f) * saliencyData(f).CM.data / numPyr / numFeat;  
+0102   saliencyData(f).date = clock;
+0103 <span class="keyword">end</span> <span class="comment">% end loop over features</span>
+0104 
+0105 <span class="comment">% compute the saliency map by combining all the conspicuity maps</span>
+0106 salmap = <a href="combineMaps.html" class="code" title="function result = combineMaps(maps,label)">combineMaps</a>([saliencyData.CM],<span class="string">'SaliencyMap'</span>);
+0107 salmap = <a href="maxNormalize.html" class="code" title="function result = maxNormalize(maps,params,varargin)">maxNormalize</a>(salmap,salParams,[0,2]);
+0108 salmap.parameters = salParams;</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

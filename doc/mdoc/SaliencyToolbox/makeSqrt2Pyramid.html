@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of makeSqrt2Pyramid</title>
+  <meta name="keywords" content="makeSqrt2Pyramid">
+  <meta name="description" content="makeSqrt2Pyramid - creates a sqrt(2) Gaussian pyramid.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; makeSqrt2Pyramid.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>makeSqrt2Pyramid
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>makeSqrt2Pyramid - creates a sqrt(2) Gaussian pyramid.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function pyr = makeSqrt2Pyramid(map,varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> makeSqrt2Pyramid - creates a sqrt(2) Gaussian pyramid.
+
+ pyr = makeSqrt2Pyramid(map)
+    Creates a Gaussian pyramid with levels separated by a 
+    factor of sqrt(2) by bilinear interpolation between 
+    levels of a dyadic Gaussian pyramid.
+
+ pyr = makeSqrt2Pyramid(map,depth)
+    Creates at most depth levels.
+
+ See also <a href="makeDyadicPyramid.html" class="code" title="function pyr = makeDyadicPyramid(map,varargin)">makeDyadicPyramid</a>, mexGaussianSubsample, <a href="makeGaussianPyramid.html" class="code" title="function pyr = makeGaussianPyramid(map,type,varargin)">makeGaussianPyramid</a>, <a href="dataStructures.html" class="code" title="">dataStructures</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="gaussianSubsample.html" class="code" title="function result = gaussianSubsample(img)">gaussianSubsample</a>	gaussianSubsample - smooths and subsamples image.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="makeGaussianPyramid.html" class="code" title="function pyr = makeGaussianPyramid(map,type,varargin)">makeGaussianPyramid</a>	makeGaussianPyramid - creates a Gaussian pyramid from map.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% makeSqrt2Pyramid - creates a sqrt(2) Gaussian pyramid.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% pyr = makeSqrt2Pyramid(map)</span>
+0004 <span class="comment">%    Creates a Gaussian pyramid with levels separated by a</span>
+0005 <span class="comment">%    factor of sqrt(2) by bilinear interpolation between</span>
+0006 <span class="comment">%    levels of a dyadic Gaussian pyramid.</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">% pyr = makeSqrt2Pyramid(map,depth)</span>
+0009 <span class="comment">%    Creates at most depth levels.</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">% See also makeDyadicPyramid, mexGaussianSubsample, makeGaussianPyramid, dataStructures.</span>
+0012 
+0013 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0014 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0015 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0016 <span class="comment">% More information about this project is available at:</span>
+0017 <span class="comment">% http://www.saliencytoolbox.net</span>
+0018 
+0019 <a name="_sub0" href="#_subfunctions" class="code">function pyr = makeSqrt2Pyramid(map,varargin)</a>
+0020 
+0021 <span class="keyword">if</span> (isempty(varargin)) depth = -1;
+0022 <span class="keyword">else</span> depth = varargin{1}; <span class="keyword">end</span>
+0023 
+0024 lab = map.label;
+0025 
+0026 pyr.origImage = map.origImage;
+0027 pyr.label = lab;
+0028 pyr.type = <span class="string">'sqrt2'</span>;
+0029 map.label = [lab <span class="string">'-1'</span>];
+0030 map.parameters.type = <span class="string">'sqrt2'</span>;
+0031 
+0032 pyr.levels(1) = map;
+0033 
+0034 method = <span class="string">'bilinear'</span>;
+0035 
+0036 n = 1;
+0037 <span class="keyword">while</span> (min(size(pyr.levels(n).data)) &gt; 1)
+0038   <span class="keyword">if</span> ((depth &gt; 0) &amp; (n &gt;= depth)) <span class="keyword">break</span>; <span class="keyword">end</span>
+0039   
+0040   n = n + 1;
+0041   
+0042   newMap = [];
+0043   newMap.origImage = map.origImage;
+0044   newMap.label = sprintf(<span class="string">'%s-%d'</span>,lab,n);
+0045   
+0046   <span class="keyword">if</span> (mod(n,2) == 0)
+0047     
+0048     <span class="comment">% even levels: interpolate from previous level</span>
+0049     prev = pyr.levels(n-1).data;
+0050     <span class="keyword">if</span> (min(size(prev)) &lt;= 4)
+0051       method = <span class="string">'nearest'</span>;
+0052     <span class="keyword">end</span>
+0053     newMap.data = imresize(prev,round(size(prev)/sqrt(2)),method);
+0054   <span class="keyword">else</span>
+0055     
+0056     <span class="comment">% odd levels: dyadic subsampling from the level two back</span>
+0057     newMap.data = <a href="gaussianSubsample.html" class="code" title="function result = gaussianSubsample(img)">gaussianSubsample</a>(pyr.levels(n-2).data);
+0058   <span class="keyword">end</span>
+0059   
+0060   newMap.date = clock;
+0061   newMap.parameters.type = <span class="string">'sqrt2'</span>;
+0062   pyr.levels(n) = newMap;
+0063 <span class="keyword">end</span>
+0064 
+0065 pyr.date = clock;</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

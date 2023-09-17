@@ -1,0 +1,181 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of batchSaliency</title>
+  <meta name="keywords" content="batchSaliency">
+  <meta name="description" content="batchSaliency - batch processing of lists of images.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; batchSaliency.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>batchSaliency
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>batchSaliency - batch processing of lists of images.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [salMaps,fixations] = batchSaliency(images,numFixations,params) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> batchSaliency - batch processing of lists of images.
+
+ salMaps = batchSaliency(images)
+    Computes the saliency maps for a number of images.
+    images can be one of the following:
+       - a vector of Image structures as obtained from initializeImage
+       - a cell array of file names of image files
+       - the name of a directory - using all image files 
+         in that directory
+
+ [salMaps,fixations] = batchSaliency(images,numFixations)
+    Computes the saliency maps and the coordinates of the first
+    numFixations fixations. fixations is a cell array with one cell
+    for each image. Each cell is of size numFixations x 2.
+
+ [salMaps,fixations] = batchSaliency(images,numFixations,params)
+    Uses params as the saliency parameters. By default, the parameters
+    from defaultSaliencyParams are used.
+
+ See also <a href="initializeImage.html" class="code" title="function [Img,err] = initializeImage(varargin);">initializeImage</a>, <a href="makeSaliencyMap.html" class="code" title="function [salmap, saliencyData] = makeSaliencyMap(img, salParams, varargin)">makeSaliencyMap</a>, <a href="defaultSaliencyParams.html" class="code" title="function params = defaultSaliencyParams(varargin)">defaultSaliencyParams</a>,
+          <a href="runSaliency.html" class="code" title="function runSaliency(inputImage,varargin)">runSaliency</a>, <a href="dataStructures.html" class="code" title="">dataStructures</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="applyIOR.html" class="code" title="function wta = applyIOR(oldWTA,winner,params,varargin)">applyIOR</a>	applyIOR - applies inhibition of return.</li><li><a href="defaultSaliencyParams.html" class="code" title="function params = defaultSaliencyParams(varargin)">defaultSaliencyParams</a>	defaultSaliencyParams - returns a default salParams structure.</li><li><a href="estimateShape.html" class="code" title="function shapeData = estimateShape(salmap,saliencyData,winner,params)">estimateShape</a>	estimateShape - estimates the shape of the attended proto-object region.</li><li><a href="evolveWTA.html" class="code" title="function [wta,winner] = evolveWTA(wta)">evolveWTA</a>	evolveWTA - evolves the winner-take-all network by one time step.</li><li><a href="initializeImage.html" class="code" title="function [Img,err] = initializeImage(varargin);">initializeImage</a>	initializeImage - initializes an image structure.</li><li><a href="initializeWTA.html" class="code" title="function wta = initializeWTA(salmap,salParams)">initializeWTA</a>	initializeWTA - intitializes a winner-take-all network.</li><li><a href="makeSaliencyMap.html" class="code" title="function [salmap, saliencyData] = makeSaliencyMap(img, salParams, varargin)">makeSaliencyMap</a>	makeSaliencyMap - creates a saliency map for an image.</li><li><a href="removeColorFeatures.html" class="code" title="function params = removeColorFeatures(params,fid)">removeColorFeatures</a>	removeColorFeatures - removes color features from the saliency</li><li><a href="winnerToImgCoords.html" class="code" title="function winImgCo = winnerToImgCoords(winner,params)">winnerToImgCoords</a>	winnerToImgCoords - converts winner location from map to image coordinates.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% batchSaliency - batch processing of lists of images.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% salMaps = batchSaliency(images)</span>
+0004 <span class="comment">%    Computes the saliency maps for a number of images.</span>
+0005 <span class="comment">%    images can be one of the following:</span>
+0006 <span class="comment">%       - a vector of Image structures as obtained from initializeImage</span>
+0007 <span class="comment">%       - a cell array of file names of image files</span>
+0008 <span class="comment">%       - the name of a directory - using all image files</span>
+0009 <span class="comment">%         in that directory</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">% [salMaps,fixations] = batchSaliency(images,numFixations)</span>
+0012 <span class="comment">%    Computes the saliency maps and the coordinates of the first</span>
+0013 <span class="comment">%    numFixations fixations. fixations is a cell array with one cell</span>
+0014 <span class="comment">%    for each image. Each cell is of size numFixations x 2.</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">% [salMaps,fixations] = batchSaliency(images,numFixations,params)</span>
+0017 <span class="comment">%    Uses params as the saliency parameters. By default, the parameters</span>
+0018 <span class="comment">%    from defaultSaliencyParams are used.</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">% See also initializeImage, makeSaliencyMap, defaultSaliencyParams,</span>
+0021 <span class="comment">%          runSaliency, dataStructures.</span>
+0022 
+0023 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0024 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0025 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0026 <span class="comment">% More information about this project is available at:</span>
+0027 <span class="comment">% http://www.saliencytoolbox.net</span>
+0028 
+0029 <a name="_sub0" href="#_subfunctions" class="code">function [salMaps,fixations] = batchSaliency(images,numFixations,params)</a>
+0030 
+0031 <span class="keyword">if</span> (nargin &lt; 2)
+0032   numFixations = 0;
+0033 <span class="keyword">end</span>
+0034 
+0035 <span class="keyword">if</span> (nargin &lt; 3)
+0036   params = <a href="defaultSaliencyParams.html" class="code" title="function params = defaultSaliencyParams(varargin)">defaultSaliencyParams</a>;
+0037 <span class="keyword">end</span>
+0038 
+0039 <span class="comment">% convert images input argument into Image structures</span>
+0040 <span class="keyword">switch</span> class(images)
+0041   <span class="keyword">case</span> <span class="string">'cell'</span>
+0042     imgList = [];
+0043     <span class="keyword">for</span> f = 1:length(images)
+0044       [imgStruct,err] = <a href="initializeImage.html" class="code" title="function [Img,err] = initializeImage(varargin);">initializeImage</a>(images{f});
+0045       <span class="keyword">if</span> isempty(err)
+0046         imgList = [imgList imgStruct];
+0047       <span class="keyword">else</span>
+0048         fprintf([<span class="string">'Error reading image file '</span> images{f} <span class="string">': '</span> err.message <span class="string">' = skipping\n'</span>]);
+0049       <span class="keyword">end</span>
+0050     <span class="keyword">end</span>
+0051     fprintf(<span class="string">'Found %d images.\n'</span>,length(imgList));    
+0052   <span class="keyword">case</span> <span class="string">'struct'</span>
+0053     imgList = images;
+0054   <span class="keyword">case</span> <span class="string">'char'</span>
+0055     d = dir(images);
+0056     imgFiles = {d(~[d.isdir]).name};
+0057     <span class="keyword">if</span> isempty(imgFiles)
+0058       fprintf([<span class="string">'No image files found in '</span> images <span class="string">'\n'</span>]);
+0059       salMaps = []; fixations = {};
+0060       <span class="keyword">return</span>;
+0061     <span class="keyword">end</span>
+0062     imgList = [];
+0063     <span class="keyword">for</span> f = 1:length(imgFiles)
+0064       [imgStruct,err] = <a href="initializeImage.html" class="code" title="function [Img,err] = initializeImage(varargin);">initializeImage</a>(fullfile(images,imgFiles{f}));
+0065       <span class="keyword">if</span> isempty(err)
+0066         imgList = [imgList imgStruct];
+0067       <span class="keyword">end</span>
+0068     <span class="keyword">end</span>
+0069     fprintf(<span class="string">'Found %d images.\n'</span>,length(imgList));
+0070   <span class="keyword">otherwise</span>
+0071     error([<span class="string">'Type '</span> class(images) <span class="string">'not valid for images input argument.'</span>]);
+0072 <span class="keyword">end</span>
+0073 
+0074 <span class="comment">% loop over all images</span>
+0075 numImg = length(imgList);
+0076 fixations = {};
+0077 <span class="keyword">for</span> f = 1:numImg
+0078   fprintf(<span class="string">'Processing image %d of %d: computing saliency map ...'</span>,f,numImg);
+0079 
+0080   <span class="comment">% make sure that we don't use color features if we don't have a color image</span>
+0081   myParams = params;
+0082   <span class="keyword">if</span> (imgList(f).dims == 2)
+0083     myParams = <a href="removeColorFeatures.html" class="code" title="function params = removeColorFeatures(params,fid)">removeColorFeatures</a>(myParams);
+0084   <span class="keyword">end</span>
+0085   
+0086   <span class="comment">% compute the saliency map</span>
+0087   [salMaps(f),salData] = <a href="makeSaliencyMap.html" class="code" title="function [salmap, saliencyData] = makeSaliencyMap(img, salParams, varargin)">makeSaliencyMap</a>(imgList(f),myParams);
+0088   
+0089   <span class="comment">% need to compute fixations?</span>
+0090   <span class="keyword">if</span> (numFixations &gt; 0)
+0091     fprintf(<span class="string">' computing %d fixations '</span>,numFixations);
+0092     wta = <a href="initializeWTA.html" class="code" title="function wta = initializeWTA(salmap,salParams)">initializeWTA</a>(salMaps(f),myParams);
+0093     
+0094     <span class="comment">% loop over the fixations</span>
+0095     <span class="keyword">for</span> fix = 1:numFixations
+0096       
+0097       <span class="comment">% evolve WTA until we have the next winner</span>
+0098       winner = [-1,-1];
+0099       <span class="keyword">while</span>(winner(1) == -1)
+0100         [wta,winner] = <a href="evolveWTA.html" class="code" title="function [wta,winner] = evolveWTA(wta)">evolveWTA</a>(wta);
+0101       <span class="keyword">end</span>
+0102       fprintf(<span class="string">'.'</span>);
+0103       
+0104       <span class="comment">% get shape data and apply inhibition of return</span>
+0105       shapeData = <a href="estimateShape.html" class="code" title="function shapeData = estimateShape(salmap,saliencyData,winner,params)">estimateShape</a>(salMaps(f),salData,winner,myParams);
+0106       wta = <a href="applyIOR.html" class="code" title="function wta = applyIOR(oldWTA,winner,params,varargin)">applyIOR</a>(wta,winner,myParams,shapeData);
+0107       
+0108       <span class="comment">% convert the winner to image coordinates</span>
+0109       fixations{f}(fix,:) = <a href="winnerToImgCoords.html" class="code" title="function winImgCo = winnerToImgCoords(winner,params)">winnerToImgCoords</a>(winner,myParams);
+0110     <span class="keyword">end</span>
+0111   <span class="keyword">end</span>
+0112   fprintf(<span class="string">' done.\n'</span>);
+0113 <span class="keyword">end</span>
+0114</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

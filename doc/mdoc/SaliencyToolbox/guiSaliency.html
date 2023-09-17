@@ -1,0 +1,1046 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of guiSaliency</title>
+  <meta name="keywords" content="guiSaliency">
+  <meta name="description" content="guiSaliency - a graphical user interface (GUI) version of the saliency code.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; guiSaliency.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>guiSaliency
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>guiSaliency - a graphical user interface (GUI) version of the saliency code.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function varargout = guiSaliency(varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> guiSaliency - a graphical user interface (GUI) version of the saliency code.
+
+ guiSaliency
+    Starts the GUI and lets you select an image via the controls.
+
+ guiSaliency(inputImage)
+    Uses inputImage as the image.
+       inputImage: the filename of the image,
+                   or the image data themselves,
+                   or an initialized Image structure (see initializeImage).
+
+ guiSaliency(...,saliencyParams)
+    Uses the parameters specified in saliencyParams instead of the default
+    parameters.
+
+ See also <a href="runSaliency.html" class="code" title="function runSaliency(inputImage,varargin)">runSaliency</a>, <a href="batchSaliency.html" class="code" title="function [salMaps,fixations] = batchSaliency(images,numFixations,params)">batchSaliency</a>, <a href="initializeImage.html" class="code" title="function [Img,err] = initializeImage(varargin);">initializeImage</a>, <a href="defaultSaliencyParams.html" class="code" title="function params = defaultSaliencyParams(varargin)">defaultSaliencyParams</a>,
+          <a href="guiLevelParams.html" class="code" title="function varargout = guiLevelParams(varargin)">guiLevelParams</a>, <a href="dataStructures.html" class="code" title="">dataStructures</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="applyIOR.html" class="code" title="function wta = applyIOR(oldWTA,winner,params,varargin)">applyIOR</a>	applyIOR - applies inhibition of return.</li><li><a href="checkImageSize.html" class="code" title="function img = checkImageSize(img,mode,targetSize)">checkImageSize</a>	checkImageSize - downsamples too large images after user confirmation.</li><li><a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>	debugMsg displays a debug message with line number and filename.</li><li><a href="declareGlobal.html" class="code" title="">declareGlobal</a>	declareGlobal - declares global variables.</li><li><a href="defaultSaliencyParams.html" class="code" title="function params = defaultSaliencyParams(varargin)">defaultSaliencyParams</a>	defaultSaliencyParams - returns a default salParams structure.</li><li><a href="displayImage.html" class="code" title="function displayImage(img,doNormalize)">displayImage</a>	displayImage - displays an image in a convenient way in the current axes.</li><li><a href="displayMaps.html" class="code" title="function displayMaps(maps,varargin)">displayMaps</a>	displayMaps - displays a set of maps in the current figure.</li><li><a href="emptyMap.html" class="code" title="function map = emptyMap(mapSize,label)">emptyMap</a>	emptyMap - creates an empty map.</li><li><a href="estimateShape.html" class="code" title="function shapeData = estimateShape(salmap,saliencyData,winner,params)">estimateShape</a>	estimateShape - estimates the shape of the attended proto-object region.</li><li><a href="evolveWTA.html" class="code" title="function [wta,winner] = evolveWTA(wta)">evolveWTA</a>	evolveWTA - evolves the winner-take-all network by one time step.</li><li><a href="guiLevelParams.html" class="code" title="function varargout = guiLevelParams(varargin)">guiLevelParams</a>	guiLevelParams - a graphical user interface (GUI) to adjust parameter level parameters.</li><li><a href="initializeImage.html" class="code" title="function [Img,err] = initializeImage(varargin);">initializeImage</a>	initializeImage - initializes an image structure.</li><li><a href="initializeWTA.html" class="code" title="function wta = initializeWTA(salmap,salParams)">initializeWTA</a>	initializeWTA - intitializes a winner-take-all network.</li><li><a href="makeSaliencyMap.html" class="code" title="function [salmap, saliencyData] = makeSaliencyMap(img, salParams, varargin)">makeSaliencyMap</a>	makeSaliencyMap - creates a saliency map for an image.</li><li><a href="plotSalientLocation.html" class="code" title="function plotSalientLocation(winner,lastWinner,img,params,varargin)">plotSalientLocation</a>	plotSalientLocation - plots the attended location into an existing figure.</li><li><a href="removeColorFeatures.html" class="code" title="function params = removeColorFeatures(params,fid)">removeColorFeatures</a>	removeColorFeatures - removes color features from the saliency</li><li><a href="winnerToImgCoords.html" class="code" title="function winImgCo = winnerToImgCoords(winner,params)">winnerToImgCoords</a>	winnerToImgCoords - converts winner location from map to image coordinates.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function guiSaliency_OpeningFcn(hObject, eventdata, handles, varargin)</a></li><li><a href="#_sub2" class="code">function varargout = guiSaliency_OutputFcn(hObject, eventdata, handles)</a></li><li><a href="#_sub3" class="code">function setState(h,newState)</a></li><li><a href="#_sub4" class="code">function checkColorParams(handles)</a></li><li><a href="#_sub5" class="code">function fillParams(handles)</a></li><li><a href="#_sub6" class="code">function response = confirmParamsChange(handles)</a></li><li><a href="#_sub7" class="code">function NewImage_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub8" class="code">function getFeature(hSelect,hWeight,handles)</a></li><li><a href="#_sub9" class="code">function setFeature(hSelect,hWeight)</a></li><li><a href="#_sub10" class="code">function setEnable(value,hs)</a></li><li><a href="#_sub11" class="code">function Color_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub12" class="code">function WeightCol_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub13" class="code">function WeightCol_CreateFcn(hObject, eventdata, handles)</a></li><li><a href="#_sub14" class="code">function Intensities_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub15" class="code">function WeightInt_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub16" class="code">function WeightInt_CreateFcn(hObject, eventdata, handles)</a></li><li><a href="#_sub17" class="code">function Orientations_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub18" class="code">function WeightOri_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub19" class="code">function WeightOri_CreateFcn(hObject, eventdata, handles)</a></li><li><a href="#_sub20" class="code">function NumOri_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub21" class="code">function NumOri_CreateFcn(hObject, eventdata, handles)</a></li><li><a href="#_sub22" class="code">function Skin_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub23" class="code">function WeightSkin_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub24" class="code">function WeightSkin_CreateFcn(hObject, eventdata, handles)</a></li><li><a href="#_sub25" class="code">function SetPyrLevels_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub26" class="code">function setNormType(handles)</a></li><li><a href="#_sub27" class="code">function getNormType(handles)</a></li><li><a href="#_sub28" class="code">function NormType_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub29" class="code">function NormType_CreateFcn(hObject, eventdata, handles)</a></li><li><a href="#_sub30" class="code">function NumIter_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub31" class="code">function NumIter_CreateFcn(hObject, eventdata, handles)</a></li><li><a href="#_sub32" class="code">function getShapeMode(handles)</a></li><li><a href="#_sub33" class="code">function setShapeMode(handles)</a></li><li><a href="#_sub34" class="code">function ShapeMode_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub35" class="code">function ShapeMode_CreateFcn(hObject, eventdata, handles)</a></li><li><a href="#_sub36" class="code">function FOAsize_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub37" class="code">function FOAsize_CreateFcn(hObject, eventdata, handles)</a></li><li><a href="#_sub38" class="code">function initializeVisFigures(handles)</a></li><li><a href="#_sub39" class="code">function cleanupVisFigures(handles)</a></li><li><a href="#_sub40" class="code">function VisFigureCloseCallback(hSrc,event)</a></li><li><a href="#_sub41" class="code">function setVisFigure(hObject,handles)</a></li><li><a href="#_sub42" class="code">function setAllVisFigures(handles)</a></li><li><a href="#_sub43" class="code">function updateImg(handles)</a></li><li><a href="#_sub44" class="code">function updateSM(handles)</a></li><li><a href="#_sub45" class="code">function updateCM(handles)</a></li><li><a href="#_sub46" class="code">function winLabel = updateShape(handles)</a></li><li><a href="#_sub47" class="code">function updateLoc(handles)</a></li><li><a href="#_sub48" class="code">function updateLocImg(handles)</a></li><li><a href="#_sub49" class="code">function VisImg_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub50" class="code">function VisSM_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub51" class="code">function VisCM_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub52" class="code">function VisShape_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub53" class="code">function VisLoc_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub54" class="code">function VisStyle_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub55" class="code">function VisStyle_CreateFcn(hObject, eventdata, handles)</a></li><li><a href="#_sub56" class="code">function DefaultSettings_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub57" class="code">function SaveSettings_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub58" class="code">function LoadSettings_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub59" class="code">function SaveMaps_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub60" class="code">function ToggleDebug_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub61" class="code">function Restart_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub62" class="code">function NextLoc_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub63" class="code">function About_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub64" class="code">function Quit_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub65" class="code">function MainWindowCloseCallback(hObject,event)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% guiSaliency - a graphical user interface (GUI) version of the saliency code.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% guiSaliency</span>
+0004 <span class="comment">%    Starts the GUI and lets you select an image via the controls.</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">% guiSaliency(inputImage)</span>
+0007 <span class="comment">%    Uses inputImage as the image.</span>
+0008 <span class="comment">%       inputImage: the filename of the image,</span>
+0009 <span class="comment">%                   or the image data themselves,</span>
+0010 <span class="comment">%                   or an initialized Image structure (see initializeImage).</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">% guiSaliency(...,saliencyParams)</span>
+0013 <span class="comment">%    Uses the parameters specified in saliencyParams instead of the default</span>
+0014 <span class="comment">%    parameters.</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">% See also runSaliency, batchSaliency, initializeImage, defaultSaliencyParams,</span>
+0017 <span class="comment">%          guiLevelParams, dataStructures.</span>
+0018 
+0019 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0020 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0021 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0022 <span class="comment">% More information about this project is available at:</span>
+0023 <span class="comment">% http://www.saliencytoolbox.net</span>
+0024 
+0025 <a name="_sub0" href="#_subfunctions" class="code">function varargout = guiSaliency(varargin)</a>
+0026 <span class="comment">% GUI initialization code</span>
+0027 gui_Singleton = 1;
+0028 gui_State = struct(<span class="string">'gui_Name'</span>,       mfilename, <span class="keyword">...</span>
+0029                    <span class="string">'gui_Singleton'</span>,  gui_Singleton, <span class="keyword">...</span>
+0030                    <span class="string">'gui_OpeningFcn'</span>, @<a href="#_sub1" class="code" title="subfunction guiSaliency_OpeningFcn(hObject, eventdata, handles, varargin)">guiSaliency_OpeningFcn</a>, <span class="keyword">...</span>
+0031                    <span class="string">'gui_OutputFcn'</span>,  @<a href="#_sub2" class="code" title="subfunction varargout = guiSaliency_OutputFcn(hObject, eventdata, handles)">guiSaliency_OutputFcn</a>, <span class="keyword">...</span>
+0032                    <span class="string">'gui_LayoutFcn'</span>,  [], <span class="keyword">...</span>
+0033                    <span class="string">'gui_Callback'</span>,   []);
+0034 
+0035 stack = dbstack;
+0036 <span class="keyword">if</span> nargin &amp;&amp; ischar(varargin{1}) &amp;&amp; ismember([mfilename <span class="string">'.m'</span>],{stack(1:end-1).file})
+0037   gui_State.gui_Callback = str2func(varargin{1});
+0038 <span class="keyword">end</span>
+0039 
+0040 <span class="keyword">if</span> nargout
+0041     [varargout{1:nargout}] = gui_mainfcn(gui_State, varargin{:});
+0042 <span class="keyword">else</span>
+0043     gui_mainfcn(gui_State, varargin{:});
+0044 <span class="keyword">end</span>
+0045 
+0046 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0047 <span class="comment">% opening code executes just before guiSaliency is made visible.</span>
+0048 <a name="_sub1" href="#_subfunctions" class="code">function guiSaliency_OpeningFcn(hObject, eventdata, handles, varargin)</a>
+0049 
+0050 handles.output = hObject;
+0051 guidata(hObject, handles);
+0052 
+0053 <span class="comment">% set the close callback for the main window</span>
+0054 set(hObject,<span class="string">'CloseRequestFcn'</span>,@<a href="#_sub65" class="code" title="subfunction MainWindowCloseCallback(hObject,event)">MainWindowCloseCallback</a>);
+0055 
+0056 <span class="comment">% define the needed global variables</span>
+0057 <a href="declareGlobal.html" class="code" title="">declareGlobal</a>;
+0058 <span class="keyword">global</span> globalVars;
+0059 globalVars = <span class="string">'global img params state salMap salData wta lastWinner winner shapeData'</span>;
+0060 eval(globalVars);
+0061 state = <span class="string">'NoImage'</span>;
+0062 
+0063 <span class="comment">% try to use user-given image</span>
+0064 <span class="keyword">if</span> (length(varargin) &gt;= 1)
+0065   <span class="keyword">switch</span> class(varargin{1})
+0066     <span class="keyword">case</span> <span class="string">'struct'</span>
+0067       newImg = varargin{1};
+0068       err = <span class="string">''</span>;
+0069       state = <span class="string">'ImageLoaded'</span>;
+0070     <span class="keyword">case</span> {<span class="string">'char'</span>,<span class="string">'uint8'</span>,<span class="string">'double'</span>}
+0071       [newImg,err] = <a href="initializeImage.html" class="code" title="function [Img,err] = initializeImage(varargin);">initializeImage</a>(varargin{1});
+0072     <span class="keyword">otherwise</span>
+0073       err = 1;
+0074   <span class="keyword">end</span>
+0075   <span class="keyword">if</span> isempty(err)
+0076     img = <a href="checkImageSize.html" class="code" title="function img = checkImageSize(img,mode,targetSize)">checkImageSize</a>(newImg,<span class="string">'GUI'</span>);
+0077     <span class="keyword">if</span> isnan(img.filename)
+0078       imgName = <span class="string">'(from input arguments)'</span>;
+0079     <span class="keyword">else</span>
+0080       imgName = img.filename;
+0081     <span class="keyword">end</span>
+0082     set(handles.ImageName,<span class="string">'String'</span>,imgName);
+0083     state = <span class="string">'ImageLoaded'</span>;
+0084   <span class="keyword">else</span>
+0085     beep;
+0086     <span class="keyword">if</span> ischar(varargin{1})
+0087       name = varargin{1};
+0088     <span class="keyword">else</span>
+0089       name = <span class="string">'This'</span>;
+0090     <span class="keyword">end</span>
+0091     uiwait(warndlg([name <span class="string">' is not a valid image!'</span>],<span class="keyword">...</span>
+0092                    <span class="string">'Not a valid image'</span>,<span class="string">'modal'</span>));
+0093   <span class="keyword">end</span>
+0094 <span class="keyword">end</span>
+0095 
+0096 <span class="comment">% use user-given parameters if given</span>
+0097 <span class="keyword">if</span> (length(varargin) &gt;= 2)
+0098   <span class="keyword">if</span> isstruct(varargin{2})
+0099     params = varargin{2};
+0100   <span class="keyword">else</span>
+0101     params = <a href="defaultSaliencyParams.html" class="code" title="function params = defaultSaliencyParams(varargin)">defaultSaliencyParams</a>(img.size);
+0102   <span class="keyword">end</span>
+0103 <span class="keyword">else</span>
+0104   <span class="keyword">if</span> isempty(img);
+0105     params = <a href="defaultSaliencyParams.html" class="code" title="function params = defaultSaliencyParams(varargin)">defaultSaliencyParams</a>;
+0106   <span class="keyword">else</span>
+0107     params = <a href="defaultSaliencyParams.html" class="code" title="function params = defaultSaliencyParams(varargin)">defaultSaliencyParams</a>(img.size);
+0108   <span class="keyword">end</span>
+0109 <span class="keyword">end</span>
+0110 
+0111 <span class="comment">% some more initializations</span>
+0112 <a href="#_sub3" class="code" title="subfunction setState(h,newState)">setState</a>(handles);
+0113 <a href="#_sub4" class="code" title="subfunction checkColorParams(handles)">checkColorParams</a>(handles);
+0114 <a href="#_sub5" class="code" title="subfunction fillParams(handles)">fillParams</a>(handles);
+0115 <a href="#_sub38" class="code" title="subfunction initializeVisFigures(handles)">initializeVisFigures</a>(handles);
+0116 <a href="#_sub43" class="code" title="subfunction updateImg(handles)">updateImg</a>(handles);
+0117 <a href="#_sub48" class="code" title="subfunction updateLocImg(handles)">updateLocImg</a>(handles);
+0118 <a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>(sprintf(<span class="string">'%s initialized in state: %s.'</span>,mfilename,state));
+0119 
+0120 <span class="comment">% this waits until the &quot;Quit&quot; button is pressed</span>
+0121 uiwait(handles.figure1);
+0122 
+0123 <span class="comment">% clean up</span>
+0124 <a href="#_sub39" class="code" title="subfunction cleanupVisFigures(handles)">cleanupVisFigures</a>(handles);
+0125 eval([<span class="string">'clear '</span> globalVars <span class="string">'globalVars'</span>]);
+0126 <a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>(<span class="string">'Global variables cleared - bye.'</span>);
+0127 
+0128 <span class="keyword">try</span>
+0129   delete(handles.figure1);
+0130 <span class="keyword">catch</span>
+0131   <span class="comment">% nothing to do</span>
+0132 <span class="keyword">end</span>
+0133 <span class="comment">% that's it, bye bye.</span>
+0134 <span class="keyword">return</span>;
+0135 
+0136 
+0137 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0138 <span class="comment">% Outputs from this function are returned to the command line.</span>
+0139 <a name="_sub2" href="#_subfunctions" class="code">function varargout = guiSaliency_OutputFcn(hObject, eventdata, handles)</a>
+0140 varargout{1} = hObject;
+0141 
+0142 
+0143 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0144 <span class="comment">% update the GUI according to the current state</span>
+0145 <a name="_sub3" href="#_subfunctions" class="code">function setState(h,newState)</a>
+0146 <span class="keyword">global</span> state;
+0147 <span class="keyword">if</span> (nargin &gt;= 2)
+0148   state = newState;
+0149 <span class="keyword">end</span>
+0150 
+0151 <a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>([<span class="string">'Setting state: '</span> state]);
+0152 <span class="keyword">switch</span> state
+0153   <span class="keyword">case</span> <span class="string">'NoImage'</span>
+0154     set(h.figure1,<span class="string">'Pointer'</span>,<span class="string">'arrow'</span>);
+0155     <a href="#_sub10" class="code" title="subfunction setEnable(value,hs)">setEnable</a>(0,[h.Restart,h.NextLoc,h.SaveMaps]);
+0156     set(h.NextLoc,<span class="string">'String'</span>,<span class="string">'Start'</span>);
+0157   <span class="keyword">case</span> <span class="string">'ImageLoaded'</span>
+0158     set(h.figure1,<span class="string">'Pointer'</span>,<span class="string">'arrow'</span>);
+0159     <a href="#_sub10" class="code" title="subfunction setEnable(value,hs)">setEnable</a>(0,[h.Restart,h.SaveMaps]);
+0160     <a href="#_sub10" class="code" title="subfunction setEnable(value,hs)">setEnable</a>(1,h.NextLoc);
+0161     set(h.NextLoc,<span class="string">'String'</span>,<span class="string">'Start'</span>);
+0162   <span class="keyword">case</span> <span class="string">'MapsComputed'</span>
+0163     set(h.figure1,<span class="string">'Pointer'</span>,<span class="string">'arrow'</span>);
+0164     <a href="#_sub10" class="code" title="subfunction setEnable(value,hs)">setEnable</a>(1,[h.Restart,h.NextLoc,h.SaveMaps]);
+0165     set(h.NextLoc,<span class="string">'String'</span>,<span class="string">'Next Location'</span>);
+0166   <span class="keyword">case</span> <span class="string">'Busy'</span>
+0167     set(h.figure1,<span class="string">'Pointer'</span>,<span class="string">'watch'</span>);
+0168     <a href="#_sub10" class="code" title="subfunction setEnable(value,hs)">setEnable</a>(0,[h.Restart,h.NextLoc,h.SaveMaps]);
+0169   <span class="keyword">otherwise</span>
+0170     <a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>([<span class="string">'Unknown state:'</span> state]);
+0171 <span class="keyword">end</span>
+0172 drawnow;
+0173 <span class="keyword">return</span>;
+0174 
+0175 
+0176 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0177 <span class="comment">% set color features according to image type</span>
+0178 <a name="_sub4" href="#_subfunctions" class="code">function checkColorParams(handles)</a>
+0179 <span class="keyword">global</span> params img;
+0180 <span class="keyword">if</span> ~isempty(img)
+0181   <span class="keyword">switch</span> img.dims
+0182     <span class="keyword">case</span> 2
+0183       <span class="comment">% gray-scale image: no color features</span>
+0184       params = <a href="removeColorFeatures.html" class="code" title="function params = removeColorFeatures(params,fid)">removeColorFeatures</a>(params,0);
+0185       <a href="#_sub10" class="code" title="subfunction setEnable(value,hs)">setEnable</a>(0,[handles.Color,handles.WeightCol,<span class="keyword">...</span>
+0186                    handles.Skin,handles.WeightSkin]);
+0187       <a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>(<span class="string">'Gray scale image - removed color features.'</span>);
+0188     <span class="keyword">case</span> 3
+0189       <span class="comment">% color image</span>
+0190       <a href="#_sub10" class="code" title="subfunction setEnable(value,hs)">setEnable</a>(1,[handles.Color,handles.Skin]);
+0191       <a href="#_sub9" class="code" title="subfunction setFeature(hSelect,hWeight)">setFeature</a>(handles.Color,handles.WeightCol);
+0192       <a href="#_sub9" class="code" title="subfunction setFeature(hSelect,hWeight)">setFeature</a>(handles.Skin,handles.WeightSkin);
+0193     <span class="keyword">otherwise</span>
+0194       <a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>(sprintf(<span class="string">'Unknown image format with %d dimensions.'</span>,img.dims));
+0195   <span class="keyword">end</span>
+0196 <span class="keyword">end</span>
+0197 <span class="keyword">return</span>;
+0198 
+0199                
+0200 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0201 <span class="comment">% fill the GUI with the parameters from the global variable params</span>
+0202 <a name="_sub5" href="#_subfunctions" class="code">function fillParams(handles)</a>
+0203 <span class="keyword">global</span> params DEBUG_FID;
+0204 <a href="#_sub9" class="code" title="subfunction setFeature(hSelect,hWeight)">setFeature</a>(handles.Color,handles.WeightCol);
+0205 <a href="#_sub9" class="code" title="subfunction setFeature(hSelect,hWeight)">setFeature</a>(handles.Intensities,handles.WeightInt);
+0206 <a href="#_sub9" class="code" title="subfunction setFeature(hSelect,hWeight)">setFeature</a>(handles.Orientations,handles.WeightOri);
+0207 <a href="#_sub9" class="code" title="subfunction setFeature(hSelect,hWeight)">setFeature</a>(handles.Skin,handles.WeightSkin);
+0208 <a href="#_sub10" class="code" title="subfunction setEnable(value,hs)">setEnable</a>(get(handles.Orientations,<span class="string">'Value'</span>),[handles.NumOriText,handles.NumOri]);
+0209 set(handles.NumOri,<span class="string">'String'</span>,num2str(numel(params.oriAngles)));
+0210 <a href="#_sub26" class="code" title="subfunction setNormType(handles)">setNormType</a>(handles);
+0211 <a href="#_sub33" class="code" title="subfunction setShapeMode(handles)">setShapeMode</a>(handles);
+0212 set(handles.ToggleDebug,<span class="string">'Value'</span>,DEBUG_FID);
+0213 
+0214 styleStrings = {<span class="string">'Contour'</span>,<span class="string">'ContrastModulate'</span>,<span class="string">'None'</span>};
+0215 style = strmatch(params.visualizationStyle,styleStrings);
+0216 <span class="keyword">if</span> isempty(style)
+0217   style = 3;
+0218 <span class="keyword">end</span>
+0219 set(handles.VisStyle,<span class="string">'Value'</span>,style,<span class="string">'UserData'</span>,styleStrings);
+0220 
+0221 <span class="keyword">return</span>;
+0222 
+0223 
+0224 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0225 <span class="comment">% check with user that parameters can be changed</span>
+0226 <a name="_sub6" href="#_subfunctions" class="code">function response = confirmParamsChange(handles)</a>
+0227 <span class="keyword">global</span> state;
+0228 <span class="keyword">switch</span> state
+0229   <span class="keyword">case</span> {<span class="string">'NoImage'</span>,<span class="string">'ImageLoaded'</span>}
+0230     response = 1;
+0231   <span class="keyword">case</span> <span class="string">'MapsComputed'</span>
+0232     button = questdlg({<span class="string">'Changing the parameters now will reset the computation.'</span>,<span class="keyword">...</span>
+0233                        <span class="string">'Would you like to proceed anyway?'</span>},<span class="keyword">...</span>
+0234                        <span class="string">'Change parameters?'</span>,<span class="keyword">...</span>
+0235                        <span class="string">'Yes'</span>,<span class="string">'No'</span>,<span class="string">'Yes'</span>);
+0236     response = strcmp(button,<span class="string">'Yes'</span>);
+0237     <span class="keyword">if</span> response
+0238       <a href="#_sub3" class="code" title="subfunction setState(h,newState)">setState</a>(handles,<span class="string">'ImageLoaded'</span>);
+0239       fprintf(<span class="string">'---------------------------\n'</span>);
+0240     <span class="keyword">end</span>
+0241   <span class="keyword">otherwise</span>
+0242     <a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>([<span class="string">'Unknown state: '</span> state]);
+0243     response = 0;
+0244 <span class="keyword">end</span>
+0245 
+0246 
+0247 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0248 <span class="comment">% Loading an image</span>
+0249 <a name="_sub7" href="#_subfunctions" class="code">function NewImage_Callback(hObject, eventdata, handles)</a>
+0250 <a href="declareGlobal.html" class="code" title="">declareGlobal</a>;
+0251 <span class="keyword">global</span> img params state;
+0252 prevState = state;
+0253 <a href="#_sub3" class="code" title="subfunction setState(h,newState)">setState</a>(handles,<span class="string">'Busy'</span>);
+0254 
+0255 <span class="keyword">if</span> isempty(img)
+0256   defName = <span class="string">''</span>;
+0257 <span class="keyword">else</span>
+0258   defName = img.filename;
+0259 <span class="keyword">end</span>
+0260 
+0261 err = 1;
+0262 <span class="keyword">while</span> ~isempty(err)
+0263   [newName,newPath] = uigetfile(<span class="string">'*.*'</span>,<span class="string">'Select an new image'</span>,defName);
+0264   <span class="keyword">if</span> (newName == 0)
+0265     <span class="comment">% User pressed 'cancel' - keep old file</span>
+0266     <a href="#_sub3" class="code" title="subfunction setState(h,newState)">setState</a>(handles,prevState);
+0267     <span class="keyword">return</span>;
+0268   <span class="keyword">end</span>
+0269   
+0270   [newImg,err] = <a href="initializeImage.html" class="code" title="function [Img,err] = initializeImage(varargin);">initializeImage</a>([newPath newName]);
+0271   <span class="keyword">if</span> ~isempty(err)
+0272     beep;
+0273     uiwait(warndlg(sprintf(<span class="string">'%s is not a valid image!'</span>,newName),<span class="keyword">...</span>
+0274                    <span class="string">'Not a valid image'</span>,<span class="string">'modal'</span>));
+0275     defName = <span class="string">''</span>;
+0276   <span class="keyword">end</span>
+0277 <span class="keyword">end</span>
+0278 
+0279 <span class="comment">% image is okay, set as img for analyses</span>
+0280 img = <a href="checkImageSize.html" class="code" title="function img = checkImageSize(img,mode,targetSize)">checkImageSize</a>(newImg,<span class="string">'GUI'</span>);
+0281 set(handles.ImageName,<span class="string">'String'</span>,newName);
+0282 <span class="keyword">if</span> (params.foaSize &lt; 0)
+0283   p = <a href="defaultSaliencyParams.html" class="code" title="function params = defaultSaliencyParams(varargin)">defaultSaliencyParams</a>(img.size);
+0284   params.foaSize = p.foaSize;
+0285   <a href="#_sub33" class="code" title="subfunction setShapeMode(handles)">setShapeMode</a>(handles);
+0286 <span class="keyword">end</span>
+0287 
+0288 <span class="comment">% Replacing an old image? output separator</span>
+0289 <span class="keyword">if</span> strcmp(prevState,<span class="string">'MapsComputed'</span>)
+0290   fprintf(<span class="string">'---------------------------\n'</span>);
+0291 <span class="keyword">end</span>
+0292 
+0293 <span class="comment">% some house keeping</span>
+0294 state = <span class="string">'ImageLoaded'</span>;
+0295 <a href="#_sub4" class="code" title="subfunction checkColorParams(handles)">checkColorParams</a>(handles);
+0296 <a href="#_sub43" class="code" title="subfunction updateImg(handles)">updateImg</a>(handles);
+0297 <a href="#_sub48" class="code" title="subfunction updateLocImg(handles)">updateLocImg</a>(handles);
+0298 <a href="#_sub3" class="code" title="subfunction setState(h,newState)">setState</a>(handles);
+0299 <a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>(sprintf(<span class="string">'Loaded image %s.\n'</span>,img.filename));
+0300 <span class="keyword">return</span>;
+0301 
+0302 
+0303 
+0304 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0305 <span class="comment">% Feature selection and weights                                  %</span>
+0306 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0307 
+0308 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0309 <span class="comment">% get the values for a particular feature from the GUI controls</span>
+0310 <a name="_sub8" href="#_subfunctions" class="code">function getFeature(hSelect,hWeight,handles)</a>
+0311 <span class="keyword">global</span> params;
+0312 <span class="keyword">if</span> ~<a href="#_sub6" class="code" title="subfunction response = confirmParamsChange(handles)">confirmParamsChange</a>(handles)
+0313   <span class="keyword">return</span>;
+0314 <span class="keyword">end</span>
+0315 name = get(hSelect,<span class="string">'Tag'</span>);
+0316 idx = strmatch(name,params.features);
+0317 
+0318 <span class="keyword">if</span> get(hSelect,<span class="string">'Value'</span>)
+0319   set(hWeight,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0320 
+0321   <span class="comment">% need to add this feature?</span>
+0322   <span class="keyword">if</span> isempty(idx)
+0323     params.features = {params.features{:},name};
+0324     params.weights = [params.weights 1];
+0325     idx = strmatch(name,params.features);
+0326   <span class="keyword">end</span>
+0327   
+0328   <span class="comment">% get weight value from text box</span>
+0329   w = str2num(get(hWeight,<span class="string">'String'</span>));
+0330   <span class="keyword">if</span> ~isempty(w)
+0331     params.weights(idx(1)) = w(1);
+0332   <span class="keyword">end</span>
+0333 <span class="keyword">else</span>
+0334   set(hWeight,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0335   
+0336   <span class="comment">% need to remove this feature?</span>
+0337   <span class="keyword">if</span> ~isempty(idx)
+0338     newIdx = setdiff([1:length(params.features)],idx);
+0339     params.features = {params.features{newIdx}};
+0340     parmas.weights = [params.weights(newIdx)];
+0341   <span class="keyword">end</span>
+0342 <span class="keyword">end</span>
+0343 <span class="keyword">return</span>;
+0344 
+0345 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0346 <span class="comment">% set the GUI controls for a particular feature</span>
+0347 <a name="_sub9" href="#_subfunctions" class="code">function setFeature(hSelect,hWeight)</a>
+0348 <span class="keyword">global</span> params;
+0349 name = get(hSelect,<span class="string">'Tag'</span>);
+0350 idx = strmatch(name,params.features);
+0351 
+0352 <span class="keyword">if</span> isempty(idx)
+0353   set(hSelect,<span class="string">'Value'</span>,0);
+0354   set(hWeight,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0355 <span class="keyword">else</span>
+0356   set(hSelect,<span class="string">'Value'</span>,1);
+0357   set(hWeight,<span class="string">'Enable'</span>,<span class="string">'on'</span>,<span class="string">'String'</span>,num2str(params.weights(idx(1))));
+0358 <span class="keyword">end</span>
+0359 <span class="keyword">return</span>;
+0360 
+0361 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0362 <span class="comment">% enable/disable a vector of GUI elements</span>
+0363 <a name="_sub10" href="#_subfunctions" class="code">function setEnable(value,hs)</a>
+0364 enableStrings = {<span class="string">'off'</span>,<span class="string">'on'</span>};
+0365 <span class="keyword">for</span> h = 1:length(hs)
+0366   set(hs(h),<span class="string">'Enable'</span>,enableStrings{value+1});
+0367 <span class="keyword">end</span>
+0368 <span class="keyword">return</span>;
+0369 
+0370 
+0371 <span class="comment">%%%% Color %%%%</span>
+0372 
+0373 <span class="comment">% Color checkbox</span>
+0374 <a name="_sub11" href="#_subfunctions" class="code">function Color_Callback(hObject, eventdata, handles)</a>
+0375 <a href="#_sub8" class="code" title="subfunction getFeature(hSelect,hWeight,handles)">getFeature</a>(handles.Color,handles.WeightCol,handles);
+0376 <a href="#_sub9" class="code" title="subfunction setFeature(hSelect,hWeight)">setFeature</a>(handles.Color,handles.WeightCol);
+0377 
+0378 <span class="comment">% Color weight textbox</span>
+0379 <a name="_sub12" href="#_subfunctions" class="code">function WeightCol_Callback(hObject, eventdata, handles)</a>
+0380 <a href="#_sub8" class="code" title="subfunction getFeature(hSelect,hWeight,handles)">getFeature</a>(handles.Color,handles.WeightCol,handles);
+0381 <a href="#_sub9" class="code" title="subfunction setFeature(hSelect,hWeight)">setFeature</a>(handles.Color,handles.WeightCol);
+0382 
+0383 <span class="comment">% Create color weight textbox</span>
+0384 <a name="_sub13" href="#_subfunctions" class="code">function WeightCol_CreateFcn(hObject, eventdata, handles)</a>
+0385 <span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+0386     set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+0387 <span class="keyword">end</span>
+0388 
+0389 
+0390 <span class="comment">%%%% Intensities %%%%</span>
+0391 
+0392 <span class="comment">% Intensities checkbox</span>
+0393 <a name="_sub14" href="#_subfunctions" class="code">function Intensities_Callback(hObject, eventdata, handles)</a>
+0394 <a href="#_sub8" class="code" title="subfunction getFeature(hSelect,hWeight,handles)">getFeature</a>(handles.Intensities,handles.WeightInt,handles);
+0395 <a href="#_sub9" class="code" title="subfunction setFeature(hSelect,hWeight)">setFeature</a>(handles.Intensities,handles.WeightInt);
+0396 
+0397 <span class="comment">% Intensities weight textbox</span>
+0398 <a name="_sub15" href="#_subfunctions" class="code">function WeightInt_Callback(hObject, eventdata, handles)</a>
+0399 <a href="#_sub8" class="code" title="subfunction getFeature(hSelect,hWeight,handles)">getFeature</a>(handles.Intensities,handles.WeightInt,handles);
+0400 <a href="#_sub9" class="code" title="subfunction setFeature(hSelect,hWeight)">setFeature</a>(handles.Intensities,handles.WeightInt);
+0401 
+0402 <span class="comment">% create Intensities weight textbox</span>
+0403 <a name="_sub16" href="#_subfunctions" class="code">function WeightInt_CreateFcn(hObject, eventdata, handles)</a>
+0404 <span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+0405     set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+0406 <span class="keyword">end</span>
+0407 
+0408 
+0409 <span class="comment">%%%% Orientations %%%%</span>
+0410 
+0411 <span class="comment">% Orientations checkbox</span>
+0412 <a name="_sub17" href="#_subfunctions" class="code">function Orientations_Callback(hObject, eventdata, handles)</a>
+0413 <a href="#_sub8" class="code" title="subfunction getFeature(hSelect,hWeight,handles)">getFeature</a>(handles.Orientations,handles.WeightOri,handles);
+0414 <a href="#_sub9" class="code" title="subfunction setFeature(hSelect,hWeight)">setFeature</a>(handles.Orientations,handles.WeightOri);
+0415 <a href="#_sub10" class="code" title="subfunction setEnable(value,hs)">setEnable</a>(get(hObject,<span class="string">'Value'</span>),[handles.NumOriText,handles.NumOri]);
+0416 
+0417 <span class="comment">% Orientaions weight textbox</span>
+0418 <a name="_sub18" href="#_subfunctions" class="code">function WeightOri_Callback(hObject, eventdata, handles)</a>
+0419 <a href="#_sub8" class="code" title="subfunction getFeature(hSelect,hWeight,handles)">getFeature</a>(handles.Orientations,handles.WeightOri,handles);
+0420 <a href="#_sub9" class="code" title="subfunction setFeature(hSelect,hWeight)">setFeature</a>(handles.Orientations,handles.WeightOri);
+0421 
+0422 <span class="comment">% create Orientations weight textbox</span>
+0423 <a name="_sub19" href="#_subfunctions" class="code">function WeightOri_CreateFcn(hObject, eventdata, handles)</a>
+0424 <span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+0425     set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+0426 <span class="keyword">end</span>
+0427 
+0428 <span class="comment">% number of orientations textbox</span>
+0429 <a name="_sub20" href="#_subfunctions" class="code">function NumOri_Callback(hObject, eventdata, handles)</a>
+0430 <span class="keyword">global</span> params
+0431 <span class="keyword">if</span> <a href="#_sub6" class="code" title="subfunction response = confirmParamsChange(handles)">confirmParamsChange</a>(handles)
+0432   n = str2num(get(hObject,<span class="string">'String'</span>));
+0433   <span class="keyword">if</span> ~isempty(n)
+0434     n = max(round(n(1)),1);
+0435     params.oriAngles = [0:(n-1)] * 180 / n;
+0436   <span class="keyword">end</span>
+0437 <span class="keyword">end</span>
+0438 set(hObject,<span class="string">'String'</span>,num2str(numel(params.oriAngles)));
+0439 
+0440 <span class="comment">% create number of orientations textbox</span>
+0441 <a name="_sub21" href="#_subfunctions" class="code">function NumOri_CreateFcn(hObject, eventdata, handles)</a>
+0442 <span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+0443     set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+0444 <span class="keyword">end</span>
+0445 
+0446 
+0447 <span class="comment">%%%% Skin hue %%%%</span>
+0448 
+0449 <span class="comment">% skin hue checkbox</span>
+0450 <a name="_sub22" href="#_subfunctions" class="code">function Skin_Callback(hObject, eventdata, handles)</a>
+0451 <a href="#_sub8" class="code" title="subfunction getFeature(hSelect,hWeight,handles)">getFeature</a>(handles.Skin,handles.WeightSkin,handles);
+0452 <a href="#_sub9" class="code" title="subfunction setFeature(hSelect,hWeight)">setFeature</a>(handles.Skin,handles.WeightSkin);
+0453 
+0454 <span class="comment">% skin hue weight textbox</span>
+0455 <a name="_sub23" href="#_subfunctions" class="code">function WeightSkin_Callback(hObject, eventdata, handles)</a>
+0456 <a href="#_sub8" class="code" title="subfunction getFeature(hSelect,hWeight,handles)">getFeature</a>(handles.Skin,handles.WeightSkin,handles);
+0457 <a href="#_sub9" class="code" title="subfunction setFeature(hSelect,hWeight)">setFeature</a>(handles.Skin,handles.WeightSkin);
+0458 
+0459 <span class="comment">% create skin hue weight textbox</span>
+0460 <a name="_sub24" href="#_subfunctions" class="code">function WeightSkin_CreateFcn(hObject, eventdata, handles)</a>
+0461 <span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+0462     set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+0463 <span class="keyword">end</span>
+0464 
+0465 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0466 <span class="comment">%                       Parameters                                         %</span>
+0467 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0468 
+0469 <span class="comment">% SetPyrLevels button</span>
+0470 <a name="_sub25" href="#_subfunctions" class="code">function SetPyrLevels_Callback(hObject, eventdata, handles)</a>
+0471 <span class="keyword">global</span> params
+0472 <span class="keyword">if</span> <a href="#_sub6" class="code" title="subfunction response = confirmParamsChange(handles)">confirmParamsChange</a>(handles)
+0473   params.levelParams = <a href="guiLevelParams.html" class="code" title="function varargout = guiLevelParams(varargin)">guiLevelParams</a>(params.levelParams);
+0474 <span class="keyword">end</span>
+0475 
+0476 <span class="comment">% set the GUI normtype controls to parameters</span>
+0477 <a name="_sub26" href="#_subfunctions" class="code">function setNormType(handles)</a>
+0478 <span class="keyword">global</span> params;
+0479 normTypes = get(handles.NormType,<span class="string">'String'</span>);
+0480 idx = strmatch(params.normtype,normTypes);
+0481 <span class="keyword">if</span> isempty(idx)
+0482   params.normtype = normTypes{get(handles.NormType,<span class="string">'Value'</span>)};
+0483 <span class="keyword">else</span>
+0484   set(handles.NormType,<span class="string">'Value'</span>,idx(1));
+0485 <span class="keyword">end</span>
+0486 isIter = strcmp(params.normtype,<span class="string">'Iterative'</span>);
+0487 <a href="#_sub10" class="code" title="subfunction setEnable(value,hs)">setEnable</a>(isIter,[handles.NumIterText,handles.NumIter])
+0488 set(handles.NumIter,<span class="string">'String'</span>,num2str(params.numIter));
+0489 
+0490 <span class="comment">% get the normtype parameters from the GUI controls</span>
+0491 <a name="_sub27" href="#_subfunctions" class="code">function getNormType(handles)</a>
+0492 <span class="keyword">global</span> params;
+0493 <span class="keyword">if</span> ~<a href="#_sub6" class="code" title="subfunction response = confirmParamsChange(handles)">confirmParamsChange</a>(handles)
+0494   <span class="keyword">return</span>;
+0495 <span class="keyword">end</span>
+0496 normTypes = get(handles.NormType,<span class="string">'String'</span>);
+0497 params.normtype = normTypes{get(handles.NormType,<span class="string">'Value'</span>)};
+0498 niter = str2num(get(handles.NumIter,<span class="string">'String'</span>));
+0499 <span class="keyword">if</span> ~isempty(niter)
+0500   niter = round(niter(1));
+0501   <span class="keyword">if</span> (niter &lt; 0)
+0502     niter = 0;
+0503   <span class="keyword">end</span>
+0504   params.numIter = niter;
+0505 <span class="keyword">end</span>
+0506 
+0507 <span class="comment">% NormType drop-down list</span>
+0508 <a name="_sub28" href="#_subfunctions" class="code">function NormType_Callback(hObject, eventdata, handles)</a>
+0509 <a href="#_sub27" class="code" title="subfunction getNormType(handles)">getNormType</a>(handles);
+0510 <a href="#_sub26" class="code" title="subfunction setNormType(handles)">setNormType</a>(handles);
+0511 
+0512 <span class="comment">% create NormType drop-down list</span>
+0513 <a name="_sub29" href="#_subfunctions" class="code">function NormType_CreateFcn(hObject, eventdata, handles)</a>
+0514 <span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+0515     set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+0516 <span class="keyword">end</span>
+0517 
+0518 <span class="comment">% NumIter textbox</span>
+0519 <a name="_sub30" href="#_subfunctions" class="code">function NumIter_Callback(hObject, eventdata, handles)</a>
+0520 <a href="#_sub27" class="code" title="subfunction getNormType(handles)">getNormType</a>(handles);
+0521 <a href="#_sub26" class="code" title="subfunction setNormType(handles)">setNormType</a>(handles);
+0522 
+0523 <span class="comment">% create NumIter textbox</span>
+0524 <a name="_sub31" href="#_subfunctions" class="code">function NumIter_CreateFcn(hObject, eventdata, handles)</a>
+0525 <span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+0526     set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+0527 <span class="keyword">end</span>
+0528 
+0529 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0530 <span class="comment">% setting shape mode                                               %</span>
+0531 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0532 
+0533 <span class="comment">% get the shape mode parameters form the GUI controls</span>
+0534 <a name="_sub32" href="#_subfunctions" class="code">function getShapeMode(handles)</a>
+0535 <span class="keyword">global</span> params;
+0536 <span class="keyword">if</span> ~<a href="#_sub6" class="code" title="subfunction response = confirmParamsChange(handles)">confirmParamsChange</a>(handles)
+0537   <span class="keyword">return</span>;
+0538 <span class="keyword">end</span>
+0539 shapeModes = {<span class="string">'None'</span>,<span class="string">'shapeSM'</span>,<span class="string">'shapeCM'</span>,<span class="string">'shapeFM'</span>,<span class="string">'shapePyr'</span>};
+0540 params.shapeMode = shapeModes{get(handles.ShapeMode,<span class="string">'Value'</span>)};
+0541 
+0542 newFS = str2num(get(handles.FOAsize,<span class="string">'String'</span>));
+0543 <span class="keyword">if</span> ~isempty(newFS)
+0544   <span class="keyword">if</span> (newFS &lt; 0)
+0545     newFS = 0;
+0546   <span class="keyword">end</span>
+0547   params.foaSize = newFS;
+0548 <span class="keyword">end</span>
+0549 <span class="keyword">return</span>;
+0550 
+0551 <span class="comment">% set the shape mode GUI controls according to the parameters</span>
+0552 <a name="_sub33" href="#_subfunctions" class="code">function setShapeMode(handles)</a>
+0553 <span class="keyword">global</span> params;
+0554 shapeModes = {<span class="string">'None'</span>,<span class="string">'shapeSM'</span>,<span class="string">'shapeCM'</span>,<span class="string">'shapeFM'</span>,<span class="string">'shapePyr'</span>};
+0555 mode = strmatch(params.shapeMode,shapeModes);
+0556 <span class="keyword">if</span> ~isempty(mode)
+0557   set(handles.ShapeMode,<span class="string">'Value'</span>,mode(1));
+0558 <span class="keyword">end</span>
+0559 
+0560 isNone = strcmp(params.shapeMode,shapeModes{1});
+0561 <a href="#_sub10" class="code" title="subfunction setEnable(value,hs)">setEnable</a>(isNone,[handles.FOAsize,handles.FOAsizeText]);
+0562 <span class="keyword">if</span> (params.foaSize &gt;= 0)
+0563   set(handles.FOAsize,<span class="string">'String'</span>,num2str(params.foaSize));
+0564 <span class="keyword">else</span>
+0565   set(handles.FOAsize,<span class="string">'String'</span>,<span class="string">''</span>);
+0566 <span class="keyword">end</span>
+0567 <span class="keyword">return</span>;
+0568 
+0569 <span class="comment">% ShapeMode drop-down list</span>
+0570 <a name="_sub34" href="#_subfunctions" class="code">function ShapeMode_Callback(hObject, eventdata, handles)</a>
+0571 <a href="#_sub32" class="code" title="subfunction getShapeMode(handles)">getShapeMode</a>(handles);
+0572 <a href="#_sub33" class="code" title="subfunction setShapeMode(handles)">setShapeMode</a>(handles);
+0573 
+0574 <span class="comment">% create ShapeMode drop-down list</span>
+0575 <a name="_sub35" href="#_subfunctions" class="code">function ShapeMode_CreateFcn(hObject, eventdata, handles)</a>
+0576 <span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+0577     set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+0578 <span class="keyword">end</span>
+0579 
+0580 
+0581 <span class="comment">% FOAsize textbox</span>
+0582 <a name="_sub36" href="#_subfunctions" class="code">function FOAsize_Callback(hObject, eventdata, handles)</a>
+0583 <a href="#_sub32" class="code" title="subfunction getShapeMode(handles)">getShapeMode</a>(handles);
+0584 <a href="#_sub33" class="code" title="subfunction setShapeMode(handles)">setShapeMode</a>(handles);
+0585 
+0586 
+0587 <span class="comment">% create FOAsize textbox</span>
+0588 <a name="_sub37" href="#_subfunctions" class="code">function FOAsize_CreateFcn(hObject, eventdata, handles)</a>
+0589 <span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+0590     set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+0591 <span class="keyword">end</span>
+0592 
+0593 
+0594 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0595 <span class="comment">% setting visualizations                                           %</span>
+0596 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0597 
+0598 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0599 <span class="comment">% initializes plot windows</span>
+0600 <a name="_sub38" href="#_subfunctions" class="code">function initializeVisFigures(handles)</a>
+0601 visHandles = [handles.VisImg,handles.VisSM,handles.VisCM,<span class="keyword">...</span>
+0602               handles.VisShape,handles.VisLoc];
+0603 <span class="keyword">for</span> h = visHandles
+0604   visStrings = {<span class="string">'off'</span>,<span class="string">'on'</span>};
+0605   figH = figure;
+0606   vis = get(h,<span class="string">'Value'</span>)+1;
+0607   set(figH,<span class="string">'Name'</span>,[<span class="string">'STB: '</span> get(h,<span class="string">'String'</span>)],<span class="keyword">...</span>
+0608            <span class="string">'NumberTitle'</span>,<span class="string">'off'</span>,<span class="keyword">...</span>
+0609            <span class="string">'CloseRequestFcn'</span>,@<a href="#_sub40" class="code" title="subfunction VisFigureCloseCallback(hSrc,event)">VisFigureCloseCallback</a>,<span class="keyword">...</span>
+0610            <span class="string">'UserData'</span>,h,<span class="keyword">...</span>
+0611            <span class="string">'Visible'</span>,visStrings{vis});
+0612   set(h,<span class="string">'UserData'</span>,figH);
+0613 <span class="keyword">end</span>
+0614 
+0615 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0616 <span class="comment">% delete the visualization figures, e.g. when the 'Quit' button is pressed</span>
+0617 <a name="_sub39" href="#_subfunctions" class="code">function cleanupVisFigures(handles)</a>
+0618 visHandles = [handles.VisImg,handles.VisSM,handles.VisCM,<span class="keyword">...</span>
+0619               handles.VisShape,handles.VisLoc];
+0620 <span class="keyword">for</span> h = visHandles
+0621   figH = get(h,<span class="string">'UserData'</span>);
+0622   delete(figH);
+0623 <span class="keyword">end</span>
+0624 <span class="keyword">return</span>;
+0625 
+0626 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0627 <span class="comment">% callback function for closing figures - just make them invisible</span>
+0628 <a name="_sub40" href="#_subfunctions" class="code">function VisFigureCloseCallback(hSrc,event)</a>
+0629 hObject = get(hSrc,<span class="string">'UserData'</span>);
+0630 set(hObject,<span class="string">'Value'</span>,0);
+0631 set(hSrc,<span class="string">'Visible'</span>,<span class="string">'off'</span>);
+0632 
+0633 
+0634 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0635 <span class="comment">% set the GUI controls and figure visibility</span>
+0636 <a name="_sub41" href="#_subfunctions" class="code">function setVisFigure(hObject,handles)</a>
+0637 enableStrings = {<span class="string">'off'</span>,<span class="string">'on'</span>};
+0638 figH = get(hObject,<span class="string">'UserData'</span>);
+0639 val = get(hObject,<span class="string">'Value'</span>)+1;
+0640 <span class="keyword">try</span>
+0641   set(figH,<span class="string">'Visible'</span>,enableStrings{val});
+0642 <span class="keyword">catch</span>
+0643   figH = figure;
+0644   set(figH,<span class="string">'Visible'</span>,enableStrings{val});
+0645   set(hObject,<span class="string">'UserData'</span>,figH);
+0646 <span class="keyword">end</span>
+0647 
+0648 
+0649 <span class="comment">% do the above for all visualization figures</span>
+0650 <a name="_sub42" href="#_subfunctions" class="code">function setAllVisFigures(handles)</a>
+0651 visHandles = [handles.VisImg,handles.VisSM,handles.VisCM,<span class="keyword">...</span>
+0652               handles.VisShape,handles.VisLoc];
+0653 <span class="keyword">for</span> h = visHandles
+0654   <a href="#_sub41" class="code" title="subfunction setVisFigure(hObject,handles)">setVisFigure</a>(h,handles);
+0655 <span class="keyword">end</span>
+0656 
+0657 
+0658 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0659 <span class="comment">% update the 'image' visualization figure</span>
+0660 <a name="_sub43" href="#_subfunctions" class="code">function updateImg(handles)</a>
+0661 <span class="keyword">global</span> state img;
+0662 figH = get(handles.VisImg,<span class="string">'UserData'</span>);
+0663 <span class="keyword">if</span> strcmp(get(figH,<span class="string">'Visible'</span>),<span class="string">'on'</span>)
+0664   <span class="keyword">switch</span> state
+0665     <span class="keyword">case</span> {<span class="string">'ImageLoaded'</span>,<span class="string">'MapsComputed'</span>}
+0666       figure(figH);
+0667       <a href="displayImage.html" class="code" title="function displayImage(img,doNormalize)">displayImage</a>(img);
+0668       figure(handles.figure1);
+0669     <span class="keyword">otherwise</span>
+0670       <span class="comment">% do nothing</span>
+0671   <span class="keyword">end</span>
+0672 <span class="keyword">end</span>
+0673 
+0674 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0675 <span class="comment">% update the 'saliency map' visualization figure</span>
+0676 <a name="_sub44" href="#_subfunctions" class="code">function updateSM(handles)</a>
+0677 <span class="keyword">global</span> state salMap wta img;
+0678 figH = get(handles.VisSM,<span class="string">'UserData'</span>);
+0679 <span class="keyword">if</span> strcmp(get(figH,<span class="string">'Visible'</span>),<span class="string">'on'</span>)
+0680   <span class="keyword">switch</span> state
+0681     <span class="keyword">case</span> <span class="string">'MapsComputed'</span>
+0682       figure(figH);
+0683       wtaMap = <a href="emptyMap.html" class="code" title="function map = emptyMap(mapSize,label)">emptyMap</a>(img.size(1:2),<span class="string">'Winner Take All'</span>);
+0684       wtaMap.data = imresize(wta.sm.V,img.size(1:2),<span class="string">'bilinear'</span>);
+0685       <a href="displayMaps.html" class="code" title="function displayMaps(maps,varargin)">displayMaps</a>([salMap,wtaMap],1);
+0686       figure(handles.figure1);
+0687     <span class="keyword">otherwise</span>
+0688       <span class="comment">% do nothing</span>
+0689   <span class="keyword">end</span>
+0690 <span class="keyword">end</span>
+0691 
+0692 
+0693 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0694 <span class="comment">% update the 'conspicuity maps' visualization figure</span>
+0695 <a name="_sub45" href="#_subfunctions" class="code">function updateCM(handles)</a>
+0696 <span class="keyword">global</span> state salData;
+0697 figH = get(handles.VisCM,<span class="string">'UserData'</span>);
+0698 <span class="keyword">if</span> strcmp(get(figH,<span class="string">'Visible'</span>),<span class="string">'on'</span>)
+0699   <span class="keyword">switch</span> state
+0700     <span class="keyword">case</span> <span class="string">'MapsComputed'</span>
+0701       figure(figH);
+0702       <a href="displayMaps.html" class="code" title="function displayMaps(maps,varargin)">displayMaps</a>([salData(:).CM],1);
+0703       figure(handles.figure1);
+0704     <span class="keyword">otherwise</span>
+0705       <span class="comment">% do nothing</span>
+0706   <span class="keyword">end</span>
+0707 <span class="keyword">end</span>
+0708 
+0709 
+0710 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0711 <span class="comment">% update the 'shape maps' visualization figure</span>
+0712 <a name="_sub46" href="#_subfunctions" class="code">function winLabel = updateShape(handles)</a>
+0713 <span class="keyword">global</span> state shapeData;
+0714 <span class="keyword">if</span> isempty(shapeData)
+0715   winLabel = <span class="string">''</span>;
+0716 <span class="keyword">else</span>
+0717   winLabel = [<span class="string">' - '</span> shapeData.winningMap.label];
+0718   figH = get(handles.VisShape,<span class="string">'UserData'</span>);
+0719   <span class="keyword">if</span> strcmp(get(figH,<span class="string">'Visible'</span>),<span class="string">'on'</span>)
+0720     <span class="keyword">switch</span> state
+0721       <span class="keyword">case</span> <span class="string">'MapsComputed'</span>
+0722         figure(figH);
+0723         <a href="displayMaps.html" class="code" title="function displayMaps(maps,varargin)">displayMaps</a>({shapeData.winningMap,shapeData.segmentedMap,<span class="keyword">...</span>
+0724                      shapeData.binaryMap,shapeData.shapeMap});
+0725         figure(handles.figure1);
+0726       <span class="keyword">otherwise</span>
+0727         <span class="comment">% do nothing</span>
+0728     <span class="keyword">end</span>
+0729   <span class="keyword">end</span>
+0730 <span class="keyword">end</span>
+0731 
+0732 
+0733 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0734 <span class="comment">% update the 'attended location' visualization figure</span>
+0735 <a name="_sub47" href="#_subfunctions" class="code">function updateLoc(handles)</a>
+0736 <span class="keyword">global</span> globalVars;
+0737 eval(globalVars);
+0738 figH = get(handles.VisLoc,<span class="string">'UserData'</span>);
+0739 <span class="keyword">if</span> strcmp(get(figH,<span class="string">'Visible'</span>),<span class="string">'on'</span>)
+0740   <span class="keyword">switch</span> state
+0741     <span class="keyword">case</span> <span class="string">'ImageLoaded'</span>
+0742       <a href="#_sub48" class="code" title="subfunction updateLocImg(handles)">updateLocImg</a>(handles);
+0743     <span class="keyword">case</span> <span class="string">'MapsComputed'</span>
+0744       figure(figH);
+0745       <a href="plotSalientLocation.html" class="code" title="function plotSalientLocation(winner,lastWinner,img,params,varargin)">plotSalientLocation</a>(winner,lastWinner,img,params,shapeData);
+0746       <span class="keyword">if</span> ~isempty(shapeData)
+0747         title([<span class="string">'shape from: '</span> shapeData.winningMap.label]);
+0748       <span class="keyword">end</span>
+0749       figure(handles.figure1);
+0750     <span class="keyword">otherwise</span>
+0751       <span class="comment">% do nothing</span>
+0752   <span class="keyword">end</span>
+0753 <span class="keyword">end</span>
+0754 
+0755 
+0756 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0757 <span class="comment">% update the image in the 'attended location' visualization figure</span>
+0758 <a name="_sub48" href="#_subfunctions" class="code">function updateLocImg(handles)</a>
+0759 <span class="keyword">global</span> state img params;
+0760 figH = get(handles.VisLoc,<span class="string">'UserData'</span>);
+0761 <span class="keyword">if</span> strcmp(get(figH,<span class="string">'Visible'</span>),<span class="string">'on'</span>)
+0762   <span class="keyword">switch</span> state
+0763     <span class="keyword">case</span> {<span class="string">'ImageLoaded'</span>,<span class="string">'MapsComputed'</span>}
+0764       figure(figH);
+0765       <a href="displayImage.html" class="code" title="function displayImage(img,doNormalize)">displayImage</a>(img);
+0766       <a href="#_sub41" class="code" title="subfunction setVisFigure(hObject,handles)">setVisFigure</a>(handles.VisLoc,handles);
+0767       figure(handles.figure1);
+0768     <span class="keyword">otherwise</span>
+0769       <span class="comment">% do nothing</span>
+0770   <span class="keyword">end</span>
+0771 <span class="keyword">end</span>
+0772 
+0773 
+0774 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0775 <span class="comment">% GUI controls for the visualization figures</span>
+0776 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0777 
+0778 <span class="comment">% visualize image checkbox</span>
+0779 <a name="_sub49" href="#_subfunctions" class="code">function VisImg_Callback(hObject, eventdata, handles)</a>
+0780 <a href="#_sub41" class="code" title="subfunction setVisFigure(hObject,handles)">setVisFigure</a>(hObject,handles);
+0781 <a href="#_sub43" class="code" title="subfunction updateImg(handles)">updateImg</a>(handles);
+0782 
+0783 <span class="comment">% visualize SM checkbox</span>
+0784 <a name="_sub50" href="#_subfunctions" class="code">function VisSM_Callback(hObject, eventdata, handles)</a>
+0785 <a href="#_sub41" class="code" title="subfunction setVisFigure(hObject,handles)">setVisFigure</a>(hObject,handles);
+0786 <a href="#_sub44" class="code" title="subfunction updateSM(handles)">updateSM</a>(handles);
+0787 
+0788 <span class="comment">% visualize CM checkbox</span>
+0789 <a name="_sub51" href="#_subfunctions" class="code">function VisCM_Callback(hObject, eventdata, handles)</a>
+0790 <a href="#_sub41" class="code" title="subfunction setVisFigure(hObject,handles)">setVisFigure</a>(hObject,handles);
+0791 <a href="#_sub45" class="code" title="subfunction updateCM(handles)">updateCM</a>(handles);
+0792 
+0793 <span class="comment">% visualize Shape checkbox</span>
+0794 <a name="_sub52" href="#_subfunctions" class="code">function VisShape_Callback(hObject, eventdata, handles)</a>
+0795 <a href="#_sub41" class="code" title="subfunction setVisFigure(hObject,handles)">setVisFigure</a>(hObject,handles);
+0796 <a href="#_sub46" class="code" title="subfunction winLabel = updateShape(handles)">updateShape</a>(handles);
+0797 
+0798 <span class="comment">% visualize location checkbox</span>
+0799 <a name="_sub53" href="#_subfunctions" class="code">function VisLoc_Callback(hObject, eventdata, handles)</a>
+0800 <span class="keyword">global</span> lastWinner;
+0801 lastWinner = [-1,-1];
+0802 <a href="#_sub41" class="code" title="subfunction setVisFigure(hObject,handles)">setVisFigure</a>(hObject,handles);
+0803 <a href="#_sub47" class="code" title="subfunction updateLoc(handles)">updateLoc</a>(handles);
+0804 
+0805 <span class="comment">% visualization style drop-down list</span>
+0806 <a name="_sub54" href="#_subfunctions" class="code">function VisStyle_Callback(hObject, eventdata, handles)</a>
+0807 <span class="keyword">global</span> globalVars;
+0808 eval(globalVars);
+0809 styleStrings = get(hObject,<span class="string">'UserData'</span>);
+0810 val = get(hObject,<span class="string">'Value'</span>);
+0811 params.visualizationStyle = styleStrings{val};
+0812 lastWinner = [-1,-1];
+0813 set(handles.VisLoc,<span class="string">'Value'</span>,1);
+0814 <a href="#_sub41" class="code" title="subfunction setVisFigure(hObject,handles)">setVisFigure</a>(handles.VisLoc,handles);
+0815 <a href="#_sub48" class="code" title="subfunction updateLocImg(handles)">updateLocImg</a>(handles);
+0816 <a href="#_sub47" class="code" title="subfunction updateLoc(handles)">updateLoc</a>(handles);
+0817 
+0818 <a name="_sub55" href="#_subfunctions" class="code">function VisStyle_CreateFcn(hObject, eventdata, handles)</a>
+0819 <span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+0820     set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+0821 <span class="keyword">end</span>
+0822 
+0823 
+0824 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0825 <span class="comment">% parameters management</span>
+0826 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0827 
+0828 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0829 <span class="comment">% reset parameters to the default</span>
+0830 <a name="_sub56" href="#_subfunctions" class="code">function DefaultSettings_Callback(hObject, eventdata, handles)</a>
+0831 <span class="keyword">global</span> params img;
+0832 <span class="keyword">if</span> <a href="#_sub6" class="code" title="subfunction response = confirmParamsChange(handles)">confirmParamsChange</a>(handles)
+0833   <span class="keyword">if</span> isempty(img)
+0834     params = <a href="defaultSaliencyParams.html" class="code" title="function params = defaultSaliencyParams(varargin)">defaultSaliencyParams</a>;
+0835   <span class="keyword">else</span>
+0836     params = <a href="defaultSaliencyParams.html" class="code" title="function params = defaultSaliencyParams(varargin)">defaultSaliencyParams</a>(img.size);
+0837   <span class="keyword">end</span>
+0838   <a href="#_sub4" class="code" title="subfunction checkColorParams(handles)">checkColorParams</a>(handles);
+0839   <a href="#_sub5" class="code" title="subfunction fillParams(handles)">fillParams</a>(handles);
+0840 <span class="keyword">end</span>
+0841 
+0842 
+0843 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0844 <span class="comment">% save parameters</span>
+0845 <a name="_sub57" href="#_subfunctions" class="code">function SaveSettings_Callback(hObject, eventdata, handles)</a>
+0846 <span class="keyword">global</span> params;
+0847 <a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>(<span class="string">'Saving settings.'</span>);
+0848 [filename,path] = uiputfile(<span class="string">'*.mat'</span>,<span class="string">'Save parameters as ...'</span>,<span class="keyword">...</span>
+0849                             <span class="string">'parameters.mat'</span>);
+0850 <span class="keyword">if</span> (filename ~= 0)
+0851   save([path filename],<span class="string">'params'</span>);
+0852 <span class="keyword">end</span>
+0853 
+0854 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0855 <span class="comment">% load parameters</span>
+0856 <a name="_sub58" href="#_subfunctions" class="code">function LoadSettings_Callback(hObject, eventdata, handles)</a>
+0857 <span class="keyword">global</span> params;
+0858 <span class="keyword">if</span> <a href="#_sub6" class="code" title="subfunction response = confirmParamsChange(handles)">confirmParamsChange</a>(handles)
+0859   <a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>(<span class="string">'Loading settings.'</span>);
+0860   [filename,path] = uigetfile(<span class="string">'*.mat'</span>,<span class="string">'Loading parameters from ...'</span>,<span class="keyword">...</span>
+0861                               <span class="string">'parameters.mat'</span>);
+0862   <span class="keyword">if</span> (filename ~= 0)
+0863     <span class="keyword">try</span>
+0864       in = load([path filename]);
+0865     <span class="keyword">catch</span>
+0866       uiwait(warndlg([filename <span class="string">' is not a data file!'</span>],<span class="keyword">...</span>
+0867              <span class="string">'Not a valid data file'</span>,<span class="string">'modal'</span>));
+0868       <span class="keyword">return</span>;
+0869     <span class="keyword">end</span>
+0870     fnames = fieldnames(in);
+0871     <span class="keyword">if</span> strmatch(<span class="string">'params'</span>,fnames)
+0872       <span class="comment">% we have a params field - great, let's take it</span>
+0873       params = in.params;
+0874       <a href="#_sub5" class="code" title="subfunction fillParams(handles)">fillParams</a>(handles);
+0875     <span class="keyword">elseif</span> (length(fnames) == 1)
+0876       <span class="comment">% just one field - let's use this one</span>
+0877       params = getfield(in,fnames{1});
+0878       <a href="#_sub5" class="code" title="subfunction fillParams(handles)">fillParams</a>(handles);
+0879     <span class="keyword">else</span>
+0880       <span class="comment">% couldn't find params in this file</span>
+0881       uiwait(warndlg([<span class="string">'Could not find params in '</span> filename],<span class="keyword">...</span>
+0882              <span class="string">'Params not found'</span>,<span class="string">'modal'</span>));
+0883     <span class="keyword">end</span>
+0884     <a href="#_sub4" class="code" title="subfunction checkColorParams(handles)">checkColorParams</a>(handles);
+0885   <span class="keyword">end</span>
+0886 <span class="keyword">end</span>
+0887 
+0888 
+0889 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0890 <span class="comment">% save maps</span>
+0891 <a name="_sub59" href="#_subfunctions" class="code">function SaveMaps_Callback(hObject, eventdata, handles)</a>
+0892 <span class="keyword">global</span> salMap wta salData shapeData;
+0893 <a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>(<span class="string">'Saving maps.'</span>);
+0894 [filename,path] = uiputfile(<span class="string">'*.mat'</span>,<span class="string">'Save maps in ...'</span>,<span class="keyword">...</span>
+0895                             <span class="string">'maps.mat'</span>);
+0896 <span class="keyword">if</span> (filename ~= 0)
+0897   save([path filename],<span class="string">'salMap'</span>,<span class="string">'wta'</span>,<span class="string">'salData'</span>,<span class="string">'shapeData'</span>);
+0898 <span class="keyword">end</span>
+0899 
+0900 
+0901 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0902 <span class="comment">% Switch Debugging messages on/off</span>
+0903 <a name="_sub60" href="#_subfunctions" class="code">function ToggleDebug_Callback(hObject, eventdata, handles)</a>
+0904 <span class="keyword">global</span> DEBUG_FID
+0905 DEBUG_FID = get(hObject,<span class="string">'Value'</span>);
+0906 
+0907 
+0908 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0909 <span class="comment">% Reset button</span>
+0910 <a name="_sub61" href="#_subfunctions" class="code">function Restart_Callback(hObject, eventdata, handles)</a>
+0911 <a href="#_sub3" class="code" title="subfunction setState(h,newState)">setState</a>(handles,<span class="string">'ImageLoaded'</span>);
+0912 fprintf(<span class="string">'---------------------------\n'</span>);
+0913 
+0914 
+0915 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0916 <span class="comment">% saliency computation functions and controls</span>
+0917 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0918 
+0919 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0920 <span class="comment">% Start / Next Location button</span>
+0921 <a name="_sub62" href="#_subfunctions" class="code">function NextLoc_Callback(hObject, eventdata, handles)</a>
+0922 <span class="keyword">global</span> globalVars;
+0923 eval(globalVars);
+0924 <span class="keyword">switch</span> state
+0925   <span class="keyword">case</span> <span class="string">'ImageLoaded'</span>
+0926     <a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>(<span class="string">'Computing new maps ...'</span>);
+0927     <a href="#_sub3" class="code" title="subfunction setState(h,newState)">setState</a>(handles,<span class="string">'Busy'</span>);
+0928     [salMap,salData] = <a href="makeSaliencyMap.html" class="code" title="function [salmap, saliencyData] = makeSaliencyMap(img, salParams, varargin)">makeSaliencyMap</a>(img,params);
+0929     wta = <a href="initializeWTA.html" class="code" title="function wta = initializeWTA(salmap,salParams)">initializeWTA</a>(salMap,params);
+0930     state = <span class="string">'MapsComputed'</span>;
+0931     winner = [-1,-1];
+0932     <a href="#_sub45" class="code" title="subfunction updateCM(handles)">updateCM</a>(handles);
+0933     <a href="#_sub48" class="code" title="subfunction updateLocImg(handles)">updateLocImg</a>(handles);
+0934     <a href="#_sub62" class="code" title="subfunction NextLoc_Callback(hObject, eventdata, handles)">NextLoc_Callback</a>(hObject, eventdata, handles);
+0935   <span class="keyword">case</span> <span class="string">'MapsComputed'</span>
+0936     <a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>(<span class="string">'Going to the next location ...'</span>);
+0937     <a href="#_sub3" class="code" title="subfunction setState(h,newState)">setState</a>(handles,<span class="string">'Busy'</span>);
+0938     lastWinner = winner;
+0939     thisWinner = [-1,-1];
+0940     <span class="keyword">while</span> (thisWinner(1) == -1)
+0941       [wta,thisWinner] = <a href="evolveWTA.html" class="code" title="function [wta,winner] = evolveWTA(wta)">evolveWTA</a>(wta);
+0942     <span class="keyword">end</span>
+0943     shapeData = <a href="estimateShape.html" class="code" title="function shapeData = estimateShape(salmap,saliencyData,winner,params)">estimateShape</a>(salMap,salData,thisWinner,params);
+0944     wta = <a href="applyIOR.html" class="code" title="function wta = applyIOR(oldWTA,winner,params,varargin)">applyIOR</a>(wta,thisWinner,params,shapeData);
+0945     winner = <a href="winnerToImgCoords.html" class="code" title="function winImgCo = winnerToImgCoords(winner,params)">winnerToImgCoords</a>(thisWinner,params);
+0946     state = <span class="string">'MapsComputed'</span>;
+0947     <a href="#_sub44" class="code" title="subfunction updateSM(handles)">updateSM</a>(handles);
+0948     winLabel = <a href="#_sub46" class="code" title="subfunction winLabel = updateShape(handles)">updateShape</a>(handles);
+0949     <a href="#_sub47" class="code" title="subfunction updateLoc(handles)">updateLoc</a>(handles);
+0950     fprintf(<span class="string">'winner: %i,%i; t = %4.1f ms%s\n'</span>,<span class="keyword">...</span>
+0951             winner(2),winner(1),wta.exc.time*1000,winLabel);
+0952   <span class="keyword">otherwise</span>
+0953     <a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>([<span class="string">'Unexpected state: '</span> state]);
+0954 <span class="keyword">end</span>
+0955 <a href="#_sub3" class="code" title="subfunction setState(h,newState)">setState</a>(handles);
+0956 <span class="keyword">return</span>;
+0957 
+0958 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0959 <span class="comment">% About button</span>
+0960 <a name="_sub63" href="#_subfunctions" class="code">function About_Callback(hObject, eventdata, handles)</a>
+0961 uiwait(msgbox({<span class="keyword">...</span>
+0962   <span class="string">'SaliencyToolbox 2.2'</span>,<span class="keyword">...</span>
+0963   <span class="string">'http://www.saliencytoolbox.net'</span>,<span class="string">''</span>,<span class="keyword">...</span>
+0964   <span class="string">'Copyright 2006-2008 by Dirk B. Walther and'</span>,<span class="keyword">...</span><span class="comment"> </span>
+0965   <span class="string">'the California Institutute of Technology'</span>,<span class="string">''</span>,<span class="keyword">...</span>
+0966   <span class="string">'Type ''STBlicense'' to view the license agreement.'</span>,<span class="string">''</span>},<span class="keyword">...</span>
+0967   <span class="string">'About SaliencyToolbox'</span>,<span class="string">'modal'</span>));
+0968 
+0969 
+0970 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0971 <span class="comment">% Quit button</span>
+0972 <a name="_sub64" href="#_subfunctions" class="code">function Quit_Callback(hObject, eventdata, handles)</a>
+0973 <a href="#_sub3" class="code" title="subfunction setState(h,newState)">setState</a>(handles,<span class="string">'Busy'</span>);
+0974 uiresume(handles.figure1);
+0975 
+0976 <span class="comment">% Close button on the main window</span>
+0977 <a name="_sub65" href="#_subfunctions" class="code">function MainWindowCloseCallback(hObject,event)</a>
+0978 handles = guidata(hObject);
+0979 <a href="#_sub3" class="code" title="subfunction setState(h,newState)">setState</a>(handles,<span class="string">'Busy'</span>);
+0980 uiresume(hObject);
+0981</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

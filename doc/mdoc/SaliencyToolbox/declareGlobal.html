@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of declareGlobal</title>
+  <meta name="keywords" content="declareGlobal">
+  <meta name="description" content="declareGlobal - declares global variables.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; declareGlobal.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>declareGlobal
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>declareGlobal - declares global variables.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> declareGlobal - declares global variables.
+
+ declareGlobal declares the global variables:
+     IS_INITIALIZED BASE_DIR IMG_DIR DATA_DIR TMP_DIR
+     PD IMG_EXTENSIONS DEBUG_FID and initializes them,
+     if they are not yet initialized.
+
+ See also <a href="initializeGlobal.html" class="code" title="function initializeGlobal(varargin)">initializeGlobal</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="initializeGlobal.html" class="code" title="function initializeGlobal(varargin)">initializeGlobal</a>	initializeGlobal - initializes global variables</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="computeAllSaliencyMaps.html" class="code" title="function computeAllSaliencyMaps(imageFile,salmapFile,salParams,fid)">computeAllSaliencyMaps</a>	computeAllSaliencyMaps - computes the saliency maps for many images.</li><li><a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>	debugMsg displays a debug message with line number and filename.</li><li><a href="guiSaliency.html" class="code" title="function varargout = guiSaliency(varargin)">guiSaliency</a>	guiSaliency - a graphical user interface (GUI) version of the saliency code.</li><li><a href="initializeGlobal.html" class="code" title="function initializeGlobal(varargin)">initializeGlobal</a>	initializeGlobal - initializes global variables</li><li><a href="initializeImage.html" class="code" title="function [Img,err] = initializeImage(varargin);">initializeImage</a>	initializeImage - initializes an image structure.</li><li><a href="makeBlueYellowPyramid.html" class="code" title="function [byPyr,bPyr,yPyr] = makeBlueYellowPyramid(image,type)">makeBlueYellowPyramid</a>	makeBlueYellowPyramid - creates a blue-yellow opponency pyramid.</li><li><a href="makeHuePyramid.html" class="code" title="function huePyr = makeHuePyramid(image,type,hueParams,varargin)">makeHuePyramid</a>	makeHuePyramid - creates a hue distance pyramid.</li><li><a href="makeIntensityPyramid.html" class="code" title="function intPyr = makeIntensityPyramid(image,type)">makeIntensityPyramid</a>	makeIntensityPyramid - creates an intensity pyramid.</li><li><a href="makeRedGreenPyramid.html" class="code" title="function [rgPyr,rPyr,gPyr] = makeRedGreenPyramid(image,type)">makeRedGreenPyramid</a>	makeRedGreenPyramid - creates a red-green opponency pyramid</li><li><a href="runSaliency.html" class="code" title="function runSaliency(inputImage,varargin)">runSaliency</a>	runSaliency - compute and display saliency map and fixations.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% declareGlobal - declares global variables.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% declareGlobal declares the global variables:</span>
+0004 <span class="comment">%     IS_INITIALIZED BASE_DIR IMG_DIR DATA_DIR TMP_DIR</span>
+0005 <span class="comment">%     PD IMG_EXTENSIONS DEBUG_FID and initializes them,</span>
+0006 <span class="comment">%     if they are not yet initialized.</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">% See also initializeGlobal.</span>
+0009 
+0010 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0011 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0012 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0013 <span class="comment">% More information about this project is available at:</span>
+0014 <span class="comment">% http://www.saliencytoolbox.net</span>
+0015 
+0016 <span class="keyword">global</span> IS_INITIALIZED IMG_EXTENSIONS DEBUG_FID;
+0017 
+0018 <span class="keyword">if</span> isempty(IS_INITIALIZED)
+0019   <a href="initializeGlobal.html" class="code" title="function initializeGlobal(varargin)">initializeGlobal</a>;
+0020 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

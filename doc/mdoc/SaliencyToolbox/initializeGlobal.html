@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of initializeGlobal</title>
+  <meta name="keywords" content="initializeGlobal">
+  <meta name="description" content="initializeGlobal - initializes global variables">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; initializeGlobal.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>initializeGlobal
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>initializeGlobal - initializes global variables</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function initializeGlobal(varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> initializeGlobal - initializes global variables
+
+ initializeGlobal initializes the following global variables:
+    IS_INITIALIZED is set to 1 as a flag that initializeGlobal was called.
+    IMG_EXTENSIONS is a cell arrays with possible extensions for image files.
+    DEBUG_FID is the file identifier for debugMsg output. It is by default
+       set to 0. Set to 1 for stdout or to the fid of a text file that
+       is open for write access.
+
+ See also <a href="declareGlobal.html" class="code" title="">declareGlobal</a>, <a href="ensureDirExists.html" class="code" title="function ensureDirExists(directory)">ensureDirExists</a>, <a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="declareGlobal.html" class="code" title="">declareGlobal</a>	declareGlobal - declares global variables.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="declareGlobal.html" class="code" title="">declareGlobal</a>	declareGlobal - declares global variables.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% initializeGlobal - initializes global variables</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% initializeGlobal initializes the following global variables:</span>
+0004 <span class="comment">%    IS_INITIALIZED is set to 1 as a flag that initializeGlobal was called.</span>
+0005 <span class="comment">%    IMG_EXTENSIONS is a cell arrays with possible extensions for image files.</span>
+0006 <span class="comment">%    DEBUG_FID is the file identifier for debugMsg output. It is by default</span>
+0007 <span class="comment">%       set to 0. Set to 1 for stdout or to the fid of a text file that</span>
+0008 <span class="comment">%       is open for write access.</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% See also declareGlobal, ensureDirExists, debugMsg.</span>
+0011 
+0012 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0013 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0014 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0015 <span class="comment">% More information about this project is available at:</span>
+0016 <span class="comment">% http://www.saliencytoolbox.net</span>
+0017 
+0018 <a name="_sub0" href="#_subfunctions" class="code">function initializeGlobal(varargin)</a>
+0019 
+0020 <span class="keyword">global</span> IS_INITIALIZED;
+0021 IS_INITIALIZED = 1;
+0022 
+0023 <a href="declareGlobal.html" class="code" title="">declareGlobal</a>;
+0024 
+0025 dbstop <span class="keyword">if</span> error;
+0026 
+0027 IMG_EXTENSIONS = {<span class="string">'*.pgm'</span>,<span class="string">'*.ppm'</span>,<span class="string">'*.tif'</span>,<span class="string">'*.tiff'</span>,<span class="string">'*.TIF'</span>,<span class="keyword">...</span>
+0028                   <span class="string">'*.jpg'</span>,<span class="string">'*.JPG'</span>,<span class="string">'*.jpeg'</span>,<span class="string">'*.png'</span>,<span class="string">'*.PNG'</span>,<span class="keyword">...</span>
+0029                   <span class="string">'*.gif'</span>,<span class="string">'*.GIF'</span>,<span class="string">'*.JPEG'</span>,<span class="string">'*.PGM'</span>,<span class="string">'*.PPM'</span>,<span class="keyword">...</span>
+0030                   <span class="string">'*.bmp'</span>,<span class="string">'*.BMP'</span>};
+0031 
+0032 DEBUG_FID = 0;
+0033 DBW_FID = 240.75;
+0034 
+0035 fprintf(<span class="string">'\nSaliency Toolbox (http://www.saliencytoolbox.net)\n'</span>);
+0036 fprintf(<span class="string">'For licensing details type ''STBlicense'' at the prompt.\n\n'</span>);
+0037 
+0038</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

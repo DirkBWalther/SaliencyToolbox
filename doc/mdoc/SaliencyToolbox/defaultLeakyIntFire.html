@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of defaultLeakyIntFire</title>
+  <meta name="keywords" content="defaultLeakyIntFire">
+  <meta name="description" content="defaultLeakyIntFire - creates a default LIF neuron.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; defaultLeakyIntFire.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>defaultLeakyIntFire
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>defaultLeakyIntFire - creates a default LIF neuron.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function LIF = defaultLeakyIntFire </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> defaultLeakyIntFire - creates a default LIF neuron.
+
+ LIF = defaultLeakyIntFire
+    Creates an integrate and fire neuron data structure with
+    default values.
+
+ See also <a href="initializeWTA.html" class="code" title="function wta = initializeWTA(salmap,salParams)">initializeWTA</a>, <a href="evolveLeakyIntFire.html" class="code" title="function [LIF,spikes] = evolveLeakyIntFire(LIF,t)">evolveLeakyIntFire</a>, <a href="dataStructures.html" class="code" title="">dataStructures</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="initializeWTA.html" class="code" title="function wta = initializeWTA(salmap,salParams)">initializeWTA</a>	initializeWTA - intitializes a winner-take-all network.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% defaultLeakyIntFire - creates a default LIF neuron.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% LIF = defaultLeakyIntFire</span>
+0004 <span class="comment">%    Creates an integrate and fire neuron data structure with</span>
+0005 <span class="comment">%    default values.</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% See also initializeWTA, evolveLeakyIntFire, dataStructures.</span>
+0008 
+0009 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0010 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0011 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0012 <span class="comment">% More information about this project is available at:</span>
+0013 <span class="comment">% http://www.saliencytoolbox.net</span>
+0014 
+0015 <span class="comment">% all in SI units!!!</span>
+0016 
+0017 <a name="_sub0" href="#_subfunctions" class="code">function LIF = defaultLeakyIntFire</a>
+0018 
+0019 LIF.timeStep = 0.0001; <span class="comment">% seconds</span>
+0020 LIF.Eleak = 0;         <span class="comment">% Volts</span>
+0021 LIF.Eexc = 100e-3;     <span class="comment">% Volts</span>
+0022 LIF.Einh = -20e-3;     <span class="comment">% Volts</span>
+0023 LIF.Gleak = 1e-8;      <span class="comment">% Siemens</span>
+0024 LIF.Gexc = 0;          <span class="comment">% Siemens</span>
+0025 LIF.Ginh = 0;          <span class="comment">% Siemens</span>
+0026 LIF.GinhDecay = 1;     <span class="comment">% Siemens</span>
+0027 LIF.Ginput = 5e-8;     <span class="comment">% Siemens</span>
+0028 LIF.Vthresh = 0.001;   <span class="comment">% Volts</span>
+0029 LIF.C = 1e-9;          <span class="comment">% Farad</span>
+0030 LIF.time = 0;          <span class="comment">% seconds</span>
+0031 LIF.V = 0;             <span class="comment">% Volts</span>
+0032 LIF.I = 0;             <span class="comment">% Ampere</span>
+0033 LIF.DoesFire = 1;      <span class="comment">% binary</span></pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

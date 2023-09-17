@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of LTUsegmentMap</title>
+  <meta name="keywords" content="LTUsegmentMap">
+  <meta name="description" content="LTUsegmentMap - segment map using a network of linear threshold units.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; LTUsegmentMap.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>LTUsegmentMap
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>LTUsegmentMap - segment map using a network of linear threshold units.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [resultMap,segMaps] = LTUsegmentMap(map,seedPoint,varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> LTUsegmentMap - segment map using a network of linear threshold units.
+
+ [resultMap,segMaps] = LTUsegmentMap(map,seedPoint)
+    Segment the map around the seedPoint using a network of linear
+    threshold units. Returns a binary map in resultMap and the 
+    intermediate maps at each time step in segMaps.
+    This function is A LOT slower than fastSegmentMap! 
+    (But it works with model neurons.)
+    See section 3 of this paper for details:
+      Walther, D., and Koch, C. (2006). Modeling attention to salient 
+      proto-objects. Neural Networks 19, pp. 1395-1407.
+
+ [resultMap,segMaps] = LTUsegmentMap(map,seedPoint,thresh)
+    Use threshold thresh for segmentation (default: 0.1).
+    This threshold is relative to the map activity at
+    the seedPoint, i.e. the actual threshold is thresh * map(seedPoint).
+
+ See also <a href="makeLTUsegmentNetwork.html" class="code" title="function LTUnetwork = makeLTUsegmentNetwork(mapSize,thresh)">makeLTUsegmentNetwork</a>, <a href="LTUsimulate.html" class="code" title="function [output,newStates] = LTUsimulate(LTUnetwork,states,inputs,numIter)">LTUsimulate</a>, <a href="fastSegmentMap.html" class="code" title="function resultMap = fastSegmentMap(map,seedPoint,varargin)">fastSegmentMap</a>, <a href="estimateShape.html" class="code" title="function shapeData = estimateShape(salmap,saliencyData,winner,params)">estimateShape</a>, <a href="dataStructures.html" class="code" title="">dataStructures</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="LTUsimulate.html" class="code" title="function [output,newStates] = LTUsimulate(LTUnetwork,states,inputs,numIter)">LTUsimulate</a>	LTUsimulate - simulates an LTU network for numIter time steps.</li><li><a href="makeLTUsegmentNetwork.html" class="code" title="function LTUnetwork = makeLTUsegmentNetwork(mapSize,thresh)">makeLTUsegmentNetwork</a>	makeLTUsegmentNetwork - creates an LTU network for map segmentation.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="estimateShape.html" class="code" title="function shapeData = estimateShape(salmap,saliencyData,winner,params)">estimateShape</a>	estimateShape - estimates the shape of the attended proto-object region.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% LTUsegmentMap - segment map using a network of linear threshold units.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% [resultMap,segMaps] = LTUsegmentMap(map,seedPoint)</span>
+0004 <span class="comment">%    Segment the map around the seedPoint using a network of linear</span>
+0005 <span class="comment">%    threshold units. Returns a binary map in resultMap and the</span>
+0006 <span class="comment">%    intermediate maps at each time step in segMaps.</span>
+0007 <span class="comment">%    This function is A LOT slower than fastSegmentMap!</span>
+0008 <span class="comment">%    (But it works with model neurons.)</span>
+0009 <span class="comment">%    See section 3 of this paper for details:</span>
+0010 <span class="comment">%      Walther, D., and Koch, C. (2006). Modeling attention to salient</span>
+0011 <span class="comment">%      proto-objects. Neural Networks 19, pp. 1395-1407.</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% [resultMap,segMaps] = LTUsegmentMap(map,seedPoint,thresh)</span>
+0014 <span class="comment">%    Use threshold thresh for segmentation (default: 0.1).</span>
+0015 <span class="comment">%    This threshold is relative to the map activity at</span>
+0016 <span class="comment">%    the seedPoint, i.e. the actual threshold is thresh * map(seedPoint).</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">% See also makeLTUsegmentNetwork, LTUsimulate, fastSegmentMap, estimateShape, dataStructures.</span>
+0019   
+0020 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0021 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0022 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0023 <span class="comment">% More information about this project is available at:</span>
+0024 <span class="comment">% http://www.saliencytoolbox.net</span>
+0025 
+0026 <a name="_sub0" href="#_subfunctions" class="code">function [resultMap,segMaps] = LTUsegmentMap(map,seedPoint,varargin)</a>
+0027 
+0028 <span class="keyword">if</span> isempty(varargin) thresh = 0.1;
+0029 <span class="keyword">else</span> thresh = varargin{1}; <span class="keyword">end</span>
+0030 
+0031 numIter = -1;
+0032 eps = 0.001;
+0033 
+0034 <span class="comment">% prepare data structures for the result</span>
+0035 imSize = size(map.data);
+0036 lab = map.label;
+0037 seedVal = map.data(seedPoint(1),seedPoint(2));
+0038 <span class="keyword">if</span> (seedVal &lt; eps)
+0039   resultMap.origImage = map.origImage;
+0040   resultMap.label = [<span class="string">'seg-0: '</span> lab];
+0041   resultMap.data = zeros(imSize);
+0042   resultMap.date = clock;
+0043   resultMap.parameters = map.parameters;
+0044   segMaps = [];
+0045   <span class="keyword">return</span>;
+0046 <span class="keyword">end</span>
+0047 
+0048 <span class="comment">% create the segmentation network</span>
+0049 LTUnetwork = <a href="makeLTUsegmentNetwork.html" class="code" title="function LTUnetwork = makeLTUsegmentNetwork(mapSize,thresh)">makeLTUsegmentNetwork</a>(imSize,thresh);
+0050 select = zeros(imSize);
+0051 select(seedPoint(1),seedPoint(2)) = 1;
+0052 input = [map.data(:)/seedVal;select(:)];
+0053 states = zeros(1,LTUnetwork.numCells);
+0054 
+0055 keepgoing = 1;
+0056 iter = 0;
+0057 <span class="keyword">while</span> (keepgoing)
+0058   iter = iter + 1;
+0059   [output,states] = <a href="LTUsimulate.html" class="code" title="function [output,newStates] = LTUsimulate(LTUnetwork,states,inputs,numIter)">LTUsimulate</a>(LTUnetwork,states,input,2);
+0060   segMaps(iter).origImage = map.origImage;
+0061   segMaps(iter).label = sprintf(<span class="string">'seg-%d: %s'</span>,iter,lab);
+0062   segMaps(iter).data = reshape(output,imSize);
+0063   segMaps(iter).date = timeString;
+0064   segMaps(iter).parameters = map.parameters;
+0065   <span class="keyword">if</span> (numIter &gt; 0)
+0066     keepgoing = (iter &lt;= numIter);
+0067   <span class="keyword">else</span>
+0068     <span class="keyword">if</span> (iter == 1)
+0069       keepgoing = 1;
+0070     <span class="keyword">else</span>
+0071       keepgoing = ~isequal(output,old_output);
+0072     <span class="keyword">end</span>
+0073     old_output = output;
+0074   <span class="keyword">end</span>
+0075 <span class="keyword">end</span>
+0076 
+0077 resultMap = segMaps(end);</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

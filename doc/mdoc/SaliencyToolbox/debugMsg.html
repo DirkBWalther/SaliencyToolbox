@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of debugMsg</title>
+  <meta name="keywords" content="debugMsg">
+  <meta name="description" content="debugMsg displays a debug message with line number and filename.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; debugMsg.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>debugMsg
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>debugMsg displays a debug message with line number and filename.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function debugMsg(message,varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> debugMsg displays a debug message with line number and filename.
+
+ debugMsg(message) 
+    writes the string message to the file that is specified by the 
+    global variable DEBUG_FID; if DEBUG_FID is 0, no message is written; 
+    if DEBUG_FID is 1, the message is written to stdout; 
+    for other values it is assumed that DEBUG_FID is the valid 
+    file identifier for an open and writable text file.
+
+ debug(message,object) 
+    writes the message and information about object, which can be:
+       a map structure - min, avg, and max are written out.
+       a pyramid structure - the min, avg, and max for each
+                             level map are written out.
+       a numeric array - the min, avg, and max are written out.
+
+ See also <a href="dataStructures.html" class="code" title="">dataStructures</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="declareGlobal.html" class="code" title="">declareGlobal</a>	declareGlobal - declares global variables.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="centerSurround.html" class="code" title="function [featureMaps,csLevels] = centerSurround(pyr,params)">centerSurround</a>	centerSurround - computes center-surround difference maps.</li><li><a href="checkImageSize.html" class="code" title="function img = checkImageSize(img,mode,targetSize)">checkImageSize</a>	checkImageSize - downsamples too large images after user confirmation.</li><li><a href="estimateShape.html" class="code" title="function shapeData = estimateShape(salmap,saliencyData,winner,params)">estimateShape</a>	estimateShape - estimates the shape of the attended proto-object region.</li><li><a href="evolveWTA.html" class="code" title="function [wta,winner] = evolveWTA(wta)">evolveWTA</a>	evolveWTA - evolves the winner-take-all network by one time step.</li><li><a href="fastSegmentMap.html" class="code" title="function resultMap = fastSegmentMap(map,seedPoint,varargin)">fastSegmentMap</a>	fastSegmentMap - segment map around a seedPoint.</li><li><a href="guiSaliency.html" class="code" title="function varargout = guiSaliency(varargin)">guiSaliency</a>	guiSaliency - a graphical user interface (GUI) version of the saliency code.</li><li><a href="initializeWTA.html" class="code" title="function wta = initializeWTA(salmap,salParams)">initializeWTA</a>	initializeWTA - intitializes a winner-take-all network.</li><li><a href="maxNormalize.html" class="code" title="function result = maxNormalize(maps,params,varargin)">maxNormalize</a>	maxNormalize - normalizes a set of maps according to params.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% debugMsg displays a debug message with line number and filename.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% debugMsg(message)</span>
+0004 <span class="comment">%    writes the string message to the file that is specified by the</span>
+0005 <span class="comment">%    global variable DEBUG_FID; if DEBUG_FID is 0, no message is written;</span>
+0006 <span class="comment">%    if DEBUG_FID is 1, the message is written to stdout;</span>
+0007 <span class="comment">%    for other values it is assumed that DEBUG_FID is the valid</span>
+0008 <span class="comment">%    file identifier for an open and writable text file.</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% debug(message,object)</span>
+0011 <span class="comment">%    writes the message and information about object, which can be:</span>
+0012 <span class="comment">%       a map structure - min, avg, and max are written out.</span>
+0013 <span class="comment">%       a pyramid structure - the min, avg, and max for each</span>
+0014 <span class="comment">%                             level map are written out.</span>
+0015 <span class="comment">%       a numeric array - the min, avg, and max are written out.</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">% See also dataStructures.</span>
+0018 
+0019 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0020 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0021 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0022 <span class="comment">% More information about this project is available at:</span>
+0023 <span class="comment">% http://www.saliencytoolbox.net</span>
+0024   
+0025 <a name="_sub0" href="#_subfunctions" class="code">function debugMsg(message,varargin)</a>
+0026 
+0027 <a href="declareGlobal.html" class="code" title="">declareGlobal</a>;
+0028 
+0029 <span class="keyword">if</span> (DEBUG_FID == 0)
+0030   <span class="keyword">return</span>
+0031 <span class="keyword">end</span>
+0032 
+0033 st = dbstack;
+0034 
+0035 msg = sprintf(<span class="string">'%s at %i: %s'</span>,st(2).file,st(2).line,message);
+0036 
+0037 <span class="keyword">if</span> (~isempty(varargin))
+0038   
+0039   <span class="comment">% is struct?</span>
+0040   <span class="keyword">if</span> isstruct(varargin{1})
+0041   fnames = fieldnames(varargin{1});
+0042   
+0043     <span class="comment">% is map?</span>
+0044     <span class="keyword">if</span> (length(strmatch(<span class="string">'data'</span>,fnames)) &gt; 0)
+0045       map = varargin{1};
+0046       lm = length(map);
+0047       <span class="keyword">if</span> (lm &gt; 1)
+0048         fprintf(DEBUG_FID,<span class="string">'%s\n'</span>,msg);
+0049       <span class="keyword">end</span>
+0050       <span class="keyword">for</span> m = 1:lm
+0051         mx = max(map(m).data(:));
+0052         mn = min(map(m).data(:));
+0053         av = mean(map(m).data(:));
+0054         <span class="keyword">if</span> (lm == 1)
+0055           fprintf(DEBUG_FID,<span class="string">'%s %s: [%g; %g; %g]\n'</span>,<span class="keyword">...</span>
+0056               msg,map(m).label,mn,av,mx);
+0057         <span class="keyword">else</span>
+0058           fprintf(DEBUG_FID,<span class="string">'%s\t%s: [%g; %g; %g]\n'</span>,<span class="keyword">...</span>
+0059               msg,map(m).label,mn,av,mx);
+0060         <span class="keyword">end</span>
+0061       <span class="keyword">end</span>
+0062     <span class="keyword">elseif</span> (length(strmatch(<span class="string">'levels'</span>,fnames)) &gt; 0)
+0063       pyr = varargin{1};
+0064       fprintf(DEBUG_FID,<span class="string">'%s pyramid %s:\n'</span>,msg,pyr.label);
+0065       <span class="keyword">for</span> i=1:length(pyr.levels)
+0066         mx = max(pyr.levels(i).data(:));
+0067         mn = min(pyr.levels(i).data(:));
+0068         av = mean(pyr.levels(i).data(:));
+0069         fprintf(DEBUG_FID,<span class="string">'%s\tlevel %i: [%g; %g; %g]\n'</span>,msg,i,mn,av,mx);
+0070       <span class="keyword">end</span>
+0071     <span class="keyword">end</span>
+0072   <span class="keyword">elseif</span> isnumeric(varargin{1})
+0073     <span class="comment">% numeric -&gt; print mn,av,mx</span>
+0074     fprintf(DEBUG_FID,<span class="string">'%s: [%g; %g; %g]\n'</span>,msg,min(varargin{1}(:)),<span class="keyword">...</span>
+0075             mean(varargin{1}(:)),max(varargin{1}(:)));
+0076   <span class="keyword">end</span>
+0077 <span class="keyword">else</span>
+0078   fprintf(DEBUG_FID,<span class="string">'%s\n'</span>,msg); 
+0079 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

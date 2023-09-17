@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of makeDyadicPyramid</title>
+  <meta name="keywords" content="makeDyadicPyramid">
+  <meta name="description" content="makeDyadicPyramid - creates a dyadic Gaussian pyramid.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; makeDyadicPyramid.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>makeDyadicPyramid
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>makeDyadicPyramid - creates a dyadic Gaussian pyramid.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function pyr = makeDyadicPyramid(map,varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> makeDyadicPyramid - creates a dyadic Gaussian pyramid.
+
+ pyr = makeDyadicPyramid(map)
+    Creates a Gaussian pyramid by blurring and subsampling 
+    map by a factor of 2 repeatedly, as long as both width 
+    and height are larger than 1.
+
+ pyr = makeDyadicPyramid(map,depth)
+    Creates at most depth levels.
+
+ See also mexGaussianSubsample, <a href="makeGaussianPyramid.html" class="code" title="function pyr = makeGaussianPyramid(map,type,varargin)">makeGaussianPyramid</a>, <a href="makeSqrt2Pyramid.html" class="code" title="function pyr = makeSqrt2Pyramid(map,varargin)">makeSqrt2Pyramid</a>,
+          <a href="dataStructures.html" class="code" title="">dataStructures</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="gaussianSubsample.html" class="code" title="function result = gaussianSubsample(img)">gaussianSubsample</a>	gaussianSubsample - smooths and subsamples image.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="makeGaussianPyramid.html" class="code" title="function pyr = makeGaussianPyramid(map,type,varargin)">makeGaussianPyramid</a>	makeGaussianPyramid - creates a Gaussian pyramid from map.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% makeDyadicPyramid - creates a dyadic Gaussian pyramid.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% pyr = makeDyadicPyramid(map)</span>
+0004 <span class="comment">%    Creates a Gaussian pyramid by blurring and subsampling</span>
+0005 <span class="comment">%    map by a factor of 2 repeatedly, as long as both width</span>
+0006 <span class="comment">%    and height are larger than 1.</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">% pyr = makeDyadicPyramid(map,depth)</span>
+0009 <span class="comment">%    Creates at most depth levels.</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">% See also mexGaussianSubsample, makeGaussianPyramid, makeSqrt2Pyramid,</span>
+0012 <span class="comment">%          dataStructures.</span>
+0013 
+0014 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0015 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0016 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0017 <span class="comment">% More information about this project is available at:</span>
+0018 <span class="comment">% http://www.saliencytoolbox.net</span>
+0019 
+0020 <a name="_sub0" href="#_subfunctions" class="code">function pyr = makeDyadicPyramid(map,varargin)</a>
+0021 
+0022 <span class="keyword">if</span> (isempty(varargin)) depth = -1;
+0023 <span class="keyword">else</span> depth = varargin{1}; <span class="keyword">end</span>
+0024 
+0025 lab = map.label;
+0026 
+0027 pyr.origImage = map.origImage;
+0028 pyr.label = lab;
+0029 pyr.type = <span class="string">'dyadic'</span>;
+0030 map.label = [lab <span class="string">'-1'</span>];
+0031 map.parameters.type = <span class="string">'dyadic'</span>;
+0032 
+0033 pyr.levels(1) = map;
+0034 
+0035 n = 1;
+0036 <span class="keyword">while</span> (min(size(pyr.levels(n).data)) &gt; 1)
+0037   <span class="keyword">if</span> ((depth &gt; 0) &amp; (n &gt;= depth)) <span class="keyword">break</span>; <span class="keyword">end</span>
+0038   n = n + 1;
+0039   newMap = [];
+0040   newMap.origImage = map.origImage;
+0041   newMap.label = sprintf(<span class="string">'%s-%d'</span>,lab,n);
+0042   newMap.data = <a href="gaussianSubsample.html" class="code" title="function result = gaussianSubsample(img)">gaussianSubsample</a>(pyr.levels(n-1).data);
+0043   newMap.date = clock;
+0044   newMap.parameters.type = <span class="string">'dyadic'</span>;
+0045   pyr.levels(n) = newMap;
+0046 <span class="keyword">end</span>
+0047 
+0048 pyr.date = clock;</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

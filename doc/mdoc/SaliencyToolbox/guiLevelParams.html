@@ -1,0 +1,247 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of guiLevelParams</title>
+  <meta name="keywords" content="guiLevelParams">
+  <meta name="description" content="guiLevelParams - a graphical user interface (GUI) to adjust parameter level parameters.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; guiLevelParams.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>guiLevelParams
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>guiLevelParams - a graphical user interface (GUI) to adjust parameter level parameters.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function varargout = guiLevelParams(varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> guiLevelParams - a graphical user interface (GUI) to adjust parameter level parameters.
+
+ newLevelParams = guiLevelParams(oldLevelParams)
+    Lets the user adjust the old parameters and returns them as new parameters.
+    If oldLevelParams are ommitted, defaultLevelParams are used.
+
+ See also <a href="defaultLevelParams.html" class="code" title="function levelParams = defaultLevelParams(pyramidType)">defaultLevelParams</a>, <a href="guiSaliency.html" class="code" title="function varargout = guiSaliency(varargin)">guiSaliency</a>, <a href="defaultSaliencyParams.html" class="code" title="function params = defaultSaliencyParams(varargin)">defaultSaliencyParams</a>,
+          <a href="centerSurround.html" class="code" title="function [featureMaps,csLevels] = centerSurround(pyr,params)">centerSurround</a>, <a href="winnerToImgCoords.html" class="code" title="function winImgCo = winnerToImgCoords(winner,params)">winnerToImgCoords</a>, <a href="dataStructures.html" class="code" title="">dataStructures</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="defaultLevelParams.html" class="code" title="function levelParams = defaultLevelParams(pyramidType)">defaultLevelParams</a>	defaultLevelParams - returns a default levelParams structure.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="guiSaliency.html" class="code" title="function varargout = guiSaliency(varargin)">guiSaliency</a>	guiSaliency - a graphical user interface (GUI) version of the saliency code.</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function guiLevelParams_OpeningFcn(hObject, eventdata, handles, varargin)</a></li><li><a href="#_sub2" class="code">function fillParams(handles)</a></li><li><a href="#_sub3" class="code">function varargout = guiLevelParams_OutputFcn(hObject, eventdata, handles)</a></li><li><a href="#_sub4" class="code">function checkNumber(hObject)</a></li><li><a href="#_sub5" class="code">function minLevel_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub6" class="code">function minLevel_CreateFcn(hObject, eventdata, handles)</a></li><li><a href="#_sub7" class="code">function maxLevel_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub8" class="code">function maxLevel_CreateFcn(hObject, eventdata, handles)</a></li><li><a href="#_sub9" class="code">function minDelta_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub10" class="code">function minDelta_CreateFcn(hObject, eventdata, handles)</a></li><li><a href="#_sub11" class="code">function maxDelta_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub12" class="code">function maxDelta_CreateFcn(hObject, eventdata, handles)</a></li><li><a href="#_sub13" class="code">function mapLevel_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub14" class="code">function mapLevel_CreateFcn(hObject, eventdata, handles)</a></li><li><a href="#_sub15" class="code">function defaults_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub16" class="code">function cancel_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub17" class="code">function ok_Callback(hObject, eventdata, handles)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% guiLevelParams - a graphical user interface (GUI) to adjust parameter level parameters.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% newLevelParams = guiLevelParams(oldLevelParams)</span>
+0004 <span class="comment">%    Lets the user adjust the old parameters and returns them as new parameters.</span>
+0005 <span class="comment">%    If oldLevelParams are ommitted, defaultLevelParams are used.</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% See also defaultLevelParams, guiSaliency, defaultSaliencyParams,</span>
+0008 <span class="comment">%          centerSurround, winnerToImgCoords, dataStructures.</span>
+0009 
+0010 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0011 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0012 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0013 <span class="comment">% More information about this project is available at:</span>
+0014 <span class="comment">% http://www.saliencytoolbox.net</span>
+0015 
+0016 <a name="_sub0" href="#_subfunctions" class="code">function varargout = guiLevelParams(varargin)</a>
+0017 
+0018 <span class="comment">% GUI initialization code</span>
+0019 gui_Singleton = 1;
+0020 gui_State = struct(<span class="string">'gui_Name'</span>,       mfilename, <span class="keyword">...</span>
+0021                    <span class="string">'gui_Singleton'</span>,  gui_Singleton, <span class="keyword">...</span>
+0022                    <span class="string">'gui_OpeningFcn'</span>, @<a href="#_sub1" class="code" title="subfunction guiLevelParams_OpeningFcn(hObject, eventdata, handles, varargin)">guiLevelParams_OpeningFcn</a>, <span class="keyword">...</span>
+0023                    <span class="string">'gui_OutputFcn'</span>,  @<a href="#_sub3" class="code" title="subfunction varargout = guiLevelParams_OutputFcn(hObject, eventdata, handles)">guiLevelParams_OutputFcn</a>, <span class="keyword">...</span>
+0024                    <span class="string">'gui_LayoutFcn'</span>,  [] , <span class="keyword">...</span>
+0025                    <span class="string">'gui_Callback'</span>,   []);
+0026 <span class="keyword">if</span> nargin &amp;&amp; ischar(varargin{1})
+0027     gui_State.gui_Callback = str2func(varargin{1});
+0028 <span class="keyword">end</span>
+0029 
+0030 <span class="keyword">if</span> nargout
+0031     [varargout{1:nargout}] = gui_mainfcn(gui_State, varargin{:});
+0032 <span class="keyword">else</span>
+0033     gui_mainfcn(gui_State, varargin{:});
+0034 <span class="keyword">end</span>
+0035 
+0036 
+0037 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0038 <span class="comment">% opening code executes just before guiLevelParams is made visible.</span>
+0039 <a name="_sub1" href="#_subfunctions" class="code">function guiLevelParams_OpeningFcn(hObject, eventdata, handles, varargin)</a>
+0040 
+0041 handles.output = hObject;
+0042 guidata(hObject, handles);
+0043 
+0044 <span class="comment">% get the old parameters from the command line or use default?</span>
+0045 <span class="keyword">global</span> lparams;
+0046 <span class="keyword">if</span> isempty(varargin)
+0047   lparams = <a href="defaultLevelParams.html" class="code" title="function levelParams = defaultLevelParams(pyramidType)">defaultLevelParams</a>(<span class="string">'dyadic'</span>);
+0048 <span class="keyword">else</span>
+0049   lparams = varargin{1};
+0050 <span class="keyword">end</span>
+0051 
+0052 <a href="#_sub2" class="code" title="subfunction fillParams(handles)">fillParams</a>(handles);
+0053 
+0054 <span class="comment">% this waits for the user to press 'cancel' or 'ok'</span>
+0055 set(handles.figure1,<span class="string">'WindowStyle'</span>,<span class="string">'modal'</span>)
+0056 uiwait(handles.figure1);
+0057 
+0058 <span class="comment">% clean up</span>
+0059 <span class="keyword">try</span>
+0060   delete(handles.figure1);
+0061 <span class="keyword">catch</span>
+0062   <span class="comment">% nothing to do</span>
+0063 <span class="keyword">end</span>
+0064 <span class="keyword">return</span>;
+0065 
+0066 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0067 <span class="comment">% fill the GUI with the parameters from the global variable params</span>
+0068 <a name="_sub2" href="#_subfunctions" class="code">function fillParams(handles)</a>
+0069 <span class="keyword">global</span> lparams;
+0070 set(handles.minLevel,<span class="string">'String'</span>,num2str(lparams.minLevel));
+0071 set(handles.minLevel,<span class="string">'UserData'</span>,lparams.minLevel);
+0072 set(handles.maxLevel,<span class="string">'String'</span>,num2str(lparams.maxLevel));
+0073 set(handles.maxLevel,<span class="string">'UserData'</span>,lparams.maxLevel);
+0074 set(handles.minDelta,<span class="string">'String'</span>,num2str(lparams.minDelta));
+0075 set(handles.minDelta,<span class="string">'UserData'</span>,lparams.minDelta);
+0076 set(handles.maxDelta,<span class="string">'String'</span>,num2str(lparams.maxDelta));
+0077 set(handles.maxDelta,<span class="string">'UserData'</span>,lparams.maxDelta);
+0078 set(handles.mapLevel,<span class="string">'String'</span>,num2str(lparams.mapLevel));
+0079 set(handles.mapLevel,<span class="string">'UserData'</span>,lparams.mapLevel);
+0080 <span class="keyword">return</span>;
+0081 
+0082 
+0083 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0084 <span class="comment">% Set command line output to the new parameters and clean up</span>
+0085 <a name="_sub3" href="#_subfunctions" class="code">function varargout = guiLevelParams_OutputFcn(hObject, eventdata, handles) </a>
+0086 <span class="keyword">global</span> lparams;
+0087 varargout{1} = lparams;
+0088 clear <span class="keyword">global</span> lparams;
+0089 
+0090 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0091 <span class="comment">% make sure that the text field hObject contains a valid integer &gt;1,</span>
+0092 <span class="comment">% store the valid value in the text field's UserData</span>
+0093 <a name="_sub4" href="#_subfunctions" class="code">function checkNumber(hObject)</a>
+0094 num = str2num(get(hObject,<span class="string">'String'</span>));
+0095 <span class="keyword">if</span> ~isempty(num)
+0096   num = round(num(1));
+0097   <span class="keyword">if</span> (num &lt; 1) num = 1; <span class="keyword">end</span>
+0098   set(hObject,<span class="string">'UserData'</span>,num);
+0099 <span class="keyword">end</span>
+0100 set(hObject,<span class="string">'String'</span>,num2str(get(hObject,<span class="string">'UserData'</span>)));
+0101 <span class="keyword">return</span>;
+0102 
+0103 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0104 <span class="comment">% the text fields with the values</span>
+0105 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0106 
+0107 <span class="comment">% minLevel</span>
+0108 <a name="_sub5" href="#_subfunctions" class="code">function minLevel_Callback(hObject, eventdata, handles)</a>
+0109 <a href="#_sub4" class="code" title="subfunction checkNumber(hObject)">checkNumber</a>(hObject);
+0110 
+0111 <a name="_sub6" href="#_subfunctions" class="code">function minLevel_CreateFcn(hObject, eventdata, handles)</a>
+0112 <span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+0113     set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+0114 <span class="keyword">end</span>
+0115 
+0116 <span class="comment">% maxLevel</span>
+0117 <a name="_sub7" href="#_subfunctions" class="code">function maxLevel_Callback(hObject, eventdata, handles)</a>
+0118 <a href="#_sub4" class="code" title="subfunction checkNumber(hObject)">checkNumber</a>(hObject);
+0119 
+0120 <a name="_sub8" href="#_subfunctions" class="code">function maxLevel_CreateFcn(hObject, eventdata, handles)</a>
+0121 <span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+0122     set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+0123 <span class="keyword">end</span>
+0124 
+0125 
+0126 <span class="comment">% minDelta</span>
+0127 <a name="_sub9" href="#_subfunctions" class="code">function minDelta_Callback(hObject, eventdata, handles)</a>
+0128 <a href="#_sub4" class="code" title="subfunction checkNumber(hObject)">checkNumber</a>(hObject);
+0129 
+0130 <a name="_sub10" href="#_subfunctions" class="code">function minDelta_CreateFcn(hObject, eventdata, handles)</a>
+0131 <span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+0132     set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+0133 <span class="keyword">end</span>
+0134 
+0135 <span class="comment">% maxDelta</span>
+0136 <a name="_sub11" href="#_subfunctions" class="code">function maxDelta_Callback(hObject, eventdata, handles)</a>
+0137 <a href="#_sub4" class="code" title="subfunction checkNumber(hObject)">checkNumber</a>(hObject);
+0138 
+0139 <a name="_sub12" href="#_subfunctions" class="code">function maxDelta_CreateFcn(hObject, eventdata, handles)</a>
+0140 <span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+0141     set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+0142 <span class="keyword">end</span>
+0143 
+0144 <span class="comment">% mapLevel</span>
+0145 <a name="_sub13" href="#_subfunctions" class="code">function mapLevel_Callback(hObject, eventdata, handles)</a>
+0146 <a href="#_sub4" class="code" title="subfunction checkNumber(hObject)">checkNumber</a>(hObject);
+0147 
+0148 <a name="_sub14" href="#_subfunctions" class="code">function mapLevel_CreateFcn(hObject, eventdata, handles)</a>
+0149 <span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+0150     set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+0151 <span class="keyword">end</span>
+0152 
+0153 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0154 <span class="comment">% buttons</span>
+0155 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0156 
+0157 <span class="comment">% Defaults button</span>
+0158 <a name="_sub15" href="#_subfunctions" class="code">function defaults_Callback(hObject, eventdata, handles)</a>
+0159 <span class="keyword">global</span> lparams;
+0160 lparams = <a href="defaultLevelParams.html" class="code" title="function levelParams = defaultLevelParams(pyramidType)">defaultLevelParams</a>(<span class="string">'dyadic'</span>);
+0161 <a href="#_sub2" class="code" title="subfunction fillParams(handles)">fillParams</a>(handles);
+0162 
+0163 <span class="comment">% Cancel button</span>
+0164 <a name="_sub16" href="#_subfunctions" class="code">function cancel_Callback(hObject, eventdata, handles)</a>
+0165 uiresume(handles.figure1);
+0166 
+0167 <span class="comment">% OK button</span>
+0168 <a name="_sub17" href="#_subfunctions" class="code">function ok_Callback(hObject, eventdata, handles)</a>
+0169 <span class="keyword">global</span> params lparams;
+0170 
+0171 <span class="comment">% read the new parameters from the text fields</span>
+0172 lparams.minLevel = get(handles.minLevel,<span class="string">'UserData'</span>);
+0173 lparams.maxLevel = get(handles.maxLevel,<span class="string">'UserData'</span>);
+0174 lparams.minDelta = get(handles.minDelta,<span class="string">'UserData'</span>);
+0175 lparams.maxDelta = get(handles.maxDelta,<span class="string">'UserData'</span>);
+0176 lparams.mapLevel = get(handles.mapLevel,<span class="string">'UserData'</span>);
+0177 
+0178 <span class="comment">% check that surround levels are okay</span>
+0179 <span class="keyword">if</span> (lparams.minLevel &gt; lparams.maxLevel)
+0180   uiwait(warndlg(<span class="string">'''lowest center level'' must be lower than ''highest center level''!'</span>,<span class="keyword">...</span>
+0181                  <span class="string">'Please correct!'</span>,<span class="string">'modal'</span>));
+0182   <span class="keyword">return</span>;
+0183 <span class="keyword">end</span>
+0184 
+0185 <span class="comment">% check that c-s delta range is valid</span>
+0186 <span class="keyword">if</span> (lparams.minDelta &gt; lparams.maxDelta)
+0187   uiwait(warndlg(<span class="string">'''smallest c-s delta'' must be smaller than ''largest c-s delta''!'</span>,<span class="keyword">...</span>
+0188                  <span class="string">'Please correct!'</span>,<span class="string">'modal'</span>));
+0189   <span class="keyword">return</span>;
+0190 <span class="keyword">end</span>
+0191 uiresume(handles.figure1);</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of computeAllSaliencyMaps</title>
+  <meta name="keywords" content="computeAllSaliencyMaps">
+  <meta name="description" content="computeAllSaliencyMaps - computes the saliency maps for many images.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; computeAllSaliencyMaps.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>computeAllSaliencyMaps
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>computeAllSaliencyMaps - computes the saliency maps for many images.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function computeAllSaliencyMaps(imageFile,salmapFile,salParams,fid) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> computeAllSaliencyMaps - computes the saliency maps for many images.
+
+ computeAllSaliencyMaps(imageFile,salmapFile,salParams,log_fid)
+    Computes the saliency maps for all images in imageFile.
+    This function is useful for batch processing many images.
+
+    imageFile - the filename of a .mat file with a vector of image
+       structures called 'images'. 
+    salmapFile - the file name of the file where the saliency maps
+       should be saved.
+    salParams - the parameters for computing the saliency maps.
+    log_fid - a file identifier to write logging information to
+              (0 for no log info, 1 for stdout).
+
+ See also <a href="batchSaliency.html" class="code" title="function [salMaps,fixations] = batchSaliency(images,numFixations,params)">batchSaliency</a>, <a href="defaultSaliencyParams.html" class="code" title="function params = defaultSaliencyParams(varargin)">defaultSaliencyParams</a>, <a href="makeSaliencyMap.html" class="code" title="function [salmap, saliencyData] = makeSaliencyMap(img, salParams, varargin)">makeSaliencyMap</a>, <a href="initializeGlobal.html" class="code" title="function initializeGlobal(varargin)">initializeGlobal</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="declareGlobal.html" class="code" title="">declareGlobal</a>	declareGlobal - declares global variables.</li><li><a href="makeSaliencyMap.html" class="code" title="function [salmap, saliencyData] = makeSaliencyMap(img, salParams, varargin)">makeSaliencyMap</a>	makeSaliencyMap - creates a saliency map for an image.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% computeAllSaliencyMaps - computes the saliency maps for many images.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% computeAllSaliencyMaps(imageFile,salmapFile,salParams,log_fid)</span>
+0004 <span class="comment">%    Computes the saliency maps for all images in imageFile.</span>
+0005 <span class="comment">%    This function is useful for batch processing many images.</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%    imageFile - the filename of a .mat file with a vector of image</span>
+0008 <span class="comment">%       structures called 'images'.</span>
+0009 <span class="comment">%    salmapFile - the file name of the file where the saliency maps</span>
+0010 <span class="comment">%       should be saved.</span>
+0011 <span class="comment">%    salParams - the parameters for computing the saliency maps.</span>
+0012 <span class="comment">%    log_fid - a file identifier to write logging information to</span>
+0013 <span class="comment">%              (0 for no log info, 1 for stdout).</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">% See also batchSaliency, defaultSaliencyParams, makeSaliencyMap, initializeGlobal.</span>
+0016 
+0017 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0018 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0019 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0020 <span class="comment">% More information about this project is available at:</span>
+0021 <span class="comment">% http://www.saliencytoolbox.net</span>
+0022 
+0023 <a name="_sub0" href="#_subfunctions" class="code">function computeAllSaliencyMaps(imageFile,salmapFile,salParams,fid)</a>
+0024 
+0025 <a href="declareGlobal.html" class="code" title="">declareGlobal</a>;
+0026 
+0027 fprintf(fid,<span class="string">'Starting %s on %s at %s.\n'</span>,mfilename,imageFile,timeString);
+0028 
+0029 tmp = load(imageFile);
+0030 names = fieldnames(tmp);
+0031 img = getfield(tmp,names{1});
+0032 numImg = length(img);
+0033 
+0034 <span class="keyword">for</span> i = 1:numImg
+0035   fprintf(fid,<span class="string">'Processing image %d of %d ...\n'</span>,i,numImg);
+0036   SaliencyMap(i) = <a href="makeSaliencyMap.html" class="code" title="function [salmap, saliencyData] = makeSaliencyMap(img, salParams, varargin)">makeSaliencyMap</a>(img(i),salParams);
+0037 <span class="keyword">end</span>
+0038 
+0039 save(salmapFile,<span class="string">'SaliencyMap'</span>);
+0040 fprintf(fid,<span class="string">'Saved results in %s at %s.\n'</span>,salmapFile,datestr(clock));</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

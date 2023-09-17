@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of defaultSaliencyParams</title>
+  <meta name="keywords" content="defaultSaliencyParams">
+  <meta name="description" content="defaultSaliencyParams - returns a default salParams structure.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; defaultSaliencyParams.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>defaultSaliencyParams
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>defaultSaliencyParams - returns a default salParams structure.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function params = defaultSaliencyParams(varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> defaultSaliencyParams - returns a default salParams structure.
+
+ params = defaultSaliencyParams
+    Returns a default structure with saliency parameters.
+
+ params = defaultSaliencyParams(pyramidType)
+    Initializes parameters for a particular pyramidType:
+       'dyadic' - pyramids with downsampling by a factor of 2 (default)
+       'sqrt2'  - pyramids with downsampling by a factor of sqrt(2)
+    This makes a difference for the levels for the computation of the
+    center-surround differences.
+
+ params = defaultSaliencyParams(...,imgSize)
+    Initializes params.foaSize to 1/6*min(w,h) (default: -1).
+    This is only important for params.IORtype='disk'.
+
+ See also <a href="runSaliency.html" class="code" title="function runSaliency(inputImage,varargin)">runSaliency</a>, <a href="makeSaliencyMap.html" class="code" title="function [salmap, saliencyData] = makeSaliencyMap(img, salParams, varargin)">makeSaliencyMap</a>, <a href="estimateShape.html" class="code" title="function shapeData = estimateShape(salmap,saliencyData,winner,params)">estimateShape</a>, <a href="applyIOR.html" class="code" title="function wta = applyIOR(oldWTA,winner,params,varargin)">applyIOR</a>,
+          <a href="removeColorFeatures.html" class="code" title="function params = removeColorFeatures(params,fid)">removeColorFeatures</a>, <a href="winnerToImgCoords.html" class="code" title="function winImgCo = winnerToImgCoords(winner,params)">winnerToImgCoords</a>, <a href="dataStructures.html" class="code" title="">dataStructures</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="defaultGaborParams.html" class="code" title="function gaborParams = defaultGaborParams">defaultGaborParams</a>	defaultGaborParams - returns a default gaborParams structure.</li><li><a href="defaultLevelParams.html" class="code" title="function levelParams = defaultLevelParams(pyramidType)">defaultLevelParams</a>	defaultLevelParams - returns a default levelParams structure.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="batchSaliency.html" class="code" title="function [salMaps,fixations] = batchSaliency(images,numFixations,params)">batchSaliency</a>	batchSaliency - batch processing of lists of images.</li><li><a href="guiSaliency.html" class="code" title="function varargout = guiSaliency(varargin)">guiSaliency</a>	guiSaliency - a graphical user interface (GUI) version of the saliency code.</li><li><a href="runSaliency.html" class="code" title="function runSaliency(inputImage,varargin)">runSaliency</a>	runSaliency - compute and display saliency map and fixations.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% defaultSaliencyParams - returns a default salParams structure.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% params = defaultSaliencyParams</span>
+0004 <span class="comment">%    Returns a default structure with saliency parameters.</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">% params = defaultSaliencyParams(pyramidType)</span>
+0007 <span class="comment">%    Initializes parameters for a particular pyramidType:</span>
+0008 <span class="comment">%       'dyadic' - pyramids with downsampling by a factor of 2 (default)</span>
+0009 <span class="comment">%       'sqrt2'  - pyramids with downsampling by a factor of sqrt(2)</span>
+0010 <span class="comment">%    This makes a difference for the levels for the computation of the</span>
+0011 <span class="comment">%    center-surround differences.</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% params = defaultSaliencyParams(...,imgSize)</span>
+0014 <span class="comment">%    Initializes params.foaSize to 1/6*min(w,h) (default: -1).</span>
+0015 <span class="comment">%    This is only important for params.IORtype='disk'.</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">% See also runSaliency, makeSaliencyMap, estimateShape, applyIOR,</span>
+0018 <span class="comment">%          removeColorFeatures, winnerToImgCoords, dataStructures.</span>
+0019 
+0020 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0021 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0022 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0023 <span class="comment">% More information about this project is available at:</span>
+0024 <span class="comment">% http://www.saliencytoolbox.net</span>
+0025 
+0026 <a name="_sub0" href="#_subfunctions" class="code">function params = defaultSaliencyParams(varargin)</a>
+0027 
+0028 <span class="comment">% this is only important for IORtype='disk'.</span>
+0029 params.foaSize = -1;
+0030 
+0031 <span class="comment">% one of: 'dyadic','sqrt2'</span>
+0032 params.pyramidType = <span class="string">'dyadic'</span>;
+0033 
+0034 <span class="comment">% scan the arguments</span>
+0035 <span class="keyword">for</span> i = 1:length(varargin)
+0036   <span class="keyword">switch</span> class(varargin{i})
+0037     <span class="keyword">case</span> <span class="string">'double'</span>
+0038       params.foaSize = round(max(varargin{i}(1:2)) / 6);
+0039     <span class="keyword">case</span> <span class="string">'char'</span>
+0040       params.pyramidType = varargin{i};
+0041     <span class="keyword">otherwise</span>
+0042       error([<span class="string">'Unknown data type for this function: '</span> class(varargin{i})]);
+0043   <span class="keyword">end</span>
+0044 <span class="keyword">end</span>
+0045 
+0046 <span class="comment">% a cell array with a combination of:</span>
+0047 <span class="comment">% 'Color','Intensities','Orientations','Hue','Skin','TopDown'</span>
+0048 params.features = {<span class="string">'Color'</span>,<span class="string">'Intensities'</span>,<span class="string">'Orientations'</span>};
+0049 
+0050 <span class="comment">% the weights in the same order as params.features</span>
+0051 params.weights = [1 1 1];
+0052 
+0053 <span class="comment">% one of: 'shape','disk','None'</span>
+0054 params.IORtype = <span class="string">'shape'</span>;
+0055 
+0056 <span class="comment">% one of: 'None','shapeSM','shapeCM','shapeFM','shapePyr'</span>
+0057 <span class="comment">%params.shapeMode = 'shapePyr';</span>
+0058 params.shapeMode = <span class="string">'shapeFM'</span>;
+0059 
+0060 <span class="comment">% the pyramid level parameters</span>
+0061 params.levelParams = <a href="defaultLevelParams.html" class="code" title="function levelParams = defaultLevelParams(pyramidType)">defaultLevelParams</a>(params.pyramidType);
+0062 
+0063 <span class="comment">% one of: 'None','LocalMax','Iterative'</span>
+0064 params.normtype = <span class="string">'Iterative'</span>;
+0065 
+0066 <span class="comment">% number of iterations for Iterative normalization</span>
+0067 params.numIter = 3;
+0068 
+0069 <span class="comment">% 1 for using random jitter in converting from saliency map</span>
+0070 <span class="comment">%   coordinates to image coordinates,</span>
+0071 <span class="comment">% 0 for not using random jitter</span>
+0072 params.useRandom = 1;
+0073 
+0074 <span class="comment">% one of: 'Fast','LTU'</span>
+0075 params.segmentComputeType = <span class="string">'Fast'</span>;
+0076 
+0077 params.IORdecay = 0.9999;
+0078 params.smOutputRange = 1e-9;
+0079 params.noiseAmpl = 1e-17;
+0080 params.noiseConst = 1e-14;
+0081 
+0082 <span class="comment">% parameters for the gabor filters for orientation maps</span>
+0083 params.gaborParams = <a href="defaultGaborParams.html" class="code" title="function gaborParams = defaultGaborParams">defaultGaborParams</a>;
+0084 
+0085 <span class="comment">% angles (in degrees) for orientation maps</span>
+0086 params.oriAngles = [0 45 90 135];
+0087 
+0088 <span class="comment">% oriComputeMode: 'efficient', 'full'</span>
+0089 <span class="comment">% efficient: only compute orientation filters for the pyramid levels</span>
+0090 <span class="comment">% that are actually going to be used (based on levelParams)</span>
+0091 <span class="comment">% full: compute orientation filters for all pyramid levels</span>
+0092 params.oriComputeMode = <span class="string">'efficient'</span>;
+0093 
+0094 <span class="comment">% visualizationMode: 'Contour', 'ContrastModulate', or 'None'</span>
+0095 params.visualizationStyle = <span class="string">'Contour'</span>;
+0096 
+0097 <span class="comment">% map that is true foer excluded regions</span>
+0098 params.exclusionMask = [];</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

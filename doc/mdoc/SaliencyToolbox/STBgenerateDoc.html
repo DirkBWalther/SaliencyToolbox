@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of STBgenerateDoc</title>
+  <meta name="keywords" content="STBgenerateDoc">
+  <meta name="description" content="STBgenerateDoc - generates html documentation.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; STBgenerateDoc.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>STBgenerateDoc
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>STBgenerateDoc - generates html documentation.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function STBgenerateDoc </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> STBgenerateDoc - generates html documentation.
+    This is a wrapper for the m2html program with settings
+    that work for the SaliencyToolbox. You must have m2html
+    in the executable path, and you must change to the 
+    SaliencyToolbox directory before excuting this function.
+
+ For m2html see: http://www.artefact.tk/software/matlab/m2html/</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% STBgenerateDoc - generates html documentation.</span>
+0002 <span class="comment">%    This is a wrapper for the m2html program with settings</span>
+0003 <span class="comment">%    that work for the SaliencyToolbox. You must have m2html</span>
+0004 <span class="comment">%    in the executable path, and you must change to the</span>
+0005 <span class="comment">%    SaliencyToolbox directory before excuting this function.</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% For m2html see: http://www.artefact.tk/software/matlab/m2html/</span>
+0008 
+0009 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0010 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0011 <span class="comment">% See the enclosed LICENSE.txt document for the license agreement.</span>
+0012 <span class="comment">% More information about this project is available at:</span>
+0013 <span class="comment">% http://www.saliencytoolbox.net</span>
+0014 
+0015 <a name="_sub0" href="#_subfunctions" class="code">function STBgenerateDoc</a>
+0016 
+0017 <span class="keyword">if</span> isempty(which(<span class="string">'m2html'</span>))
+0018   fprintf(<span class="string">'Please install m2html and add it to the executable path.\n'</span>);
+0019   fprintf(<span class="string">'http://www.artefact.tk/software/matlab/m2html/\n'</span>);
+0020   <span class="keyword">return</span>;
+0021 <span class="keyword">end</span>
+0022 
+0023 currDir = pwd;
+0024 [path,dirname] = fileparts(fileparts(which(mfilename)));
+0025 
+0026 cd(path);
+0027 
+0028 m2html(<span class="string">'mfiles'</span>,dirname,<span class="keyword">...</span>
+0029        <span class="string">'htmldir'</span>,[dirname,filesep,<span class="string">'doc'</span>,filesep,<span class="string">'mdoc'</span>],<span class="keyword">...</span>
+0030        <span class="string">'recursive'</span>,<span class="string">'off'</span>);
+0031 
+0032 cd(currDir);
+0033 
+0034</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

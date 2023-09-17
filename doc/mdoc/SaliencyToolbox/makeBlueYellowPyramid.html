@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of makeBlueYellowPyramid</title>
+  <meta name="keywords" content="makeBlueYellowPyramid">
+  <meta name="description" content="makeBlueYellowPyramid - creates a blue-yellow opponency pyramid.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; makeBlueYellowPyramid.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>makeBlueYellowPyramid
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>makeBlueYellowPyramid - creates a blue-yellow opponency pyramid.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [byPyr,bPyr,yPyr] = makeBlueYellowPyramid(image,type) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> makeBlueYellowPyramid - creates a blue-yellow opponency pyramid.
+
+ [byPyr,bPyr,yPyr] = makeBlueYellowPyramid(Image,type)
+    Creates a gaussian pyramid from a blue-yellow opponency map (byPyr)
+    of image and, if requested, also the separate blue (bPyr)
+    and yellow (yPyr) pyramids.
+      Image - Image structure of the input image.
+      type - 'dyadic' or 'sqrt2'
+
+ For a dicussion of the particular definitions of color opponency used here, 
+ see appendix A.2 of Dirk's PhD thesis:
+    Walther, D. (2006). Interactions of visual attention and object recognition: 
+    Computational modeling, algorithms, and psychophysics. Ph.D. thesis.
+    California Institute of Technology. 
+    http://resolver.caltech.edu/CaltechETD:etd-03072006-135433.
+
+ See also <a href="makeRedGreenPyramid.html" class="code" title="function [rgPyr,rPyr,gPyr] = makeRedGreenPyramid(image,type)">makeRedGreenPyramid</a>, <a href="getRGB.html" class="code" title="function [r,g,b,in] = getRGB(img,varargin)">getRGB</a>, <a href="makeGaussianPyramid.html" class="code" title="function pyr = makeGaussianPyramid(map,type,varargin)">makeGaussianPyramid</a>,
+          <a href="makeFeaturePyramids.html" class="code" title="function pyrs = makeFeaturePyramids(img,featureType,salParams,varargin)">makeFeaturePyramids</a>, <a href="dataStructures.html" class="code" title="">dataStructures</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="clamp.html" class="code" title="function data = clamp(data,bottom,top)">clamp</a>	clamp - clamps data at the top and/or bottom.</li><li><a href="declareGlobal.html" class="code" title="">declareGlobal</a>	declareGlobal - declares global variables.</li><li><a href="getRGB.html" class="code" title="function [r,g,b,in] = getRGB(img,varargin)">getRGB</a>	getRGB(img) - extracts the r, g, and b parts for a color image.</li><li><a href="loadImage.html" class="code" title="function imgData = loadImage(Image)">loadImage</a>	loadImage - returns the imgData for the Image structure</li><li><a href="makeGaussianPyramid.html" class="code" title="function pyr = makeGaussianPyramid(map,type,varargin)">makeGaussianPyramid</a>	makeGaussianPyramid - creates a Gaussian pyramid from map.</li><li><a href="safeDivide.html" class="code" title="function result = safeDivide(arg1,arg2)">safeDivide</a>	safeDivide - divides two arrays, checking for 0/0.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="makeFeaturePyramids.html" class="code" title="function pyrs = makeFeaturePyramids(img,featureType,salParams,varargin)">makeFeaturePyramids</a>	makeFeaturePyramids - creates a pyramid for featureType.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% makeBlueYellowPyramid - creates a blue-yellow opponency pyramid.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% [byPyr,bPyr,yPyr] = makeBlueYellowPyramid(Image,type)</span>
+0004 <span class="comment">%    Creates a gaussian pyramid from a blue-yellow opponency map (byPyr)</span>
+0005 <span class="comment">%    of image and, if requested, also the separate blue (bPyr)</span>
+0006 <span class="comment">%    and yellow (yPyr) pyramids.</span>
+0007 <span class="comment">%      Image - Image structure of the input image.</span>
+0008 <span class="comment">%      type - 'dyadic' or 'sqrt2'</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% For a dicussion of the particular definitions of color opponency used here,</span>
+0011 <span class="comment">% see appendix A.2 of Dirk's PhD thesis:</span>
+0012 <span class="comment">%    Walther, D. (2006). Interactions of visual attention and object recognition:</span>
+0013 <span class="comment">%    Computational modeling, algorithms, and psychophysics. Ph.D. thesis.</span>
+0014 <span class="comment">%    California Institute of Technology.</span>
+0015 <span class="comment">%    http://resolver.caltech.edu/CaltechETD:etd-03072006-135433.</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">% See also makeRedGreenPyramid, getRGB, makeGaussianPyramid,</span>
+0018 <span class="comment">%          makeFeaturePyramids, dataStructures.</span>
+0019 
+0020 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0021 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0022 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0023 <span class="comment">% More information about this project is available at:</span>
+0024 <span class="comment">% http://www.saliencytoolbox.net</span>
+0025 
+0026 <a name="_sub0" href="#_subfunctions" class="code">function [byPyr,bPyr,yPyr] = makeBlueYellowPyramid(image,type)</a>
+0027 
+0028 <a href="declareGlobal.html" class="code" title="">declareGlobal</a>;
+0029 
+0030 im = <a href="loadImage.html" class="code" title="function imgData = loadImage(Image)">loadImage</a>(image);
+0031 [r,g,b,in] = <a href="getRGB.html" class="code" title="function [r,g,b,in] = getRGB(img,varargin)">getRGB</a>(im);
+0032 
+0033 by = <a href="safeDivide.html" class="code" title="function result = safeDivide(arg1,arg2)">safeDivide</a>(b-min(r,g),in);
+0034 
+0035 <span class="keyword">if</span> (nargout &gt;= 1)
+0036   map.origImage = image;
+0037   map.label = <span class="string">'Blue/Yellow'</span>;
+0038   map.data = by;
+0039   map.date = clock;
+0040   byPyr = <a href="makeGaussianPyramid.html" class="code" title="function pyr = makeGaussianPyramid(map,type,varargin)">makeGaussianPyramid</a>(map,type);
+0041 <span class="keyword">end</span>
+0042 
+0043 <span class="keyword">if</span> (nargout &gt;= 2)
+0044   map.origImage = image;
+0045   map.label = <span class="string">'Blue'</span>;
+0046   bb = <a href="clamp.html" class="code" title="function data = clamp(data,bottom,top)">clamp</a>(by,0);
+0047   map.data = bb;
+0048   map.date = clock;
+0049   bPyr = <a href="makeGaussianPyramid.html" class="code" title="function pyr = makeGaussianPyramid(map,type,varargin)">makeGaussianPyramid</a>(map,type);
+0050 <span class="keyword">end</span>
+0051 
+0052 <span class="keyword">if</span> (nargout &gt;= 3)
+0053   map.origImage = image;
+0054   map.label = <span class="string">'Yellow'</span>;
+0055   yy = <a href="clamp.html" class="code" title="function data = clamp(data,bottom,top)">clamp</a>(-by,0);
+0056   map.data = yy;
+0057   map.date = clock;
+0058   yPyr = <a href="makeGaussianPyramid.html" class="code" title="function pyr = makeGaussianPyramid(map,type,varargin)">makeGaussianPyramid</a>(map,type);
+0059 <span class="keyword">end</span>
+0060</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

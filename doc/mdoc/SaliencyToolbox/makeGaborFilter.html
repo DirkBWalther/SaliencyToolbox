@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of makeGaborFilter</title>
+  <meta name="keywords" content="makeGaborFilter">
+  <meta name="description" content="makeGaborFilter - returns a 3d stack of 2d Gabor filters for each phase.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; makeGaborFilter.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>makeGaborFilter
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>makeGaborFilter - returns a 3d stack of 2d Gabor filters for each phase.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function filter = makeGaborFilter(gaborParams, angle, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> makeGaborFilter - returns a 3d stack of 2d Gabor filters for each phase.
+
+ filter = makeGaborFilter(gaborParams, angle, makeDisk)
+    Returns a two-dimensional Gabor filter with the parameter:
+    gaborParams - a struct with the following fields:
+       filterPeriod - the period of the filter in pixels,
+       elongation - the ratio of length versus width,
+       filterSize - the size of the filter in pixels,
+       stddev - the standard deviation of the Gaussian envelope in pixels.
+       phases - the phase angles to be used.
+    angle - the angle of orientation, in degrees,
+    makeDisk - if 1, enforce a disk-shaped filter, i.e. set all values
+               outside of a circle with diameter gaborParams.filterSize to 0.
+
+ filter = makeGaborFilter(gaborParams, angle)
+    Returns a two-dimensional Gabor filter, assuming makeDisk = 0.
+
+ See also <a href="gaborFilterMap.html" class="code" title="function resultMap = gaborFilterMap(map,gaborParams,angle)">gaborFilterMap</a>, <a href="defaultSaliencyParams.html" class="code" title="function params = defaultSaliencyParams(varargin)">defaultSaliencyParams</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="gaborFilterMap.html" class="code" title="function resultMap = gaborFilterMap(map,gaborParams,angle)">gaborFilterMap</a>	gaborFilterMap - compute a gabor-filtered version of a map.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% makeGaborFilter - returns a 3d stack of 2d Gabor filters for each phase.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% filter = makeGaborFilter(gaborParams, angle, makeDisk)</span>
+0004 <span class="comment">%    Returns a two-dimensional Gabor filter with the parameter:</span>
+0005 <span class="comment">%    gaborParams - a struct with the following fields:</span>
+0006 <span class="comment">%       filterPeriod - the period of the filter in pixels,</span>
+0007 <span class="comment">%       elongation - the ratio of length versus width,</span>
+0008 <span class="comment">%       filterSize - the size of the filter in pixels,</span>
+0009 <span class="comment">%       stddev - the standard deviation of the Gaussian envelope in pixels.</span>
+0010 <span class="comment">%       phases - the phase angles to be used.</span>
+0011 <span class="comment">%    angle - the angle of orientation, in degrees,</span>
+0012 <span class="comment">%    makeDisk - if 1, enforce a disk-shaped filter, i.e. set all values</span>
+0013 <span class="comment">%               outside of a circle with diameter gaborParams.filterSize to 0.</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">% filter = makeGaborFilter(gaborParams, angle)</span>
+0016 <span class="comment">%    Returns a two-dimensional Gabor filter, assuming makeDisk = 0.</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">% See also gaborFilterMap, defaultSaliencyParams.</span>
+0019 
+0020 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0021 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0022 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0023 <span class="comment">% More information about this project is available at:</span>
+0024 <span class="comment">% http://www.saliencytoolbox.net</span>
+0025 
+0026 <a name="_sub0" href="#_subfunctions" class="code">function filter = makeGaborFilter(gaborParams, angle, varargin)</a>
+0027 
+0028 <span class="keyword">if</span> isempty(varargin)
+0029   makeDisk = 0;
+0030 <span class="keyword">else</span>
+0031   makeDisk = varargin{1};
+0032 <span class="keyword">end</span>
+0033 
+0034 <span class="comment">% repare parameters</span>
+0035 major_stddev = gaborParams.stddev;
+0036 minor_stddev = major_stddev * gaborParams.elongation;
+0037 max_stddev = max(major_stddev,minor_stddev);
+0038 
+0039 sz = gaborParams.filterSize;
+0040 <span class="keyword">if</span> (sz == -1)
+0041   sz = ceil(max_stddev*sqrt(10));
+0042 <span class="keyword">else</span>
+0043   sz = floor(sz/2); 
+0044 <span class="keyword">end</span>
+0045 
+0046 rtDeg = pi / 180 * angle;
+0047 
+0048 omega = 2 * pi / gaborParams.filterPeriod;
+0049 co = cos(rtDeg);
+0050 si = -sin(rtDeg);
+0051 major_sigq = 2 * major_stddev^2;
+0052 minor_sigq = 2 * minor_stddev^2;
+0053 
+0054 <span class="comment">% prepare grids for major and minor components</span>
+0055 vec = [-sz:sz];
+0056 vlen = length(vec);
+0057 vco = vec*co;
+0058 vsi = vec*si;
+0059 
+0060 major = repmat(vco',1,vlen) + repmat(vsi,vlen,1);
+0061 major2 = major.^2;
+0062 minor = repmat(vsi',1,vlen) - repmat(vco,vlen,1);
+0063 minor2 = minor.^2;
+0064 
+0065 phase0 = exp(- major2 / major_sigq - minor2 / minor_sigq);
+0066 
+0067 <span class="comment">% create the actual filters</span>
+0068 <span class="keyword">for</span> p = 1:length(gaborParams.phases)
+0069   psi = pi / 180 * gaborParams.phases(p);
+0070   result = cos(omega * major + psi) .* phase0;
+0071 
+0072   <span class="comment">% enforce disk shape?</span>
+0073   <span class="keyword">if</span> (makeDisk)
+0074     result((major2+minor2) &gt; (gaborParams.filterSize/2)^2) = 0;
+0075   <span class="keyword">end</span>
+0076 
+0077   <span class="comment">% normalization</span>
+0078   result = result - mean(result(:));
+0079   filter(:,:,p) = result / sqrt(sum(result(:).^2));
+0080 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

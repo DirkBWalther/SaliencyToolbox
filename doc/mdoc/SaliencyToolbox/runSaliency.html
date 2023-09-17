@@ -1,0 +1,205 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of runSaliency</title>
+  <meta name="keywords" content="runSaliency">
+  <meta name="description" content="runSaliency - compute and display saliency map and fixations.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; runSaliency.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>runSaliency
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>runSaliency - compute and display saliency map and fixations.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function runSaliency(inputImage,varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> runSaliency - compute and display saliency map and fixations.
+
+ runSaliency(inputImage,saliencyParams)
+    Runs a demonstration of the entire process of computing
+    the saliency map, winner-take-all evolution with 
+    inhibition of return, shape estimation, and fixation
+    to the attended region.
+       inputImage: the file name of the image,
+                   or the image data themselves,
+                   or an initialized Image structure (see initializeImage);
+       saliencyParams: the saliency parameter set for the operations.
+
+ runSaliency(inputImage)
+    Uses defaultSaliencyParams as parameters.
+
+ See also <a href="guiSaliency.html" class="code" title="function varargout = guiSaliency(varargin)">guiSaliency</a>, <a href="batchSaliency.html" class="code" title="function [salMaps,fixations] = batchSaliency(images,numFixations,params)">batchSaliency</a>, <a href="initializeGlobal.html" class="code" title="function initializeGlobal(varargin)">initializeGlobal</a>, <a href="initializeImage.html" class="code" title="function [Img,err] = initializeImage(varargin);">initializeImage</a>,
+          <a href="makeSaliencyMap.html" class="code" title="function [salmap, saliencyData] = makeSaliencyMap(img, salParams, varargin)">makeSaliencyMap</a>, <a href="initializeWTA.html" class="code" title="function wta = initializeWTA(salmap,salParams)">initializeWTA</a>, <a href="evolveWTA.html" class="code" title="function [wta,winner] = evolveWTA(wta)">evolveWTA</a>, <a href="applyIOR.html" class="code" title="function wta = applyIOR(oldWTA,winner,params,varargin)">applyIOR</a>, <a href="estimateShape.html" class="code" title="function shapeData = estimateShape(salmap,saliencyData,winner,params)">estimateShape</a>,
+          <a href="dataStructures.html" class="code" title="">dataStructures</a>, <a href="defaultSaliencyParams.html" class="code" title="function params = defaultSaliencyParams(varargin)">defaultSaliencyParams</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="applyIOR.html" class="code" title="function wta = applyIOR(oldWTA,winner,params,varargin)">applyIOR</a>	applyIOR - applies inhibition of return.</li><li><a href="checkImageSize.html" class="code" title="function img = checkImageSize(img,mode,targetSize)">checkImageSize</a>	checkImageSize - downsamples too large images after user confirmation.</li><li><a href="declareGlobal.html" class="code" title="">declareGlobal</a>	declareGlobal - declares global variables.</li><li><a href="defaultSaliencyParams.html" class="code" title="function params = defaultSaliencyParams(varargin)">defaultSaliencyParams</a>	defaultSaliencyParams - returns a default salParams structure.</li><li><a href="displayMaps.html" class="code" title="function displayMaps(maps,varargin)">displayMaps</a>	displayMaps - displays a set of maps in the current figure.</li><li><a href="emptyMap.html" class="code" title="function map = emptyMap(mapSize,label)">emptyMap</a>	emptyMap - creates an empty map.</li><li><a href="estimateShape.html" class="code" title="function shapeData = estimateShape(salmap,saliencyData,winner,params)">estimateShape</a>	estimateShape - estimates the shape of the attended proto-object region.</li><li><a href="evolveWTA.html" class="code" title="function [wta,winner] = evolveWTA(wta)">evolveWTA</a>	evolveWTA - evolves the winner-take-all network by one time step.</li><li><a href="initializeImage.html" class="code" title="function [Img,err] = initializeImage(varargin);">initializeImage</a>	initializeImage - initializes an image structure.</li><li><a href="initializeWTA.html" class="code" title="function wta = initializeWTA(salmap,salParams)">initializeWTA</a>	initializeWTA - intitializes a winner-take-all network.</li><li><a href="makeSaliencyMap.html" class="code" title="function [salmap, saliencyData] = makeSaliencyMap(img, salParams, varargin)">makeSaliencyMap</a>	makeSaliencyMap - creates a saliency map for an image.</li><li><a href="plotSalientLocation.html" class="code" title="function plotSalientLocation(winner,lastWinner,img,params,varargin)">plotSalientLocation</a>	plotSalientLocation - plots the attended location into an existing figure.</li><li><a href="removeColorFeatures.html" class="code" title="function params = removeColorFeatures(params,fid)">removeColorFeatures</a>	removeColorFeatures - removes color features from the saliency</li><li><a href="showImage.html" class="code" title="function h = showImage(img,varargin)">showImage</a>	showImage - displays an image in a convenient way.</li><li><a href="winnerToImgCoords.html" class="code" title="function winImgCo = winnerToImgCoords(winner,params)">winnerToImgCoords</a>	winnerToImgCoords - converts winner location from map to image coordinates.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% runSaliency - compute and display saliency map and fixations.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% runSaliency(inputImage,saliencyParams)</span>
+0004 <span class="comment">%    Runs a demonstration of the entire process of computing</span>
+0005 <span class="comment">%    the saliency map, winner-take-all evolution with</span>
+0006 <span class="comment">%    inhibition of return, shape estimation, and fixation</span>
+0007 <span class="comment">%    to the attended region.</span>
+0008 <span class="comment">%       inputImage: the file name of the image,</span>
+0009 <span class="comment">%                   or the image data themselves,</span>
+0010 <span class="comment">%                   or an initialized Image structure (see initializeImage);</span>
+0011 <span class="comment">%       saliencyParams: the saliency parameter set for the operations.</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% runSaliency(inputImage)</span>
+0014 <span class="comment">%    Uses defaultSaliencyParams as parameters.</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">% See also guiSaliency, batchSaliency, initializeGlobal, initializeImage,</span>
+0017 <span class="comment">%          makeSaliencyMap, initializeWTA, evolveWTA, applyIOR, estimateShape,</span>
+0018 <span class="comment">%          dataStructures, defaultSaliencyParams.</span>
+0019 
+0020 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0021 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0022 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0023 <span class="comment">% More information about this project is available at:</span>
+0024 <span class="comment">% http://www.saliencytoolbox.net</span>
+0025 
+0026 <a name="_sub0" href="#_subfunctions" class="code">function runSaliency(inputImage,varargin)</a>
+0027 
+0028 <a href="declareGlobal.html" class="code" title="">declareGlobal</a>;
+0029 
+0030 <span class="comment">% initialize the Image structure if necessary</span>
+0031 <span class="keyword">if</span> (isa(inputImage,<span class="string">'struct'</span>))
+0032   img = inputImage;
+0033 <span class="keyword">else</span>
+0034   img = <a href="initializeImage.html" class="code" title="function [Img,err] = initializeImage(varargin);">initializeImage</a>(inputImage);
+0035 <span class="keyword">end</span>
+0036 
+0037 <span class="comment">% check that image isn't too huge</span>
+0038 img = <a href="checkImageSize.html" class="code" title="function img = checkImageSize(img,mode,targetSize)">checkImageSize</a>(img,<span class="string">'Prompt'</span>);
+0039 
+0040 <span class="comment">% use the default saliency parameters if the user didn't specify any</span>
+0041 <span class="keyword">if</span> isempty(varargin)
+0042   params = <a href="defaultSaliencyParams.html" class="code" title="function params = defaultSaliencyParams(varargin)">defaultSaliencyParams</a>(img.size,<span class="string">'dyadic'</span>);
+0043 <span class="keyword">else</span>
+0044   params = varargin{1};
+0045 <span class="keyword">end</span>
+0046 
+0047 <span class="comment">% make sure that we don't use color features if we don't have a color image</span>
+0048 <span class="keyword">if</span> (img.dims == 2)
+0049   params = <a href="removeColorFeatures.html" class="code" title="function params = removeColorFeatures(params,fid)">removeColorFeatures</a>(params);
+0050 <span class="keyword">end</span>
+0051 
+0052 <span class="comment">% create the saliency map</span>
+0053 [salmap,salData] = <a href="makeSaliencyMap.html" class="code" title="function [salmap, saliencyData] = makeSaliencyMap(img, salParams, varargin)">makeSaliencyMap</a>(img,params);
+0054 
+0055 <span class="comment">% display the conspicuity maps</span>
+0056 figure(<span class="string">'Name'</span>,<span class="string">'STB: conspicuity maps'</span>,<span class="string">'NumberTitle'</span>,<span class="string">'off'</span>); 
+0057 <a href="displayMaps.html" class="code" title="function displayMaps(maps,varargin)">displayMaps</a>({salData.CM},2);
+0058 
+0059 <span class="comment">% initialize the winner-take-all network</span>
+0060 wta = <a href="initializeWTA.html" class="code" title="function wta = initializeWTA(salmap,salParams)">initializeWTA</a>(salmap,params);
+0061 
+0062 <span class="comment">% display the input image</span>
+0063 imgFig = <a href="showImage.html" class="code" title="function h = showImage(img,varargin)">showImage</a>(img);
+0064 
+0065 <span class="comment">% display the current WTA</span>
+0066 salFig = figure(<span class="string">'Name'</span>,<span class="string">'STB: Saliency Map and WTA'</span>,<span class="string">'NumberTitle'</span>,<span class="string">'off'</span>);
+0067 wtaMap = <a href="emptyMap.html" class="code" title="function map = emptyMap(mapSize,label)">emptyMap</a>(img.size(1:2),<span class="string">'Winner Take All'</span>);
+0068 wtaMap.data = imresize(wta.sm.V,img.size(1:2),<span class="string">'bilinear'</span>);
+0069 <a href="displayMaps.html" class="code" title="function displayMaps(maps,varargin)">displayMaps</a>([salmap,wtaMap],1);
+0070 
+0071 shapeFig = -1;
+0072 lastWinner = [-1,-1];
+0073 reply = <span class="string">''</span>;
+0074 
+0075 <span class="comment">% loop over the successive fixations, until user enters 'q' or 'Q'</span>
+0076 <span class="keyword">while</span> (~strcmp(reply,<span class="string">'q'</span>) &amp; ~strcmp(reply,<span class="string">'Q'</span>))
+0077   winner = [-1,-1];
+0078 
+0079   <span class="comment">% evolve WTA until we have a winner</span>
+0080   <span class="keyword">while</span> (winner(1) == -1)
+0081     [wta,winner] = <a href="evolveWTA.html" class="code" title="function [wta,winner] = evolveWTA(wta)">evolveWTA</a>(wta);
+0082   <span class="keyword">end</span>
+0083 
+0084   <span class="comment">% update the WTA plot</span>
+0085   figure(salFig);
+0086   wtaMap = <a href="emptyMap.html" class="code" title="function map = emptyMap(mapSize,label)">emptyMap</a>(img.size(1:2),<span class="string">'Winner Take All'</span>);
+0087   wtaMap.data = imresize(wta.sm.V,img.size(1:2),<span class="string">'bilinear'</span>);
+0088   <a href="displayMaps.html" class="code" title="function displayMaps(maps,varargin)">displayMaps</a>([salmap,wtaMap],1);
+0089   
+0090   <span class="comment">% run the shape estimator to get proro-objects</span>
+0091   shapeData = <a href="estimateShape.html" class="code" title="function shapeData = estimateShape(salmap,saliencyData,winner,params)">estimateShape</a>(salmap,salData,winner,params);
+0092 
+0093   <span class="comment">% trigger inhibition of return</span>
+0094   wta = <a href="applyIOR.html" class="code" title="function wta = applyIOR(oldWTA,winner,params,varargin)">applyIOR</a>(wta,winner,params,shapeData);
+0095     
+0096   <span class="comment">% convert the winner's location to image coordinates</span>
+0097   win2 = <a href="winnerToImgCoords.html" class="code" title="function winImgCo = winnerToImgCoords(winner,params)">winnerToImgCoords</a>(winner,params);
+0098  
+0099   <span class="comment">% plot the currently attended region into the image figure</span>
+0100   figure(imgFig);
+0101   <a href="plotSalientLocation.html" class="code" title="function plotSalientLocation(winner,lastWinner,img,params,varargin)">plotSalientLocation</a>(win2,lastWinner,img,params,shapeData);
+0102   
+0103   lastWinner = win2;
+0104   
+0105   <span class="comment">% in case we have shape data, create a plot</span>
+0106   <span class="comment">% to display various processing steps</span>
+0107   <span class="keyword">if</span> ~isempty(shapeData)
+0108     
+0109     <span class="comment">% need to open a new figure or use the previous one?</span>
+0110     <span class="keyword">if</span> (shapeFig == -1) 
+0111       shapeFig = figure(<span class="string">'Name'</span>,<span class="string">'STB: shape maps'</span>,<span class="string">'NumberTitle'</span>,<span class="string">'off'</span>); 
+0112     <span class="keyword">else</span>
+0113       figure(shapeFig);
+0114     <span class="keyword">end</span>
+0115     
+0116     <span class="comment">% draw the various maps</span>
+0117     <a href="displayMaps.html" class="code" title="function displayMaps(maps,varargin)">displayMaps</a>({shapeData.winningMap,shapeData.segmentedMap,<span class="keyword">...</span>
+0118                  shapeData.binaryMap,shapeData.shapeMap});
+0119     
+0120     <span class="comment">% find the right label for the figure window</span>
+0121     winLabel = [<span class="string">' - '</span> shapeData.winningMap.label];
+0122     <span class="keyword">if</span> any(isnan(img.filename))
+0123       lab = winLabel;
+0124     <span class="keyword">else</span>
+0125       lab = [img.filename winLabel];
+0126     <span class="keyword">end</span>
+0127     set(imgFig,<span class="string">'Name'</span>,lab);
+0128   <span class="keyword">else</span>
+0129     winLabel = <span class="string">''</span>;
+0130   <span class="keyword">end</span>
+0131   
+0132   <span class="comment">% make sure everything gets drawn</span>
+0133   drawnow;
+0134   
+0135   <span class="comment">% write out the details for our winner</span>
+0136   txt = sprintf(<span class="string">'winner: %i,%i; t = %4.1f ms%s'</span>,<span class="keyword">...</span>
+0137                 win2(2),win2(1),wta.exc.time*1000,winLabel);
+0138   
+0139   <span class="comment">% wait for user input - return for next fixation, 'q' to terminate</span>
+0140   reply = input(txt,<span class="string">'s'</span>);
+0141 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

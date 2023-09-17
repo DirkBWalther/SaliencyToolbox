@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of LTUsimulate</title>
+  <meta name="keywords" content="LTUsimulate">
+  <meta name="description" content="LTUsimulate - simulates an LTU network for numIter time steps.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; LTUsimulate.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>LTUsimulate
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>LTUsimulate - simulates an LTU network for numIter time steps.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [output,newStates] = LTUsimulate(LTUnetwork,states,inputs,numIter) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> LTUsimulate - simulates an LTU network for numIter time steps.
+
+ [output,newStates] = LTUsimulate(LTUnetwork,states,inputs,numIter)
+    simlulates an LTUnetwork with states and input for numIter
+    time steps, returns the new states and the output.
+       LTUnetwork contains the information for connectivity and for 
+          which cells in the network are input and output cells;
+       states is a vector containing a state (0 or 1) for each unit;
+       input is the numerical input values into the network;
+       numIter is the number of iterations to be simulated.
+
+       output is a vector of network outputs (0 or 1);
+       newStates is the new state vector for the network.
+
+ See also <a href="makeLTUsegmentNetwork.html" class="code" title="function LTUnetwork = makeLTUsegmentNetwork(mapSize,thresh)">makeLTUsegmentNetwork</a>, <a href="LTUsegmentMap.html" class="code" title="function [resultMap,segMaps] = LTUsegmentMap(map,seedPoint,varargin)">LTUsegmentMap</a>, <a href="dataStructures.html" class="code" title="">dataStructures</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="LTUsegmentMap.html" class="code" title="function [resultMap,segMaps] = LTUsegmentMap(map,seedPoint,varargin)">LTUsegmentMap</a>	LTUsegmentMap - segment map using a network of linear threshold units.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% LTUsimulate - simulates an LTU network for numIter time steps.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% [output,newStates] = LTUsimulate(LTUnetwork,states,inputs,numIter)</span>
+0004 <span class="comment">%    simlulates an LTUnetwork with states and input for numIter</span>
+0005 <span class="comment">%    time steps, returns the new states and the output.</span>
+0006 <span class="comment">%       LTUnetwork contains the information for connectivity and for</span>
+0007 <span class="comment">%          which cells in the network are input and output cells;</span>
+0008 <span class="comment">%       states is a vector containing a state (0 or 1) for each unit;</span>
+0009 <span class="comment">%       input is the numerical input values into the network;</span>
+0010 <span class="comment">%       numIter is the number of iterations to be simulated.</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%       output is a vector of network outputs (0 or 1);</span>
+0013 <span class="comment">%       newStates is the new state vector for the network.</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">% See also makeLTUsegmentNetwork, LTUsegmentMap, dataStructures.</span>
+0016 
+0017 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0018 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0019 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0020 <span class="comment">% More information about this project is available at:</span>
+0021 <span class="comment">% http://www.saliencytoolbox.net</span>
+0022 
+0023 <a name="_sub0" href="#_subfunctions" class="code">function [output,newStates] = LTUsimulate(LTUnetwork,states,inputs,numIter)</a>
+0024 
+0025 <span class="comment">% do the simulation cycles</span>
+0026 <span class="keyword">for</span> iter = 1:numIter
+0027 
+0028   <span class="comment">% set the states of the input units to the input</span>
+0029   states(LTUnetwork.input_idx) = inputs;
+0030 
+0031   <span class="comment">% compute the activity propagation</span>
+0032   prop = states * LTUnetwork.connections;
+0033   
+0034   <span class="comment">% apply thresholds</span>
+0035   states = double(prop &gt;= LTUnetwork.thresholds);
+0036 <span class="keyword">end</span>
+0037 
+0038 <span class="comment">% assign return values</span>
+0039 newStates = states;
+0040 output = states(LTUnetwork.output_idx);</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

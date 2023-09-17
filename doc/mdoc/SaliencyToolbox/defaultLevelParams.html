@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of defaultLevelParams</title>
+  <meta name="keywords" content="defaultLevelParams">
+  <meta name="description" content="defaultLevelParams - returns a default levelParams structure.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; defaultLevelParams.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>defaultLevelParams
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>defaultLevelParams - returns a default levelParams structure.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function levelParams = defaultLevelParams(pyramidType) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> defaultLevelParams - returns a default levelParams structure.
+
+ levelParams = defaultLevelParams
+    Returns a default structure with saliency parameters.
+
+ levelParams = defaultLevelParams(pyramidType)
+    Initializes parameters for a particular pyramidType:
+       'dyadic' - pyramids with downsampling by a factor of 2 (default)
+       'sqrt2'  - pyramids with downsampling by a factor of sqrt(2)
+    This makes a difference for the levels for the computation of the
+    center-surround differences.
+
+ See also <a href="guiLevelParams.html" class="code" title="function varargout = guiLevelParams(varargin)">guiLevelParams</a>, <a href="centerSurround.html" class="code" title="function [featureMaps,csLevels] = centerSurround(pyr,params)">centerSurround</a>, <a href="winnerToImgCoords.html" class="code" title="function winImgCo = winnerToImgCoords(winner,params)">winnerToImgCoords</a>,
+          <a href="defaultSaliencyParams.html" class="code" title="function params = defaultSaliencyParams(varargin)">defaultSaliencyParams</a>, <a href="dataStructures.html" class="code" title="">dataStructures</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="defaultSaliencyParams.html" class="code" title="function params = defaultSaliencyParams(varargin)">defaultSaliencyParams</a>	defaultSaliencyParams - returns a default salParams structure.</li><li><a href="guiLevelParams.html" class="code" title="function varargout = guiLevelParams(varargin)">guiLevelParams</a>	guiLevelParams - a graphical user interface (GUI) to adjust parameter level parameters.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% defaultLevelParams - returns a default levelParams structure.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% levelParams = defaultLevelParams</span>
+0004 <span class="comment">%    Returns a default structure with saliency parameters.</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">% levelParams = defaultLevelParams(pyramidType)</span>
+0007 <span class="comment">%    Initializes parameters for a particular pyramidType:</span>
+0008 <span class="comment">%       'dyadic' - pyramids with downsampling by a factor of 2 (default)</span>
+0009 <span class="comment">%       'sqrt2'  - pyramids with downsampling by a factor of sqrt(2)</span>
+0010 <span class="comment">%    This makes a difference for the levels for the computation of the</span>
+0011 <span class="comment">%    center-surround differences.</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% See also guiLevelParams, centerSurround, winnerToImgCoords,</span>
+0014 <span class="comment">%          defaultSaliencyParams, dataStructures.</span>
+0015 
+0016 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0017 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0018 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0019 <span class="comment">% More information about this project is available at:</span>
+0020 <span class="comment">% http://www.saliencytoolbox.net</span>
+0021 
+0022 <a name="_sub0" href="#_subfunctions" class="code">function levelParams = defaultLevelParams(pyramidType)</a>
+0023 
+0024 <span class="keyword">if</span> (nargin &lt; 1)
+0025   pyramidType = <span class="string">'dyadic'</span>;
+0026 <span class="keyword">end</span>
+0027 
+0028 <span class="comment">% These are the default levels for pyramidType='dyadic'.</span>
+0029 <span class="comment">% Note for comparison with the iNVT C++ code:</span>
+0030 <span class="comment">% Since Matlab starts counting at 1 and C++ at 0,</span>
+0031 <span class="comment">% you need to subtract 1 from the *Level values to obtain</span>
+0032 <span class="comment">% the equivalent values for the iNVT code.</span>
+0033 <span class="comment">% The *Delta values stay the same, of course.</span>
+0034 levelParams.minLevel = 3;
+0035 levelParams.maxLevel = 5;
+0036 levelParams.minDelta = 3;
+0037 levelParams.maxDelta = 4;
+0038 levelParams.mapLevel = 5;
+0039  
+0040 
+0041 <span class="comment">% these are the modified values for 'sqrt2'</span>
+0042 <span class="keyword">if</span> strcmp(pyramidType,<span class="string">'sqrt2'</span>)
+0043   levelParams.minLevel = levelParams.minLevel*2 - 1;
+0044   levelParams.maxLevel = levelParams.maxLevel*2 - 1;
+0045   levelParams.mapLevel = levelParams.mapLevel*2 - 1;
+0046   levelParams.minDelta = levelParams.minDelta*2;
+0047   levelParams.maxDelta = levelParams.maxDelta*2;
+0048 <span class="keyword">end</span>
+0049</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

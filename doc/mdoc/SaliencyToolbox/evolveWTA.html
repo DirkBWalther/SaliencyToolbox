@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of evolveWTA</title>
+  <meta name="keywords" content="evolveWTA">
+  <meta name="description" content="evolveWTA - evolves the winner-take-all network by one time step.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; evolveWTA.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>evolveWTA
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>evolveWTA - evolves the winner-take-all network by one time step.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [wta,winner] = evolveWTA(wta) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> evolveWTA - evolves the winner-take-all network by one time step.
+
+ [wta,winner] = evolveWTA(wta)
+    Evolves wta by one time step, returns the resulting wta,
+    and returns the winner coordinates if a winner was found.
+
+ See also <a href="evolveLeakyIntFire.html" class="code" title="function [LIF,spikes] = evolveLeakyIntFire(LIF,t)">evolveLeakyIntFire</a>, <a href="runSaliency.html" class="code" title="function runSaliency(inputImage,varargin)">runSaliency</a>, <a href="dataStructures.html" class="code" title="">dataStructures</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>	debugMsg displays a debug message with line number and filename.</li><li><a href="evolveLeakyIntFire.html" class="code" title="function [LIF,spikes] = evolveLeakyIntFire(LIF,t)">evolveLeakyIntFire</a>	evolveLeakyIntFire - evolves an LIF network by one time step.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="batchSaliency.html" class="code" title="function [salMaps,fixations] = batchSaliency(images,numFixations,params)">batchSaliency</a>	batchSaliency - batch processing of lists of images.</li><li><a href="guiSaliency.html" class="code" title="function varargout = guiSaliency(varargin)">guiSaliency</a>	guiSaliency - a graphical user interface (GUI) version of the saliency code.</li><li><a href="runSaliency.html" class="code" title="function runSaliency(inputImage,varargin)">runSaliency</a>	runSaliency - compute and display saliency map and fixations.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% evolveWTA - evolves the winner-take-all network by one time step.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% [wta,winner] = evolveWTA(wta)</span>
+0004 <span class="comment">%    Evolves wta by one time step, returns the resulting wta,</span>
+0005 <span class="comment">%    and returns the winner coordinates if a winner was found.</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% See also evolveLeakyIntFire, runSaliency, dataStructures.</span>
+0008 
+0009 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0010 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0011 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0012 <span class="comment">% More information about this project is available at:</span>
+0013 <span class="comment">% http://www.saliencytoolbox.net</span>
+0014 
+0015 <a name="_sub0" href="#_subfunctions" class="code">function [wta,winner] = evolveWTA(wta)</a>
+0016 
+0017 time = wta.exc.time + wta.exc.timeStep;
+0018 winner = [-1,-1];
+0019 
+0020 <span class="comment">% first evolve the sm</span>
+0021 wta.sm = <a href="evolveLeakyIntFire.html" class="code" title="function [LIF,spikes] = evolveLeakyIntFire(LIF,t)">evolveLeakyIntFire</a>(wta.sm,time);
+0022 
+0023 <span class="comment">% set the input into the excitatory WTA neurons to the output of the sm</span>
+0024 wta.exc.I = wta.sm.V .* wta.exc.Ginput;
+0025 
+0026 <span class="comment">% evolve the excitatory neurons of the WTA network</span>
+0027 [wta.exc,spikes] = <a href="evolveLeakyIntFire.html" class="code" title="function [LIF,spikes] = evolveLeakyIntFire(LIF,t)">evolveLeakyIntFire</a>(wta.exc,time);
+0028 
+0029 <span class="comment">% erase any inhibitions we might have had</span>
+0030 wta.exc.Ginh = 0;
+0031 
+0032 <span class="comment">% did anyone fire?</span>
+0033 <span class="keyword">if</span> any(spikes(:))
+0034   idx = find(spikes); idx = idx(1);
+0035   [winner(1),winner(2)] = ind2sub(size(spikes),idx);
+0036     
+0037   <a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>(sprintf(<span class="string">'winner: (%d,%d) at %f ms'</span>,winner(1),winner(2),time*1000));
+0038   <a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>(sprintf(<span class="string">'SM voltage at winner: %g mV above rest'</span>,wta.sm.V(idx)*1000));
+0039 
+0040   <span class="comment">% the inihibitory interneuron gets all excited about the winner</span>
+0041   wta.inhib.Gexc = wta.inhib.Gleak * 10;
+0042 <span class="keyword">end</span>
+0043   
+0044 <span class="comment">% evolve the inhibitory interneuron</span>
+0045 [wta.inhib,spike] = <a href="evolveLeakyIntFire.html" class="code" title="function [LIF,spikes] = evolveLeakyIntFire(LIF,t)">evolveLeakyIntFire</a>(wta.inhib,time);
+0046 <span class="keyword">if</span> (spike)
+0047   <span class="comment">% trigger global inhibition</span>
+0048   wta.exc.Ginh = 1e-2;
+0049   
+0050   <span class="comment">% no need to be excited anymore</span>
+0051   wta.inhib.Gexc = 0;
+0052 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

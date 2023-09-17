@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of gaussian</title>
+  <meta name="keywords" content="gaussian">
+  <meta name="description" content="gaussian - returns a 1d Gaussian kernel.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; gaussian.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>gaussian
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>gaussian - returns a 1d Gaussian kernel.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function kernel = gaussian(peak,sigma,maxhw,varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> gaussian - returns a 1d Gaussian kernel.
+
+ kernel = gaussian(peak,sigma,maxhw)
+    Returns a 1d Gaussian kernel with peak as the value
+    at the maximum and sigma as the standard deviation (in pixels).
+    The half width (hw) of the kernel is determined by where the
+    Gaussian drops off to 1 % of the peak value, but
+    is bounded by maxhw (set to 0 for no bounding). 
+    The kernel will be of length: 2 * hw + 1.
+
+ kernel = gaussian(peak,sigma,maxhw, treshPercent)
+    Use threshPercent (in % of peak value) instead of 1 %
+    to determine the half width.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="estimateShape.html" class="code" title="function shapeData = estimateShape(salmap,saliencyData,winner,params)">estimateShape</a>	estimateShape - estimates the shape of the attended proto-object region.</li><li><a href="maxNormalizeIterative.html" class="code" title="function result = maxNormalizeIterative(data,numIter,varargin)">maxNormalizeIterative</a>	maxNormalizeIterative - normalize data with the an iterative algorithm.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% gaussian - returns a 1d Gaussian kernel.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% kernel = gaussian(peak,sigma,maxhw)</span>
+0004 <span class="comment">%    Returns a 1d Gaussian kernel with peak as the value</span>
+0005 <span class="comment">%    at the maximum and sigma as the standard deviation (in pixels).</span>
+0006 <span class="comment">%    The half width (hw) of the kernel is determined by where the</span>
+0007 <span class="comment">%    Gaussian drops off to 1 % of the peak value, but</span>
+0008 <span class="comment">%    is bounded by maxhw (set to 0 for no bounding).</span>
+0009 <span class="comment">%    The kernel will be of length: 2 * hw + 1.</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">% kernel = gaussian(peak,sigma,maxhw, treshPercent)</span>
+0012 <span class="comment">%    Use threshPercent (in % of peak value) instead of 1 %</span>
+0013 <span class="comment">%    to determine the half width.</span>
+0014 
+0015 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0016 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0017 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0018 <span class="comment">% More information about this project is available at:</span>
+0019 <span class="comment">% http://www.saliencytoolbox.net</span>
+0020 
+0021 <a name="_sub0" href="#_subfunctions" class="code">function kernel = gaussian(peak,sigma,maxhw,varargin)</a>
+0022 
+0023 <span class="keyword">if</span> isempty(varargin)
+0024   threshPercent = 1;
+0025 <span class="keyword">else</span>
+0026   threshPercent = varargin{1};
+0027 <span class="keyword">end</span>
+0028 
+0029 hw = floor(sigma * sqrt(-2 * log(threshPercent / 100)));
+0030 
+0031 <span class="comment">% cut the half width off if it is too large</span>
+0032 <span class="keyword">if</span> ((maxhw &gt; 0) &amp; (hw &gt; maxhw)) 
+0033   hw = maxhw; 
+0034 <span class="keyword">end</span>
+0035 
+0036 <span class="comment">% get the right peak value (if peak = 0, normalize area to 1)</span>
+0037 <span class="keyword">if</span> (peak == 0) 
+0038   peak = 1 / (sigma * sqrt(2*pi)); 
+0039 <span class="keyword">end</span>
+0040 
+0041 <span class="comment">% build the kernel</span>
+0042 sig22 = -0.5 / (sigma * sigma);
+0043 tmp = peak * exp(- [1:hw].^2 / (2*sigma*sigma));
+0044 kernel = [tmp(hw:-1:1) peak tmp];</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

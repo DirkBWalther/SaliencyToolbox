@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of displayMaps</title>
+  <meta name="keywords" content="displayMaps">
+  <meta name="description" content="displayMaps - displays a set of maps in the current figure.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; displayMaps.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>displayMaps
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>displayMaps - displays a set of maps in the current figure.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function displayMaps(maps,varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> displayMaps - displays a set of maps in the current figure.
+
+ displayMaps(maps)
+    Displays all maps in the array of maps (cell or normal array) 
+    in the current figure.
+
+ displayMaps(maps,normalizeFlag)
+    If normalizeFlag is 1, the maps are maximum-normalized,
+    if it is 2, then the maps are max-normalized and scaled
+    to the dimensions of map.origImage (default: 1).
+
+ See also <a href="displayMap.html" class="code" title="function displayMap(map,varargin)">displayMap</a>, <a href="displayPyramid.html" class="code" title="function displayPyramid(pyr,varargin)">displayPyramid</a>, <a href="dataStructures.html" class="code" title="">dataStructures</a>, <a href="showImage.html" class="code" title="function h = showImage(img,varargin)">showImage</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="displayMap.html" class="code" title="function displayMap(map,varargin)">displayMap</a>	displayMap - displays a map in the current axes.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="guiSaliency.html" class="code" title="function varargout = guiSaliency(varargin)">guiSaliency</a>	guiSaliency - a graphical user interface (GUI) version of the saliency code.</li><li><a href="runSaliency.html" class="code" title="function runSaliency(inputImage,varargin)">runSaliency</a>	runSaliency - compute and display saliency map and fixations.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% displayMaps - displays a set of maps in the current figure.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% displayMaps(maps)</span>
+0004 <span class="comment">%    Displays all maps in the array of maps (cell or normal array)</span>
+0005 <span class="comment">%    in the current figure.</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% displayMaps(maps,normalizeFlag)</span>
+0008 <span class="comment">%    If normalizeFlag is 1, the maps are maximum-normalized,</span>
+0009 <span class="comment">%    if it is 2, then the maps are max-normalized and scaled</span>
+0010 <span class="comment">%    to the dimensions of map.origImage (default: 1).</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">% See also displayMap, displayPyramid, dataStructures, showImage</span>
+0013 
+0014 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0015 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0016 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0017 <span class="comment">% More information about this project is available at:</span>
+0018 <span class="comment">% http://www.saliencytoolbox.net</span>
+0019 
+0020 <a name="_sub0" href="#_subfunctions" class="code">function displayMaps(maps,varargin)</a>
+0021 
+0022 <span class="keyword">if</span> (isempty(varargin)) normalizeFlag = 1;
+0023 <span class="keyword">else</span> normalizeFlag = varargin{1}; <span class="keyword">end</span>
+0024 
+0025 numMaps = numel(maps);
+0026 subDims(1) = ceil(sqrt(numMaps));
+0027 subDims(2) = ceil(numMaps / subDims(1));
+0028 
+0029 <span class="keyword">if</span> iscell(maps)
+0030   sz = size(maps{1}.data);
+0031   <span class="keyword">if</span> (sz(1) &lt; sz(2))
+0032     w = min(subDims);
+0033     h = max(subDims);
+0034   <span class="keyword">else</span>
+0035     w = max(subDims);
+0036     h = min(subDims);
+0037   <span class="keyword">end</span>
+0038 
+0039   <span class="keyword">if</span> (numMaps == 1)
+0040     set(gcf,<span class="string">'Name'</span>,maps{1}.label);
+0041   <span class="keyword">end</span>
+0042 
+0043   <span class="keyword">for</span> m = 1:numMaps
+0044     subplot(h,w,m);
+0045     <a href="displayMap.html" class="code" title="function displayMap(map,varargin)">displayMap</a>(maps{m},normalizeFlag);
+0046   <span class="keyword">end</span>
+0047 <span class="keyword">else</span>
+0048   sz = size(maps(1).data);
+0049   <span class="keyword">if</span> (sz(1) &lt; sz(2))
+0050     w = min(subDims);
+0051     h = max(subDims);
+0052   <span class="keyword">else</span>
+0053     w = max(subDims);
+0054     h = min(subDims);
+0055   <span class="keyword">end</span>
+0056   
+0057   <span class="keyword">if</span> (numMaps == 1)
+0058     set(gcf,<span class="string">'Name'</span>,maps(1).label);
+0059   <span class="keyword">end</span>
+0060 
+0061   <span class="keyword">for</span> m = 1:numMaps
+0062     subplot(h,w,m);
+0063     <a href="displayMap.html" class="code" title="function displayMap(map,varargin)">displayMap</a>(maps(m),normalizeFlag);
+0064   <span class="keyword">end</span>
+0065 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

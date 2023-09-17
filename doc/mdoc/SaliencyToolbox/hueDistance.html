@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of hueDistance</title>
+  <meta name="keywords" content="hueDistance">
+  <meta name="description" content="hueDistance - computes the distance in a simplified 2d color space.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; hueDistance.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>hueDistance
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>hueDistance - computes the distance in a simplified 2d color space.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function result = hueDistance(col_img,hueParams) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> hueDistance - computes the distance in a simplified 2d color space.
+
+ result = hueDistance(col_img,hueParams)
+    Computes the distance of each pixel of the
+    RGB image col_img in a 2d color space (akin to CIE (r,g)) with 
+    respect to the color model in hueParams.
+    The result is a 2d array with values between 1 and 0.
+
+    hueParams is a struct that describes a 2d Gaussian 
+    color distribution in the color space with fields:
+       muR - mean value in the CR direction.
+       sigR - standard deviation in the CR direction.
+       muG - mean value in the CG direction.
+       sigG - standard deviation in the CG direction.
+       rho - correlation coefficient between CR and CG.
+
+ For details see appendix A.4 of Dirk's PhD thesis:
+    Dirk Walther (2006). Interactions of visual attention and object recognition: 
+    Computational modeling, algorithms, and psychophysics. Ph.D. thesis.
+    California Institute of Technology. 
+    http://resolver.caltech.edu/CaltechETD:etd-03072006-135433.
+
+ or this book chapter:
+    Dirk B. Walther &amp; Christof Koch (2007). Attention in 
+    Hierarchical Models of Object Recognition. In P. Cisek, 
+    T. Drew &amp; J. F. Kalaska (Eds.), Progress in Brain Research: 
+    Computational Neuroscience: Theoretical insights into brain 
+    function. Amsterdam: Elsevier.
+
+ See also <a href="makeHuePyramid.html" class="code" title="function huePyr = makeHuePyramid(image,type,hueParams,varargin)">makeHuePyramid</a>, <a href="skinHueParams.html" class="code" title="function params = skinHueParams">skinHueParams</a>, <a href="dataStructures.html" class="code" title="">dataStructures</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="safeDivide.html" class="code" title="function result = safeDivide(arg1,arg2)">safeDivide</a>	safeDivide - divides two arrays, checking for 0/0.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="makeHuePyramid.html" class="code" title="function huePyr = makeHuePyramid(image,type,hueParams,varargin)">makeHuePyramid</a>	makeHuePyramid - creates a hue distance pyramid.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% hueDistance - computes the distance in a simplified 2d color space.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% result = hueDistance(col_img,hueParams)</span>
+0004 <span class="comment">%    Computes the distance of each pixel of the</span>
+0005 <span class="comment">%    RGB image col_img in a 2d color space (akin to CIE (r,g)) with</span>
+0006 <span class="comment">%    respect to the color model in hueParams.</span>
+0007 <span class="comment">%    The result is a 2d array with values between 1 and 0.</span>
+0008 <span class="comment">%</span>
+0009 <span class="comment">%    hueParams is a struct that describes a 2d Gaussian</span>
+0010 <span class="comment">%    color distribution in the color space with fields:</span>
+0011 <span class="comment">%       muR - mean value in the CR direction.</span>
+0012 <span class="comment">%       sigR - standard deviation in the CR direction.</span>
+0013 <span class="comment">%       muG - mean value in the CG direction.</span>
+0014 <span class="comment">%       sigG - standard deviation in the CG direction.</span>
+0015 <span class="comment">%       rho - correlation coefficient between CR and CG.</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">% For details see appendix A.4 of Dirk's PhD thesis:</span>
+0018 <span class="comment">%    Dirk Walther (2006). Interactions of visual attention and object recognition:</span>
+0019 <span class="comment">%    Computational modeling, algorithms, and psychophysics. Ph.D. thesis.</span>
+0020 <span class="comment">%    California Institute of Technology.</span>
+0021 <span class="comment">%    http://resolver.caltech.edu/CaltechETD:etd-03072006-135433.</span>
+0022 <span class="comment">%</span>
+0023 <span class="comment">% or this book chapter:</span>
+0024 <span class="comment">%    Dirk B. Walther &amp; Christof Koch (2007). Attention in</span>
+0025 <span class="comment">%    Hierarchical Models of Object Recognition. In P. Cisek,</span>
+0026 <span class="comment">%    T. Drew &amp; J. F. Kalaska (Eds.), Progress in Brain Research:</span>
+0027 <span class="comment">%    Computational Neuroscience: Theoretical insights into brain</span>
+0028 <span class="comment">%    function. Amsterdam: Elsevier.</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">% See also makeHuePyramid, skinHueParams, dataStructures.</span>
+0031 
+0032 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0033 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0034 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0035 <span class="comment">% More information about this project is available at:</span>
+0036 <span class="comment">% http://www.saliencytoolbox.net</span>
+0037 
+0038 <a name="_sub0" href="#_subfunctions" class="code">function result = hueDistance(col_img,hueParams)</a>
+0039 
+0040 <span class="keyword">if</span> ~isa(col_img,<span class="string">'double'</span>)
+0041   col_img = im2double(col_img);
+0042 <span class="keyword">end</span>
+0043 
+0044 r = col_img(:,:,1);
+0045 g = col_img(:,:,2);
+0046 b = col_img(:,:,3);
+0047 int = r + g + b;
+0048 
+0049 cr = <a href="safeDivide.html" class="code" title="function result = safeDivide(arg1,arg2)">safeDivide</a>(r,int) - hueParams.muR;
+0050 cg = <a href="safeDivide.html" class="code" title="function result = safeDivide(arg1,arg2)">safeDivide</a>(g,int) - hueParams.muG;
+0051 
+0052 result = exp(-(cr.^2/hueParams.sigR^2/2 + <span class="keyword">...</span>
+0053                cg.^2/hueParams.sigG^2/2 - <span class="keyword">...</span>
+0054                cr.*cg * hueParams.rho/hueParams.sigR/hueParams.sigG));</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

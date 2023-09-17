@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of plotSalientLocation</title>
+  <meta name="keywords" content="plotSalientLocation">
+  <meta name="description" content="plotSalientLocation - plots the attended location into an existing figure.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; plotSalientLocation.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>plotSalientLocation
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>plotSalientLocation - plots the attended location into an existing figure.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function plotSalientLocation(winner,lastWinner,img,params,varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> plotSalientLocation - plots the attended location into an existing figure.
+
+ plotSalientLocation(winner,lastWinner,salParams,shapeData)
+    Plots the winning location into the current figure. 
+    Depending on the settings in salParams, the contour of the 
+    attended region or a circle centered at the attended location 
+    is drawn in yellow. If there is a valid lastWinner, 
+    a red line connects lastWinner with winner.
+       winner: the attended location in image coordinates.
+       lastWinner: the previously attended location (-1 for none).
+       salParams: structure with saliency parameters.
+       shapeData: structure array with information on the attended 
+          region from estimateShape.
+
+ plotSalientLocation(winner,lastWinner,salParams)
+    If no shapeData are passed, a circle is drawn at the attended
+    location.
+
+ See also <a href="estimateShape.html" class="code" title="function shapeData = estimateShape(salmap,saliencyData,winner,params)">estimateShape</a>, <a href="winnerToImgCoords.html" class="code" title="function winImgCo = winnerToImgCoords(winner,params)">winnerToImgCoords</a>, <a href="runSaliency.html" class="code" title="function runSaliency(inputImage,varargin)">runSaliency</a>, <a href="drawDisk.html" class="code" title="function resultMap = drawDisk(bgMap,center,radius,value)">drawDisk</a>,
+          <a href="contrastModulate.html" class="code" title="function resultImg = contrastModulate(img, modulationMap, varargin)">contrastModulate</a>, <a href="emptyMap.html" class="code" title="function map = emptyMap(mapSize,label)">emptyMap</a>, <a href="defaultSaliencyParams.html" class="code" title="function params = defaultSaliencyParams(varargin)">defaultSaliencyParams</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="contrastModulate.html" class="code" title="function resultImg = contrastModulate(img, modulationMap, varargin)">contrastModulate</a>	contrastModulate - contrast modulates an image according to a map</li><li><a href="displayImage.html" class="code" title="function displayImage(img,doNormalize)">displayImage</a>	displayImage - displays an image in a convenient way in the current axes.</li><li><a href="drawDisk.html" class="code" title="function resultMap = drawDisk(bgMap,center,radius,value)">drawDisk</a>	drawDisk - draws a solid disk into a 2d image.</li><li><a href="emptyMap.html" class="code" title="function map = emptyMap(mapSize,label)">emptyMap</a>	emptyMap - creates an empty map.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="guiSaliency.html" class="code" title="function varargout = guiSaliency(varargin)">guiSaliency</a>	guiSaliency - a graphical user interface (GUI) version of the saliency code.</li><li><a href="runSaliency.html" class="code" title="function runSaliency(inputImage,varargin)">runSaliency</a>	runSaliency - compute and display saliency map and fixations.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% plotSalientLocation - plots the attended location into an existing figure.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% plotSalientLocation(winner,lastWinner,salParams,shapeData)</span>
+0004 <span class="comment">%    Plots the winning location into the current figure.</span>
+0005 <span class="comment">%    Depending on the settings in salParams, the contour of the</span>
+0006 <span class="comment">%    attended region or a circle centered at the attended location</span>
+0007 <span class="comment">%    is drawn in yellow. If there is a valid lastWinner,</span>
+0008 <span class="comment">%    a red line connects lastWinner with winner.</span>
+0009 <span class="comment">%       winner: the attended location in image coordinates.</span>
+0010 <span class="comment">%       lastWinner: the previously attended location (-1 for none).</span>
+0011 <span class="comment">%       salParams: structure with saliency parameters.</span>
+0012 <span class="comment">%       shapeData: structure array with information on the attended</span>
+0013 <span class="comment">%          region from estimateShape.</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">% plotSalientLocation(winner,lastWinner,salParams)</span>
+0016 <span class="comment">%    If no shapeData are passed, a circle is drawn at the attended</span>
+0017 <span class="comment">%    location.</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">% See also estimateShape, winnerToImgCoords, runSaliency, drawDisk,</span>
+0020 <span class="comment">%          contrastModulate, emptyMap, defaultSaliencyParams.</span>
+0021 
+0022 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0023 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0024 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0025 <span class="comment">% More information about this project is available at:</span>
+0026 <span class="comment">% http://www.saliencytoolbox.net</span>
+0027 
+0028 <a name="_sub0" href="#_subfunctions" class="code">function plotSalientLocation(winner,lastWinner,img,params,varargin)</a>
+0029 
+0030 <span class="comment">% first some logic to figure out what we have to draw</span>
+0031 <span class="keyword">switch</span> params.shapeMode
+0032   <span class="keyword">case</span> {<span class="string">'shapeSM'</span>,<span class="string">'shapeCM'</span>,<span class="string">'shapeFM'</span>,<span class="string">'shapePyr'</span>}
+0033     <span class="keyword">if</span> isempty(varargin)
+0034       shape = <span class="string">'Circle'</span>;
+0035     <span class="keyword">elseif</span> isempty(varargin{1})
+0036       shape = <span class="string">'Circle'</span>;
+0037     <span class="keyword">elseif</span> (max(varargin{1}.binaryMap.data(:)) == 0)
+0038       shape = <span class="string">'Circle'</span>;
+0039     <span class="keyword">else</span>
+0040       shape = <span class="string">'Outline'</span>;
+0041     <span class="keyword">end</span>
+0042   <span class="keyword">case</span> {<span class="string">'None'</span>,<span class="string">'none'</span>}
+0043     shape = <span class="string">'Circle'</span>;
+0044   <span class="keyword">otherwise</span>
+0045     error([<span class="string">'Unknown shapeMode: '</span> params.shapeMode]);
+0046 <span class="keyword">end</span>
+0047 
+0048 <span class="comment">% now draw everything that we need</span>
+0049 <span class="keyword">switch</span> params.visualizationStyle
+0050   <span class="comment">% drawing contours</span>
+0051   <span class="keyword">case</span> <span class="string">'Contour'</span>
+0052     hold on;
+0053     <span class="keyword">switch</span> shape
+0054       <span class="keyword">case</span> {<span class="string">'Circle'</span>,<span class="string">'circle'</span>}
+0055         modMap = <a href="drawDisk.html" class="code" title="function resultMap = drawDisk(bgMap,center,radius,value)">drawDisk</a>(<a href="emptyMap.html" class="code" title="function map = emptyMap(mapSize,label)">emptyMap</a>(img.size(1:2)),winner,round(params.foaSize/2),1);
+0056         <span class="comment">%plot(winner(2),winner(1),'yo','MarkerSize',params.foaSize);</span>
+0057       <span class="keyword">case</span> {<span class="string">'Outline'</span>,<span class="string">'outline'</span>}
+0058         <span class="comment">%contour(varargin{1}.shapeMap.data,[0.5 0.5],'y-');</span>
+0059         modMap = varargin{1}.shapeMap;
+0060       <span class="keyword">otherwise</span>
+0061         error([<span class="string">'Unknown shape: '</span> shape]);
+0062     <span class="keyword">end</span>
+0063     contour(modMap.data,[0.5 0.5],<span class="string">'y-'</span>);
+0064     doLine = (lastWinner(1) ~= -1);
+0065     <span class="keyword">if</span> (doLine) 
+0066       plot([lastWinner(2),winner(2)],[lastWinner(1),winner(1)],<span class="string">'r-'</span>);
+0067     <span class="keyword">end</span>
+0068     hold off;
+0069     
+0070   <span class="comment">% using contrast modulation</span>
+0071   <span class="keyword">case</span> <span class="string">'ContrastModulate'</span>
+0072     <span class="keyword">switch</span> shape
+0073       <span class="keyword">case</span> {<span class="string">'Circle'</span>,<span class="string">'circle'</span>}
+0074         modMap = <a href="drawDisk.html" class="code" title="function resultMap = drawDisk(bgMap,center,radius,value)">drawDisk</a>(<a href="emptyMap.html" class="code" title="function map = emptyMap(mapSize,label)">emptyMap</a>(img.size(1:2)),winner,round(params.foaSize/2),1);
+0075       <span class="keyword">case</span> {<span class="string">'Outline'</span>,<span class="string">'outline'</span>}
+0076         modMap = varargin{1}.shapeMap;
+0077       <span class="keyword">otherwise</span>
+0078         error([<span class="string">'Unknown shape: '</span> shape]);
+0079     <span class="keyword">end</span>
+0080     baseColor = [0.9 0.9 0.9]; <span class="comment">% light grey</span>
+0081     baseContrast = 0.1;
+0082     modImg = <a href="contrastModulate.html" class="code" title="function resultImg = contrastModulate(img, modulationMap, varargin)">contrastModulate</a>(img,modMap,baseContrast,baseColor);
+0083     hold off;
+0084     <a href="displayImage.html" class="code" title="function displayImage(img,doNormalize)">displayImage</a>(modImg);
+0085 
+0086   <span class="keyword">case</span> {<span class="string">'None'</span>,<span class="string">'none'</span>}
+0087     <a href="displayImage.html" class="code" title="function displayImage(img,doNormalize)">displayImage</a>(img);
+0088     
+0089   <span class="keyword">otherwise</span>
+0090     error([<span class="string">'Unknown visualizationMode: '</span> params.visualizationMode]);
+0091 <span class="keyword">end</span>
+0092 
+0093</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,408 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of dataStructures</title>
+  <meta name="keywords" content="dataStructures">
+  <meta name="description" content="dataStructures - lists the data structures used in the SaliencyToolbox.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; dataStructures.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>dataStructures
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>dataStructures - lists the data structures used in the SaliencyToolbox.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> dataStructures - lists the data structures used in the SaliencyToolbox.
+
+ DATA STRUCTURES USED IN THE SALIENCYTOOLBOX
+
+ Global variables
+    IS_INITIALIZED: flag that initializeGlobal was called.
+    IMG_EXTENSIONS: cell arrays with possible extensions for image files.
+         DEBUG_FID: file identifier for debugMsg output.
+
+  See also <a href="initializeGlobal.html" class="code" title="function initializeGlobal(varargin)">initializeGlobal</a>, <a href="declareGlobal.html" class="code" title="">declareGlobal</a>, <a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>.
+
+
+ Image - stores information about an image.
+   filename: the filename.
+       data: the image data (UINT8 or double)
+             Each image structure has to contain the filename or the data
+             field. It can have both.
+       type: some text label.
+       size: the size of the image.
+       dims: the number of dimensions of the image (2 or 3).
+       date: time stamp.
+
+ See also <a href="initializeImage.html" class="code" title="function [Img,err] = initializeImage(varargin);">initializeImage</a>.
+
+
+ Map - 2d data structure with extra information.
+     origImage: Image from which this map was computed.
+         label: text label identying the map.
+          data: 2d array with the map data.
+          date: time stamp.
+    parameters: parameters used for generating this map.
+
+ See also <a href="displayMap.html" class="code" title="function displayMap(map,varargin)">displayMap</a>, <a href="displayMaps.html" class="code" title="function displayMaps(maps,varargin)">displayMaps</a>.
+
+
+ Pyramid - a multi-resolution pyramid for a particular feature.
+    origImage: the source image.
+        label: text label denoting the feature.
+         type: type of subsampling, one of: 'dyadic','sqrt2','TopDown'.
+       levels: vector of maps containing the levels of this pyramid.
+         date: time stamp.
+
+ See also <a href="makeFeaturePyramids.html" class="code" title="function pyrs = makeFeaturePyramids(img,featureType,salParams,varargin)">makeFeaturePyramids</a>, <a href="displayPyramid.html" class="code" title="function displayPyramid(pyr,varargin)">displayPyramid</a>, <a href="runSaliency.html" class="code" title="function runSaliency(inputImage,varargin)">runSaliency</a>.
+
+
+ SaliencyParams - set of parameters used for generating a saliency map.
+               foaSize: size of the focus of attention for disk-IOR.
+           pyramidType: 'dyadic' or 'sqrt2'.
+              features: cell array of the features to be used for saliency computation
+                        possible values: 'Color', 'Intensities', 'Orientations', 'Skin','TopDown'.
+               weights: vector of weights for each feature (same length as features)
+               IORtype: type of inhibition of return, one of: 'shape','disk','None'.
+             shapeMode: one of: 'None','shapeSM','shapeCM','shapeFM','shapePyr'.
+           levelParams: structure with pyramid level parameters.
+              normtype: Map normalization type, one of: 'None','LocalMax','Iterative'.
+               numIter: Number of iterations for 'Iterative' normtype.
+             useRandom: Use random jitter (1) or not (0) for converting coodinates.
+    segmentComputeType: Method for shape segmentation, one of: 'Fast','LTU'.
+              IORdecay: decay rate of the inhibitive conductance responsible for inihibiiton
+                        of return per simulation step of 0.1 ms.
+         smOutputRange: saliency map output in Amperes (1e-9).
+             noiseAmpl: amplitude of random noise (1e-17).
+            noiseConst: amplitude of contant noise (1e-14).
+           gaborParams: structure with parameters for Gabor orientation filters.
+             oriAngles: vector with orientation angles (in degrees).
+        oriComputeType: 'efficient' (default) or 'full'
+                        'efficient' only computes orientation filters for the levels that are
+                                    actually going to be used in the center-surround computation
+                       'full' computes the orientation filters for all levels
+    visualizationStyle: style used for visualizing attended locations,
+                        one of: 'Contour', 'ContrastModulate', 'None'.
+         exclusionMask: struct of type map or 2d mask of numeric or logical type
+                        regions where exclusionMask is ~= 0 are excluded from the saliency
+                        computations by setting all feature maps to 0 in these areas. The
+                        mask is automatically resized to the size of the feature maps.
+
+ See also <a href="diskIOR.html" class="code" title="function wta = diskIOR(oldWTA,winner,params)">diskIOR</a>, <a href="makeGaussianPyramid.html" class="code" title="function pyr = makeGaussianPyramid(map,type,varargin)">makeGaussianPyramid</a>, <a href="makeSaliencyMap.html" class="code" title="function [salmap, saliencyData] = makeSaliencyMap(img, salParams, varargin)">makeSaliencyMap</a>, <a href="applyIOR.html" class="code" title="function wta = applyIOR(oldWTA,winner,params,varargin)">applyIOR</a>, <a href="estimateShape.html" class="code" title="function shapeData = estimateShape(salmap,saliencyData,winner,params)">estimateShape</a>,
+          <a href="centerSurround.html" class="code" title="function [featureMaps,csLevels] = centerSurround(pyr,params)">centerSurround</a>, <a href="maxNormalize.html" class="code" title="function result = maxNormalize(maps,params,varargin)">maxNormalize</a>, <a href="winnerToImgCoords.html" class="code" title="function winImgCo = winnerToImgCoords(winner,params)">winnerToImgCoords</a>, <a href="makeGaborFilter.html" class="code" title="function filter = makeGaborFilter(gaborParams, angle, varargin)">makeGaborFilter</a>,
+          <a href="defaultGaborParams.html" class="code" title="function gaborParams = defaultGaborParams">defaultGaborParams</a>, <a href="defaultLevelParams.html" class="code" title="function levelParams = defaultLevelParams(pyramidType)">defaultLevelParams</a>, <a href="plotSalientLocation.html" class="code" title="function plotSalientLocation(winner,lastWinner,img,params,varargin)">plotSalientLocation</a>.
+
+
+ levelParams - a structure with parameters for pyramid levels for
+               center-surround operations
+     minLevel: lowest pyramid level (starting at 1) for center-surround computations.
+     maxLevel: highest pyramid level for center-surround.
+     minDelta: minimum distance (levels) between center and surround.
+     maxDelta: maximum distance (levels) between center and surround.
+     mapLevel: pyramid level for all maps, including the saliency map.
+
+ See also <a href="defaultLevelParams.html" class="code" title="function levelParams = defaultLevelParams(pyramidType)">defaultLevelParams</a>, <a href="centerSurround.html" class="code" title="function [featureMaps,csLevels] = centerSurround(pyr,params)">centerSurround</a>, <a href="winnerToImgCoords.html" class="code" title="function winImgCo = winnerToImgCoords(winner,params)">winnerToImgCoords</a>.
+
+
+ gaborParams - a structure with parameters for Gabor orientation filters.
+       filterPeriod: the period of the filter in pixels.
+         elongation: the ratio of length versus width.
+         filterSize: the size of the filter in pixels.
+             stddev: the standard deviation of the <a href="gaussian.html" class="code" title="function kernel = gaussian(peak,sigma,maxhw,varargin)">Gaussian</a> envelope in pixels.
+             phases: the phase angles to be used.
+
+ See also <a href="defaultGaborParams.html" class="code" title="function gaborParams = defaultGaborParams">defaultGaborParams</a>, <a href="makeGaborFilter.html" class="code" title="function filter = makeGaborFilter(gaborParams, angle, varargin)">makeGaborFilter</a>, <a href="gaborFilterMap.html" class="code" title="function resultMap = gaborFilterMap(map,gaborParams,angle)">gaborFilterMap</a>, <a href="makeOrientationPyramid.html" class="code" title="function oriPyr = makeOrientationPyramid(intPyr,gaborParams,angle,levels)">makeOrientationPyramid</a>.
+
+
+ hueParams - describes 2d <a href="gaussian.html" class="code" title="function kernel = gaussian(peak,sigma,maxhw,varargin)">Gaussian</a> color distribution in CIE space.
+        muR: mean value in the CR direction.
+       sigR: standard deviation in the CR direction.
+        muG: mean value in the CG direction.
+       sigG: standard deviation in the CG direction.
+        rho: correlation coefficient between CR and CG.
+
+ See also <a href="hueDistance.html" class="code" title="function result = hueDistance(col_img,hueParams)">hueDistance</a>, <a href="makeHuePyramid.html" class="code" title="function huePyr = makeHuePyramid(image,type,hueParams,varargin)">makeHuePyramid</a>, <a href="skinHueParams.html" class="code" title="function params = skinHueParams">skinHueParams</a>.
+
+
+ saliencyData - a vector of structures for each feature with additional
+                information from computing the saliency map.
+      origImage: Image structure of the input image.
+          label: the feature name.
+            pyr: a vector of pyramids for this feature.
+             FM: a vector of feature maps.
+       csLevels: the center and surround levels used to
+                 compute the feature maps from the pyramids.
+             CM: the conspicuity map for this feature.
+           date: time stamp.
+
+ See also <a href="makeSaliencyMap.html" class="code" title="function [salmap, saliencyData] = makeSaliencyMap(img, salParams, varargin)">makeSaliencyMap</a>, <a href="estimateShape.html" class="code" title="function shapeData = estimateShape(salmap,saliencyData,winner,params)">estimateShape</a>, <a href="runSaliency.html" class="code" title="function runSaliency(inputImage,varargin)">runSaliency</a>.
+
+
+ shapeData - information about the shape of the attended regions.
+       origImage: the Image structure for the source image.
+          winner: the winning location in saliency map coordinates.
+      winningMap: the map for the most salient feature at the winner location.
+         iorMask: the mask used for shape-based inhibition of return.
+       binaryMap: a binary map of the attended region.
+    segmentedMap: the winning map segmented by the binary map.
+        shapeMap: a smoothed version of segmentedMap.
+            date: time stamp.
+
+ See also <a href="estimateShape.html" class="code" title="function shapeData = estimateShape(salmap,saliencyData,winner,params)">estimateShape</a>, <a href="shapeIOR.html" class="code" title="function wta = shapeIOR(wta,winner,params,shapeData)">shapeIOR</a>, <a href="applyIOR.html" class="code" title="function wta = applyIOR(oldWTA,winner,params,varargin)">applyIOR</a>, <a href="plotSalientLocation.html" class="code" title="function plotSalientLocation(winner,lastWinner,img,params,varargin)">plotSalientLocation</a>, <a href="runSaliency.html" class="code" title="function runSaliency(inputImage,varargin)">runSaliency</a>.
+
+
+ WTA - a winner-take-all neural network.
+       sm: LIF neuron field for input from the saliency map.
+      exc: excitatory LIF neurons field.
+    inhib: inhibitory inter-neuron.
+
+ See also <a href="initializeWTA.html" class="code" title="function wta = initializeWTA(salmap,salParams)">initializeWTA</a>, <a href="evolveWTA.html" class="code" title="function [wta,winner] = evolveWTA(wta)">evolveWTA</a>.
+
+
+ LIF - leaky integrate and fire neuron (field).
+     timeStep: time step for integration (in sec).
+        Eleak: leak potential (in V).
+         Eexc: potential for excitatory channels (positive, in V).
+         Einh: potential for inhibitory channels (negative, in V).
+        Gleak: leak conductivity (in S).
+         Gexc: conductivity of excitatory channels (in S).
+         Ginh: conductivity of inhibitory channels (in S).
+    GinhDecay: time constant for decay of inhibitory conductivity (in S).
+       Ginput: input conductivity (in S).
+      Vthresh: threshold potential for firing (in V).
+            C: capacity (in F).
+         time: current time (in sec).
+            V: current membrane potential (in V) - can be an array for several neurons.
+            I: current input current (in A) - can be an array for several neurons.
+     DoesFire: neuron can (1) or cannot (0) fire.
+
+ See also <a href="defaultLeakyIntFire.html" class="code" title="function LIF = defaultLeakyIntFire">defaultLeakyIntFire</a>, <a href="evolveLeakyIntFire.html" class="code" title="function [LIF,spikes] = evolveLeakyIntFire(LIF,t)">evolveLeakyIntFire</a>, <a href="initializeWTA.html" class="code" title="function wta = initializeWTA(salmap,salParams)">initializeWTA</a>.
+
+
+   LTUnetwork - a network of N linear threshold units.
+    connections: N x N weight matrix, a sparse matrix.
+     thresholds: 1 x N vector with thresholds for the units.
+      input_idx: the indices of all input units in the network.
+     output_idx: the indices of all output units in the network.
+       numCells: the number of units.
+          label: a text label fo the network.
+
+ See also <a href="LTUsimulate.html" class="code" title="function [output,newStates] = LTUsimulate(LTUnetwork,states,inputs,numIter)">LTUsimulate</a>, <a href="LTUsegmentMap.html" class="code" title="function [resultMap,segMaps] = LTUsegmentMap(map,seedPoint,varargin)">LTUsegmentMap</a>, <a href="makeLTUsegmentNetwork.html" class="code" title="function LTUnetwork = makeLTUsegmentNetwork(mapSize,thresh)">makeLTUsegmentNetwork</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% dataStructures - lists the data structures used in the SaliencyToolbox.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% DATA STRUCTURES USED IN THE SALIENCYTOOLBOX</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">% Global variables</span>
+0006 <span class="comment">%    IS_INITIALIZED: flag that initializeGlobal was called.</span>
+0007 <span class="comment">%    IMG_EXTENSIONS: cell arrays with possible extensions for image files.</span>
+0008 <span class="comment">%         DEBUG_FID: file identifier for debugMsg output.</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">%  See also initializeGlobal, declareGlobal, debugMsg.</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% Image - stores information about an image.</span>
+0014 <span class="comment">%   filename: the filename.</span>
+0015 <span class="comment">%       data: the image data (UINT8 or double)</span>
+0016 <span class="comment">%             Each image structure has to contain the filename or the data</span>
+0017 <span class="comment">%             field. It can have both.</span>
+0018 <span class="comment">%       type: some text label.</span>
+0019 <span class="comment">%       size: the size of the image.</span>
+0020 <span class="comment">%       dims: the number of dimensions of the image (2 or 3).</span>
+0021 <span class="comment">%       date: time stamp.</span>
+0022 <span class="comment">%</span>
+0023 <span class="comment">% See also initializeImage.</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">% Map - 2d data structure with extra information.</span>
+0027 <span class="comment">%     origImage: Image from which this map was computed.</span>
+0028 <span class="comment">%         label: text label identying the map.</span>
+0029 <span class="comment">%          data: 2d array with the map data.</span>
+0030 <span class="comment">%          date: time stamp.</span>
+0031 <span class="comment">%    parameters: parameters used for generating this map.</span>
+0032 <span class="comment">%</span>
+0033 <span class="comment">% See also displayMap, displayMaps.</span>
+0034 <span class="comment">%</span>
+0035 <span class="comment">%</span>
+0036 <span class="comment">% Pyramid - a multi-resolution pyramid for a particular feature.</span>
+0037 <span class="comment">%    origImage: the source image.</span>
+0038 <span class="comment">%        label: text label denoting the feature.</span>
+0039 <span class="comment">%         type: type of subsampling, one of: 'dyadic','sqrt2','TopDown'.</span>
+0040 <span class="comment">%       levels: vector of maps containing the levels of this pyramid.</span>
+0041 <span class="comment">%         date: time stamp.</span>
+0042 <span class="comment">%</span>
+0043 <span class="comment">% See also makeFeaturePyramids, displayPyramid, runSaliency.</span>
+0044 <span class="comment">%</span>
+0045 <span class="comment">%</span>
+0046 <span class="comment">% SaliencyParams - set of parameters used for generating a saliency map.</span>
+0047 <span class="comment">%               foaSize: size of the focus of attention for disk-IOR.</span>
+0048 <span class="comment">%           pyramidType: 'dyadic' or 'sqrt2'.</span>
+0049 <span class="comment">%              features: cell array of the features to be used for saliency computation</span>
+0050 <span class="comment">%                        possible values: 'Color', 'Intensities', 'Orientations', 'Skin','TopDown'.</span>
+0051 <span class="comment">%               weights: vector of weights for each feature (same length as features)</span>
+0052 <span class="comment">%               IORtype: type of inhibition of return, one of: 'shape','disk','None'.</span>
+0053 <span class="comment">%             shapeMode: one of: 'None','shapeSM','shapeCM','shapeFM','shapePyr'.</span>
+0054 <span class="comment">%           levelParams: structure with pyramid level parameters.</span>
+0055 <span class="comment">%              normtype: Map normalization type, one of: 'None','LocalMax','Iterative'.</span>
+0056 <span class="comment">%               numIter: Number of iterations for 'Iterative' normtype.</span>
+0057 <span class="comment">%             useRandom: Use random jitter (1) or not (0) for converting coodinates.</span>
+0058 <span class="comment">%    segmentComputeType: Method for shape segmentation, one of: 'Fast','LTU'.</span>
+0059 <span class="comment">%              IORdecay: decay rate of the inhibitive conductance responsible for inihibiiton</span>
+0060 <span class="comment">%                        of return per simulation step of 0.1 ms.</span>
+0061 <span class="comment">%         smOutputRange: saliency map output in Amperes (1e-9).</span>
+0062 <span class="comment">%             noiseAmpl: amplitude of random noise (1e-17).</span>
+0063 <span class="comment">%            noiseConst: amplitude of contant noise (1e-14).</span>
+0064 <span class="comment">%           gaborParams: structure with parameters for Gabor orientation filters.</span>
+0065 <span class="comment">%             oriAngles: vector with orientation angles (in degrees).</span>
+0066 <span class="comment">%        oriComputeType: 'efficient' (default) or 'full'</span>
+0067 <span class="comment">%                        'efficient' only computes orientation filters for the levels that are</span>
+0068 <span class="comment">%                                    actually going to be used in the center-surround computation</span>
+0069 <span class="comment">%                       'full' computes the orientation filters for all levels</span>
+0070 <span class="comment">%    visualizationStyle: style used for visualizing attended locations,</span>
+0071 <span class="comment">%                        one of: 'Contour', 'ContrastModulate', 'None'.</span>
+0072 <span class="comment">%         exclusionMask: struct of type map or 2d mask of numeric or logical type</span>
+0073 <span class="comment">%                        regions where exclusionMask is ~= 0 are excluded from the saliency</span>
+0074 <span class="comment">%                        computations by setting all feature maps to 0 in these areas. The</span>
+0075 <span class="comment">%                        mask is automatically resized to the size of the feature maps.</span>
+0076 <span class="comment">%</span>
+0077 <span class="comment">% See also diskIOR, makeGaussianPyramid, makeSaliencyMap, applyIOR, estimateShape,</span>
+0078 <span class="comment">%          centerSurround, maxNormalize, winnerToImgCoords, makeGaborFilter,</span>
+0079 <span class="comment">%          defaultGaborParams, defaultLevelParams, plotSalientLocation.</span>
+0080 <span class="comment">%</span>
+0081 <span class="comment">%</span>
+0082 <span class="comment">% levelParams - a structure with parameters for pyramid levels for</span>
+0083 <span class="comment">%               center-surround operations</span>
+0084 <span class="comment">%     minLevel: lowest pyramid level (starting at 1) for center-surround computations.</span>
+0085 <span class="comment">%     maxLevel: highest pyramid level for center-surround.</span>
+0086 <span class="comment">%     minDelta: minimum distance (levels) between center and surround.</span>
+0087 <span class="comment">%     maxDelta: maximum distance (levels) between center and surround.</span>
+0088 <span class="comment">%     mapLevel: pyramid level for all maps, including the saliency map.</span>
+0089 <span class="comment">%</span>
+0090 <span class="comment">% See also defaultLevelParams, centerSurround, winnerToImgCoords.</span>
+0091 <span class="comment">%</span>
+0092 <span class="comment">%</span>
+0093 <span class="comment">% gaborParams - a structure with parameters for Gabor orientation filters.</span>
+0094 <span class="comment">%       filterPeriod: the period of the filter in pixels.</span>
+0095 <span class="comment">%         elongation: the ratio of length versus width.</span>
+0096 <span class="comment">%         filterSize: the size of the filter in pixels.</span>
+0097 <span class="comment">%             stddev: the standard deviation of the Gaussian envelope in pixels.</span>
+0098 <span class="comment">%             phases: the phase angles to be used.</span>
+0099 <span class="comment">%</span>
+0100 <span class="comment">% See also defaultGaborParams, makeGaborFilter, gaborFilterMap, makeOrientationPyramid.</span>
+0101 <span class="comment">%</span>
+0102 <span class="comment">%</span>
+0103 <span class="comment">% hueParams - describes 2d Gaussian color distribution in CIE space.</span>
+0104 <span class="comment">%        muR: mean value in the CR direction.</span>
+0105 <span class="comment">%       sigR: standard deviation in the CR direction.</span>
+0106 <span class="comment">%        muG: mean value in the CG direction.</span>
+0107 <span class="comment">%       sigG: standard deviation in the CG direction.</span>
+0108 <span class="comment">%        rho: correlation coefficient between CR and CG.</span>
+0109 <span class="comment">%</span>
+0110 <span class="comment">% See also hueDistance, makeHuePyramid, skinHueParams.</span>
+0111 <span class="comment">%</span>
+0112 <span class="comment">%</span>
+0113 <span class="comment">% saliencyData - a vector of structures for each feature with additional</span>
+0114 <span class="comment">%                information from computing the saliency map.</span>
+0115 <span class="comment">%      origImage: Image structure of the input image.</span>
+0116 <span class="comment">%          label: the feature name.</span>
+0117 <span class="comment">%            pyr: a vector of pyramids for this feature.</span>
+0118 <span class="comment">%             FM: a vector of feature maps.</span>
+0119 <span class="comment">%       csLevels: the center and surround levels used to</span>
+0120 <span class="comment">%                 compute the feature maps from the pyramids.</span>
+0121 <span class="comment">%             CM: the conspicuity map for this feature.</span>
+0122 <span class="comment">%           date: time stamp.</span>
+0123 <span class="comment">%</span>
+0124 <span class="comment">% See also makeSaliencyMap, estimateShape, runSaliency.</span>
+0125 <span class="comment">%</span>
+0126 <span class="comment">%</span>
+0127 <span class="comment">% shapeData - information about the shape of the attended regions.</span>
+0128 <span class="comment">%       origImage: the Image structure for the source image.</span>
+0129 <span class="comment">%          winner: the winning location in saliency map coordinates.</span>
+0130 <span class="comment">%      winningMap: the map for the most salient feature at the winner location.</span>
+0131 <span class="comment">%         iorMask: the mask used for shape-based inhibition of return.</span>
+0132 <span class="comment">%       binaryMap: a binary map of the attended region.</span>
+0133 <span class="comment">%    segmentedMap: the winning map segmented by the binary map.</span>
+0134 <span class="comment">%        shapeMap: a smoothed version of segmentedMap.</span>
+0135 <span class="comment">%            date: time stamp.</span>
+0136 <span class="comment">%</span>
+0137 <span class="comment">% See also estimateShape, shapeIOR, applyIOR, plotSalientLocation, runSaliency.</span>
+0138 <span class="comment">%</span>
+0139 <span class="comment">%</span>
+0140 <span class="comment">% WTA - a winner-take-all neural network.</span>
+0141 <span class="comment">%       sm: LIF neuron field for input from the saliency map.</span>
+0142 <span class="comment">%      exc: excitatory LIF neurons field.</span>
+0143 <span class="comment">%    inhib: inhibitory inter-neuron.</span>
+0144 <span class="comment">%</span>
+0145 <span class="comment">% See also initializeWTA, evolveWTA.</span>
+0146 <span class="comment">%</span>
+0147 <span class="comment">%</span>
+0148 <span class="comment">% LIF - leaky integrate and fire neuron (field).</span>
+0149 <span class="comment">%     timeStep: time step for integration (in sec).</span>
+0150 <span class="comment">%        Eleak: leak potential (in V).</span>
+0151 <span class="comment">%         Eexc: potential for excitatory channels (positive, in V).</span>
+0152 <span class="comment">%         Einh: potential for inhibitory channels (negative, in V).</span>
+0153 <span class="comment">%        Gleak: leak conductivity (in S).</span>
+0154 <span class="comment">%         Gexc: conductivity of excitatory channels (in S).</span>
+0155 <span class="comment">%         Ginh: conductivity of inhibitory channels (in S).</span>
+0156 <span class="comment">%    GinhDecay: time constant for decay of inhibitory conductivity (in S).</span>
+0157 <span class="comment">%       Ginput: input conductivity (in S).</span>
+0158 <span class="comment">%      Vthresh: threshold potential for firing (in V).</span>
+0159 <span class="comment">%            C: capacity (in F).</span>
+0160 <span class="comment">%         time: current time (in sec).</span>
+0161 <span class="comment">%            V: current membrane potential (in V) - can be an array for several neurons.</span>
+0162 <span class="comment">%            I: current input current (in A) - can be an array for several neurons.</span>
+0163 <span class="comment">%     DoesFire: neuron can (1) or cannot (0) fire.</span>
+0164 <span class="comment">%</span>
+0165 <span class="comment">% See also defaultLeakyIntFire, evolveLeakyIntFire, initializeWTA.</span>
+0166 <span class="comment">%</span>
+0167 <span class="comment">%</span>
+0168 <span class="comment">%   LTUnetwork - a network of N linear threshold units.</span>
+0169 <span class="comment">%    connections: N x N weight matrix, a sparse matrix.</span>
+0170 <span class="comment">%     thresholds: 1 x N vector with thresholds for the units.</span>
+0171 <span class="comment">%      input_idx: the indices of all input units in the network.</span>
+0172 <span class="comment">%     output_idx: the indices of all output units in the network.</span>
+0173 <span class="comment">%       numCells: the number of units.</span>
+0174 <span class="comment">%          label: a text label fo the network.</span>
+0175 <span class="comment">%</span>
+0176 <span class="comment">% See also LTUsimulate, LTUsegmentMap, makeLTUsegmentNetwork.</span>
+0177 
+0178 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0179 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0180 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0181 <span class="comment">% More information about this project is available at:</span>
+0182 <span class="comment">% http://www.saliencytoolbox.net</span>
+0183 
+0184 more on;
+0185 help(mfilename);
+0186 more off;</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

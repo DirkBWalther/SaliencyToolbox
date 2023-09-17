@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of gaussianSubsample</title>
+  <meta name="keywords" content="gaussianSubsample">
+  <meta name="description" content="gaussianSubsample - smooths and subsamples image.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; gaussianSubsample.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>gaussianSubsample
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>gaussianSubsample - smooths and subsamples image.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function result = gaussianSubsample(img) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> gaussianSubsample - smooths and subsamples image.
+
+ result = gaussianSubsample(image)
+    Convolves image with a 6x6 separable Gaussian kernel
+    and subsamples by a factor of two. 
+
+ See also <a href="makeDyadicPyramid.html" class="code" title="function pyr = makeDyadicPyramid(map,varargin)">makeDyadicPyramid</a>, <a href="makeSqrt2Pyramid.html" class="code" title="function pyr = makeSqrt2Pyramid(map,varargin)">makeSqrt2Pyramid</a>, <a href="makeGaussianPyramid.html" class="code" title="function pyr = makeGaussianPyramid(map,type,varargin)">makeGaussianPyramid</a>, <a href="sepConv2PreserveEnergy.html" class="code" title="function result = sepConv2PreserveEnergy(filter1,filter2,data)">sepConv2PreserveEnergy</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="sepConv2PreserveEnergy.html" class="code" title="function result = sepConv2PreserveEnergy(filter1,filter2,data)">sepConv2PreserveEnergy</a>	sepConv2PreserveEnergy - energy preserving 2d convolution with separable filter</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="makeDyadicPyramid.html" class="code" title="function pyr = makeDyadicPyramid(map,varargin)">makeDyadicPyramid</a>	makeDyadicPyramid - creates a dyadic Gaussian pyramid.</li><li><a href="makeSqrt2Pyramid.html" class="code" title="function pyr = makeSqrt2Pyramid(map,varargin)">makeSqrt2Pyramid</a>	makeSqrt2Pyramid - creates a sqrt(2) Gaussian pyramid.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% gaussianSubsample - smooths and subsamples image.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% result = gaussianSubsample(image)</span>
+0004 <span class="comment">%    Convolves image with a 6x6 separable Gaussian kernel</span>
+0005 <span class="comment">%    and subsamples by a factor of two.</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% See also makeDyadicPyramid, makeSqrt2Pyramid, makeGaussianPyramid, sepConv2PreserveEnergy.</span>
+0008 
+0009 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0010 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0011 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0012 <span class="comment">% More information about this project is available at:</span>
+0013 <span class="comment">% http://www.saliencytoolbox.net</span>
+0014 
+0015 <a name="_sub0" href="#_subfunctions" class="code">function result = gaussianSubsample(img)</a>
+0016 <span class="comment">% need the extra trailing 1 for backward compatibility with the old mex version</span>
+0017 <span class="comment">% the particular values are also for backward compatibility</span>
+0018 filter = [1,5,10,10,5,1,1]; 
+0019 filter = filter/sum(filter);
+0020 
+0021 [h,w] = size(img);
+0022 
+0023 <span class="keyword">if</span> min(h,w) &gt; 3
+0024   <span class="comment">% big image - use straight-forward method</span>
+0025   convResult = <a href="sepConv2PreserveEnergy.html" class="code" title="function result = sepConv2PreserveEnergy(filter1,filter2,data)">sepConv2PreserveEnergy</a>(filter,filter,img);
+0026   horResult = convResult(:,[2:2:end]-1);
+0027   result = horResult([2:2:end]-1,:);
+0028 <span class="keyword">else</span>
+0029   <span class="comment">% Image is small along at least one dimension.</span>
+0030   <span class="comment">% Need to treat dimensions separately.</span>
+0031 
+0032   <span class="comment">% Horizontal pass</span>
+0033   <span class="keyword">if</span> w &lt;= 1
+0034     <span class="comment">% nothing to do</span>
+0035     horResult = img;
+0036   <span class="keyword">elseif</span> w == 2
+0037     <span class="comment">% kernel: [1,1]</span>
+0038     horResult = mean(img,2);
+0039   <span class="keyword">elseif</span> w == 3
+0040     <span class="comment">% kernel: [1,2,1]</span>
+0041     horResult = mean(img(:,[1,2,2,3]),2);
+0042   <span class="keyword">else</span>
+0043     <span class="comment">% horizontal convolution</span>
+0044     horResult = <a href="sepConv2PreserveEnergy.html" class="code" title="function result = sepConv2PreserveEnergy(filter1,filter2,data)">sepConv2PreserveEnergy</a>(1,filter,img);
+0045 
+0046     <span class="comment">% horizontal subsampling</span>
+0047     horResult = horResult(:,1:2:end-1);
+0048   <span class="keyword">end</span>
+0049 
+0050   <span class="comment">% Vetical pass</span>
+0051   <span class="keyword">if</span> h &lt;= 1
+0052     <span class="comment">% nothing to do</span>
+0053     result = horResult;
+0054   <span class="keyword">elseif</span> h == 2
+0055     <span class="comment">% kernel: [1,1]</span>
+0056     result = mean(horResult,1);
+0057   <span class="keyword">elseif</span> h == 3
+0058     <span class="comment">% kernel: [1,2,1]</span>
+0059     result = mean(horResult([1,2,2,3],:),1);
+0060   <span class="keyword">else</span>
+0061     <span class="comment">% vertical convolution</span>
+0062     verResult = <a href="sepConv2PreserveEnergy.html" class="code" title="function result = sepConv2PreserveEnergy(filter1,filter2,data)">sepConv2PreserveEnergy</a>(filter,1,horResult);
+0063 
+0064     <span class="comment">% vertical subsampling</span>
+0065     result = verResult(1:2:end-1,:);
+0066   <span class="keyword">end</span>
+0067 <span class="keyword">end</span>
+0068</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

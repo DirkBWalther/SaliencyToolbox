@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of makeIntensityPyramid</title>
+  <meta name="keywords" content="makeIntensityPyramid">
+  <meta name="description" content="makeIntensityPyramid - creates an intensity pyramid.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; makeIntensityPyramid.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>makeIntensityPyramid
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>makeIntensityPyramid - creates an intensity pyramid.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function intPyr = makeIntensityPyramid(image,type) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> makeIntensityPyramid - creates an intensity pyramid.
+
+ intPyr = makeIntensityPyramid(image,type)
+    Creates an intensity pyramid from image.
+       image: an Image structure for the input image.
+       type: 'dyadic' or 'sqrt2'
+
+ See also <a href="makeFeaturePyramids.html" class="code" title="function pyrs = makeFeaturePyramids(img,featureType,salParams,varargin)">makeFeaturePyramids</a>, <a href="makeGaussianPyramid.html" class="code" title="function pyr = makeGaussianPyramid(map,type,varargin)">makeGaussianPyramid</a>, <a href="dataStructures.html" class="code" title="">dataStructures</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="declareGlobal.html" class="code" title="">declareGlobal</a>	declareGlobal - declares global variables.</li><li><a href="loadImage.html" class="code" title="function imgData = loadImage(Image)">loadImage</a>	loadImage - returns the imgData for the Image structure</li><li><a href="makeGaussianPyramid.html" class="code" title="function pyr = makeGaussianPyramid(map,type,varargin)">makeGaussianPyramid</a>	makeGaussianPyramid - creates a Gaussian pyramid from map.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="makeFeaturePyramids.html" class="code" title="function pyrs = makeFeaturePyramids(img,featureType,salParams,varargin)">makeFeaturePyramids</a>	makeFeaturePyramids - creates a pyramid for featureType.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% makeIntensityPyramid - creates an intensity pyramid.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% intPyr = makeIntensityPyramid(image,type)</span>
+0004 <span class="comment">%    Creates an intensity pyramid from image.</span>
+0005 <span class="comment">%       image: an Image structure for the input image.</span>
+0006 <span class="comment">%       type: 'dyadic' or 'sqrt2'</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">% See also makeFeaturePyramids, makeGaussianPyramid, dataStructures.</span>
+0009 
+0010 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0011 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0012 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0013 <span class="comment">% More information about this project is available at:</span>
+0014 <span class="comment">% http://www.saliencytoolbox.net</span>
+0015 
+0016 <a name="_sub0" href="#_subfunctions" class="code">function intPyr = makeIntensityPyramid(image,type)</a>
+0017 
+0018 <a href="declareGlobal.html" class="code" title="">declareGlobal</a>;
+0019 
+0020 im = <a href="loadImage.html" class="code" title="function imgData = loadImage(Image)">loadImage</a>(image);
+0021 
+0022 map.origImage = image;
+0023 map.label = <span class="string">'Intensity'</span>;
+0024 map.data = rgb2gray(im);
+0025 map.date = clock;
+0026 
+0027 intPyr = <a href="makeGaussianPyramid.html" class="code" title="function pyr = makeGaussianPyramid(map,type,varargin)">makeGaussianPyramid</a>(map,type);</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

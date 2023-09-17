@@ -1,0 +1,293 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of estimateShape</title>
+  <meta name="keywords" content="estimateShape">
+  <meta name="description" content="estimateShape - estimates the shape of the attended proto-object region.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; estimateShape.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>estimateShape
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>estimateShape - estimates the shape of the attended proto-object region.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function shapeData = estimateShape(salmap,saliencyData,winner,params) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> estimateShape - estimates the shape of the attended proto-object region.
+
+ shapeData = estimateShape(salmap,saliencyData,winner,saliencyParams)
+    Estimates the shape of the attended proto-object region from the saliencyData:
+
+    salmap: the saliency map as returned by makeSaliencyMap.
+    saliencyData: the saliencyData as returned by makeSaliencyMap.
+    winner: the winning location in saliency map coordinates.
+    saliencyParams: the necesary parameters.
+
+    shapeData: structure containing information about the shape of
+    the attended regions, with the following fields:
+       origImage: the Image structure for the source image.
+          winner: the winning location in saliency map coordinates.
+      winningMap: the map for the most salient feature at the winner location.
+         iorMask: the mask used for shape-based inhibition of return.
+       binaryMap: a binary map of the attended region.
+    segmentedMap: the winning map segmented by the binary map.
+        shapeMap: a smoothed version of segmentedMap.
+            date: the time and date of the creation of this structure.
+
+    If finding an appropriate map for segmentation failed, an empty
+    shapeData structure is returned.
+
+ The possible params.shapeModes for shape estimation are:
+     'None': no shape processing.
+     'shapeSM': use the saliency map.
+     'shapeCM': use the conspicuity map with the largest contribution
+                to the saliency map at the attended location.
+     'shapeFM': use the feature map with the largest contribution
+                to that conspicuity map.
+    'shapePyr': use the pyramid level (center or surround level) with
+                the largest ontribution to that feature map.
+
+ For details of this method see:
+      Walther, D., and Koch, C. (2006). Modeling attention to salient 
+      proto-objects. Neural Networks 19, pp. 1395-1407.
+
+ See also <a href="makeSaliencyMap.html" class="code" title="function [salmap, saliencyData] = makeSaliencyMap(img, salParams, varargin)">makeSaliencyMap</a>, <a href="evolveWTA.html" class="code" title="function [wta,winner] = evolveWTA(wta)">evolveWTA</a>, <a href="dataStructures.html" class="code" title="">dataStructures</a>, <a href="runSaliency.html" class="code" title="function runSaliency(inputImage,varargin)">runSaliency</a>,
+          <a href="applyIOR.html" class="code" title="function wta = applyIOR(oldWTA,winner,params,varargin)">applyIOR</a>, <a href="shapeIOR.html" class="code" title="function wta = shapeIOR(wta,winner,params,shapeData)">shapeIOR</a>, <a href="defaultSaliencyParams.html" class="code" title="function params = defaultSaliencyParams(varargin)">defaultSaliencyParams</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="LTUsegmentMap.html" class="code" title="function [resultMap,segMaps] = LTUsegmentMap(map,seedPoint,varargin)">LTUsegmentMap</a>	LTUsegmentMap - segment map using a network of linear threshold units.</li><li><a href="clamp.html" class="code" title="function data = clamp(data,bottom,top)">clamp</a>	clamp - clamps data at the top and/or bottom.</li><li><a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>	debugMsg displays a debug message with line number and filename.</li><li><a href="fastSegmentMap.html" class="code" title="function resultMap = fastSegmentMap(map,seedPoint,varargin)">fastSegmentMap</a>	fastSegmentMap - segment map around a seedPoint.</li><li><a href="gaussian.html" class="code" title="function kernel = gaussian(peak,sigma,maxhw,varargin)">gaussian</a>	gaussian - returns a 1d Gaussian kernel.</li><li><a href="normalizeImage.html" class="code" title="function res = normalizeImage(img,varargin)">normalizeImage</a>	normalizeImage - linearly normalize an array.</li><li><a href="sepConv2PreserveEnergy.html" class="code" title="function result = sepConv2PreserveEnergy(filter1,filter2,data)">sepConv2PreserveEnergy</a>	sepConv2PreserveEnergy - energy preserving 2d convolution with separable filter</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="batchSaliency.html" class="code" title="function [salMaps,fixations] = batchSaliency(images,numFixations,params)">batchSaliency</a>	batchSaliency - batch processing of lists of images.</li><li><a href="guiSaliency.html" class="code" title="function varargout = guiSaliency(varargin)">guiSaliency</a>	guiSaliency - a graphical user interface (GUI) version of the saliency code.</li><li><a href="runSaliency.html" class="code" title="function runSaliency(inputImage,varargin)">runSaliency</a>	runSaliency - compute and display saliency map and fixations.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% estimateShape - estimates the shape of the attended proto-object region.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% shapeData = estimateShape(salmap,saliencyData,winner,saliencyParams)</span>
+0004 <span class="comment">%    Estimates the shape of the attended proto-object region from the saliencyData:</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">%    salmap: the saliency map as returned by makeSaliencyMap.</span>
+0007 <span class="comment">%    saliencyData: the saliencyData as returned by makeSaliencyMap.</span>
+0008 <span class="comment">%    winner: the winning location in saliency map coordinates.</span>
+0009 <span class="comment">%    saliencyParams: the necesary parameters.</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">%    shapeData: structure containing information about the shape of</span>
+0012 <span class="comment">%    the attended regions, with the following fields:</span>
+0013 <span class="comment">%       origImage: the Image structure for the source image.</span>
+0014 <span class="comment">%          winner: the winning location in saliency map coordinates.</span>
+0015 <span class="comment">%      winningMap: the map for the most salient feature at the winner location.</span>
+0016 <span class="comment">%         iorMask: the mask used for shape-based inhibition of return.</span>
+0017 <span class="comment">%       binaryMap: a binary map of the attended region.</span>
+0018 <span class="comment">%    segmentedMap: the winning map segmented by the binary map.</span>
+0019 <span class="comment">%        shapeMap: a smoothed version of segmentedMap.</span>
+0020 <span class="comment">%            date: the time and date of the creation of this structure.</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">%    If finding an appropriate map for segmentation failed, an empty</span>
+0023 <span class="comment">%    shapeData structure is returned.</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">% The possible params.shapeModes for shape estimation are:</span>
+0026 <span class="comment">%     'None': no shape processing.</span>
+0027 <span class="comment">%     'shapeSM': use the saliency map.</span>
+0028 <span class="comment">%     'shapeCM': use the conspicuity map with the largest contribution</span>
+0029 <span class="comment">%                to the saliency map at the attended location.</span>
+0030 <span class="comment">%     'shapeFM': use the feature map with the largest contribution</span>
+0031 <span class="comment">%                to that conspicuity map.</span>
+0032 <span class="comment">%    'shapePyr': use the pyramid level (center or surround level) with</span>
+0033 <span class="comment">%                the largest ontribution to that feature map.</span>
+0034 <span class="comment">%</span>
+0035 <span class="comment">% For details of this method see:</span>
+0036 <span class="comment">%      Walther, D., and Koch, C. (2006). Modeling attention to salient</span>
+0037 <span class="comment">%      proto-objects. Neural Networks 19, pp. 1395-1407.</span>
+0038 <span class="comment">%</span>
+0039 <span class="comment">% See also makeSaliencyMap, evolveWTA, dataStructures, runSaliency,</span>
+0040 <span class="comment">%          applyIOR, shapeIOR, defaultSaliencyParams.</span>
+0041 
+0042 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0043 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0044 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0045 <span class="comment">% More information about this project is available at:</span>
+0046 <span class="comment">% http://www.saliencytoolbox.net</span>
+0047 
+0048 <a name="_sub0" href="#_subfunctions" class="code">function shapeData = estimateShape(salmap,saliencyData,winner,params)</a>
+0049 
+0050 <span class="keyword">if</span> strcmpi(params.shapeMode,<span class="string">'None'</span>)
+0051   shapeData = [];
+0052   <span class="keyword">return</span>
+0053 <span class="keyword">end</span>
+0054 
+0055 shapeData.origImage = salmap.origImage;
+0056 shapeData.winner = winner;
+0057 
+0058 tmp1 = cat(1,saliencyData.CM);
+0059 tmp2 = cat(3,tmp1.data);
+0060 [mx,CMidx] = max(tmp2(winner(1),winner(2),:));
+0061 
+0062 <span class="comment">% first default: winning map is saliency map</span>
+0063 winMap = salmap;
+0064 winPos = {winner};
+0065 
+0066 <span class="comment">% need to go deeper into the maps?</span>
+0067 <span class="keyword">if</span> ((mx &gt; 0) &amp; ~strcmp(params.shapeMode,<span class="string">'shapeSM'</span>))
+0068   
+0069   <span class="comment">% find the biggest contributing conspicuity map</span>
+0070   CMidx = CMidx(randi(length(CMidx)));
+0071   tmp1 = cat(1,saliencyData(CMidx).FM(:));
+0072   tmp2 = cat(3,tmp1.data);
+0073   [mx,FMidx] = max(tmp2(winner(1),winner(2),:));
+0074   
+0075   <span class="comment">% found our winning conspicuity map</span>
+0076   winMap(end+1) = saliencyData(CMidx).CM;
+0077   winPos{end+1} = winner;
+0078 
+0079   <span class="comment">% need to go deeper?</span>
+0080   <span class="keyword">if</span> ((mx &gt; 0) &amp; ~strcmp(params.shapeMode,<span class="string">'shapeCM'</span>))
+0081     
+0082     <span class="comment">% our next bet are the feature maps that contribute</span>
+0083     <span class="comment">% to the wining conspicuity map</span>
+0084     FMidx = FMidx(randi(length(FMidx)));
+0085     winMap(end+1) = saliencyData(CMidx).FM(FMidx);
+0086     winPos{end+1} = winner;
+0087     
+0088     <span class="comment">% need to go deeper still?</span>
+0089     <span class="keyword">if</span> (strcmp(params.shapeMode,<span class="string">'shapePyr'</span>))
+0090       
+0091       <span class="comment">% now we compare the contributing center and surround maps</span>
+0092       cen = saliencyData(CMidx).csLevels(FMidx).centerLevel;
+0093       sur = saliencyData(CMidx).csLevels(FMidx).surroundLevel;
+0094       [pyrIdx,tmp] = ind2sub(size(saliencyData(CMidx).FM),FMidx);
+0095       cenMap = saliencyData(CMidx).pyr(pyrIdx).levels(cen);
+0096       surMap = saliencyData(CMidx).pyr(pyrIdx).levels(sur);
+0097       
+0098       <span class="comment">% extract the values of the cen and sur maps at the winner location</span>
+0099       wCM = size(saliencyData(CMidx).CM.data,2);
+0100       cenWin = round(winner/wCM * size(cenMap.data,2));
+0101       surWin = round(winner/wCM * size(surMap.data,2));
+0102       cenWin = max(min(cenWin,size(cenMap.data)),[1 1]);
+0103       surWin = max(min(surWin,size(surMap.data)),[1 1]);
+0104       cenVal = cenMap.data(cenWin(1),cenWin(2));
+0105       surVal = surMap.data(surWin(1),surWin(2));
+0106       
+0107       <span class="comment">% compare center and surround and store the winner</span>
+0108       <span class="keyword">if</span> (abs(cenVal) &gt; abs(surVal) &amp; (min(size(cenMap.data)) &gt; 7))
+0109         winMap(end+1) = cenMap;
+0110         winVal = cenVal;
+0111         winPos{end+1} = cenWin;
+0112       <span class="keyword">else</span>
+0113         winMap(end+1) = surMap;
+0114         winVal = surVal;
+0115         winPos{end+1} = surWin;
+0116       <span class="keyword">end</span>
+0117       
+0118       <span class="comment">% renormalize the cen or sur map values for better segmentation</span>
+0119       winMap(end).data = (1 - abs(winMap(end).data - winVal) / winVal).^2;
+0120     <span class="keyword">end</span>    
+0121   <span class="keyword">end</span>
+0122 <span class="keyword">end</span>
+0123 
+0124 <span class="comment">% now we have extracted all the maps we need</span>
+0125 <a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>(winMap(end).label)
+0126 <a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>(sprintf(<span class="string">'Value at winning location: %g'</span>,<span class="keyword">...</span>
+0127          winMap(end).data(winPos{end}(1),winPos{end}(2))));
+0128 gotMap = 0;
+0129 
+0130 <span class="comment">% let's see who behaves nicely for segmentation</span>
+0131 <span class="keyword">for</span> idx = length(winMap):-1:1
+0132   <span class="keyword">switch</span> params.segmentComputeType
+0133     <span class="keyword">case</span> <span class="string">'Fast'</span>
+0134       binMap = <a href="fastSegmentMap.html" class="code" title="function resultMap = fastSegmentMap(map,seedPoint,varargin)">fastSegmentMap</a>(winMap(idx),winPos{idx});
+0135     <span class="keyword">case</span> <span class="string">'LTU'</span>
+0136       binMap = <a href="LTUsegmentMap.html" class="code" title="function [resultMap,segMaps] = LTUsegmentMap(map,seedPoint,varargin)">LTUsegmentMap</a>(winMap(idx),winPos{idx});
+0137     <span class="keyword">otherwise</span>
+0138       error([<span class="string">'Unknown segmentComputeType: '</span> params.segmentComputeType]);
+0139   <span class="keyword">end</span>
+0140     
+0141   <span class="comment">% check that we actually segmented something, but not too big (&lt; 10%)</span>
+0142   areaRatio = sum(binMap.data(:)) / prod(size(binMap.data));
+0143   <span class="keyword">if</span> ((areaRatio &gt; 0) &amp; (areaRatio &lt; 0.1))
+0144     
+0145     <span class="comment">% this guy looks good - let's keep him!</span>
+0146     shapeData.winningMap = winMap(idx);
+0147     shapeData.winner = winPos{idx};
+0148 
+0149     <span class="comment">% for the IOR mask, we don't want to smooth the shape</span>
+0150     shapeData.iorMask = binMap;
+0151     shapeData.iorMask.data = imdilate(shapeData.iorMask.data,strel(<span class="string">'disk'</span>,2));
+0152     shapeData.iorMask.label = <span class="string">'IOR mask'</span>;
+0153     
+0154     <span class="comment">% for the binary map, erode the shape a bit</span>
+0155     binMap.label = <span class="string">'binary shape map'</span>;
+0156     se = [[0 0 1 0 0];[0 1 1 1 0];[1 1 1 1 1];[0 1 1 1 0];[0 0 1 0 0]];
+0157     tmp = imclose(imopen(binMap.data,se),se);
+0158     newMap = [];
+0159     <span class="keyword">if</span> (tmp(winPos{idx}(1),winPos{idx}(2)) &gt; 0)
+0160       <span class="keyword">if</span> (sum(tmp(:)) &gt; 0)
+0161         newMap = tmp;
+0162       <span class="keyword">end</span>
+0163     <span class="keyword">else</span>
+0164       se = [[0 1 0];[1 1 1];[0 1 0]];
+0165       tmp = imclose(imopen(binMap.data,se),se);
+0166       <span class="keyword">if</span> ((tmp(winPos{idx}(1),winPos{idx}(2)) &gt; 0) &amp;&amp; (sum(tmp(:)) &gt; 0))
+0167         newMap = tmp;
+0168       <span class="keyword">end</span>
+0169     <span class="keyword">end</span>
+0170     <span class="keyword">if</span> ~isempty(newMap)
+0171       lab = bwlabel(newMap,4);
+0172       binMap.data = double(lab == lab(winPos{idx}(1),winPos{idx}(2)));
+0173     <span class="keyword">end</span>
+0174     shapeData.binaryMap = binMap;
+0175     gotMap = 1;
+0176     <span class="keyword">break</span>;
+0177   <span class="keyword">end</span>
+0178 <span class="keyword">end</span>
+0179 
+0180 <span class="comment">% huh - no success in segmentation? Just return empty then</span>
+0181 <span class="keyword">if</span> (~gotMap)
+0182   shapeData = [];
+0183   <span class="keyword">return</span>;
+0184 <span class="keyword">end</span>
+0185 
+0186 <span class="comment">% Hurray, we have a nicely segmented map - let's compute a few more things</span>
+0187 
+0188 <span class="comment">% The segmented map is just winning map * binary map</span>
+0189 shapeData.segmentedMap.origImage = shapeData.winningMap.origImage;
+0190 shapeData.segmentedMap.label = <span class="string">'segmented shape map'</span>;
+0191 shapeData.segmentedMap.data = shapeData.winningMap.data .* shapeData.binaryMap.data;
+0192 shapeData.segmentedMap.date = clock;
+0193 shapeData.segmentedMap.parameters = shapeData.winningMap.parameters;
+0194 
+0195 <span class="comment">% The shape map is a smoothed version of the binary map</span>
+0196 shapeData.shapeMap.origImage = shapeData.winningMap.origImage;
+0197 shapeData.shapeMap.label = [shapeData.binaryMap.label <span class="string">' - rescaled'</span>];
+0198 tmp = imresize(shapeData.binaryMap.data,<span class="keyword">...</span>
+0199                shapeData.shapeMap.origImage.size(1:2),<span class="string">'nearest'</span>);
+0200 kernel = <a href="gaussian.html" class="code" title="function kernel = gaussian(peak,sigma,maxhw,varargin)">gaussian</a>(0,15,15);
+0201 tmp = <a href="normalizeImage.html" class="code" title="function res = normalizeImage(img,varargin)">normalizeImage</a>(<a href="sepConv2PreserveEnergy.html" class="code" title="function result = sepConv2PreserveEnergy(filter1,filter2,data)">sepConv2PreserveEnergy</a>(kernel,kernel,tmp),[0,3]);
+0202 shapeData.shapeMap.data = <a href="clamp.html" class="code" title="function data = clamp(data,bottom,top)">clamp</a>(tmp,0,1);
+0203 
+0204 shapeData.shapeMap.date = clock;
+0205 shapeData.shapeMap.parameters = shapeData.winningMap.parameters;
+0206 
+0207 shapeData.date = clock;</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

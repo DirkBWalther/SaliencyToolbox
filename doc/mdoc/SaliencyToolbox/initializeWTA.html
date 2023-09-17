@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of initializeWTA</title>
+  <meta name="keywords" content="initializeWTA">
+  <meta name="description" content="initializeWTA - intitializes a winner-take-all network.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; initializeWTA.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>initializeWTA
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>initializeWTA - intitializes a winner-take-all network.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function wta = initializeWTA(salmap,salParams) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> initializeWTA - intitializes a winner-take-all network.
+
+ wta = initializeWTA(saliencyMap,saliencyParams)
+    Initializes a winner-take-all network of leaky 
+    integrate and fire neurons with the current
+    inputs to the neurons set proportional to the
+    values of the saliencyMap.
+
+ See also <a href="evolveWTA.html" class="code" title="function [wta,winner] = evolveWTA(wta)">evolveWTA</a>, <a href="defaultLeakyIntFire.html" class="code" title="function LIF = defaultLeakyIntFire">defaultLeakyIntFire</a>, <a href="runSaliency.html" class="code" title="function runSaliency(inputImage,varargin)">runSaliency</a>,
+          <a href="defaultSaliencyParams.html" class="code" title="function params = defaultSaliencyParams(varargin)">defaultSaliencyParams</a>, <a href="dataStructures.html" class="code" title="">dataStructures</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>	debugMsg displays a debug message with line number and filename.</li><li><a href="defaultLeakyIntFire.html" class="code" title="function LIF = defaultLeakyIntFire">defaultLeakyIntFire</a>	defaultLeakyIntFire - creates a default LIF neuron.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="batchSaliency.html" class="code" title="function [salMaps,fixations] = batchSaliency(images,numFixations,params)">batchSaliency</a>	batchSaliency - batch processing of lists of images.</li><li><a href="guiSaliency.html" class="code" title="function varargout = guiSaliency(varargin)">guiSaliency</a>	guiSaliency - a graphical user interface (GUI) version of the saliency code.</li><li><a href="runSaliency.html" class="code" title="function runSaliency(inputImage,varargin)">runSaliency</a>	runSaliency - compute and display saliency map and fixations.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% initializeWTA - intitializes a winner-take-all network.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% wta = initializeWTA(saliencyMap,saliencyParams)</span>
+0004 <span class="comment">%    Initializes a winner-take-all network of leaky</span>
+0005 <span class="comment">%    integrate and fire neurons with the current</span>
+0006 <span class="comment">%    inputs to the neurons set proportional to the</span>
+0007 <span class="comment">%    values of the saliencyMap.</span>
+0008 <span class="comment">%</span>
+0009 <span class="comment">% See also evolveWTA, defaultLeakyIntFire, runSaliency,</span>
+0010 <span class="comment">%          defaultSaliencyParams, dataStructures.</span>
+0011 
+0012 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0013 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0014 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0015 <span class="comment">% More information about this project is available at:</span>
+0016 <span class="comment">% http://www.saliencytoolbox.net</span>
+0017 
+0018 <a name="_sub0" href="#_subfunctions" class="code">function wta = initializeWTA(salmap,salParams)</a>
+0019 
+0020 wta.sm = <a href="defaultLeakyIntFire.html" class="code" title="function LIF = defaultLeakyIntFire">defaultLeakyIntFire</a>;
+0021 wta.sm.C = 5e-8;
+0022 wta.sm.Einh = 0;
+0023 wta.sm.Eexc = 0;
+0024 wta.sm.Gleak = 1e-7;
+0025 wta.sm.Ginh = zeros(size(salmap.data));
+0026 wta.sm.GinhDecay = salParams.IORdecay;
+0027 wta.sm.DoesFire = 0;
+0028 wta.sm.I = salmap.data * salParams.smOutputRange + <span class="keyword">...</span>
+0029            salParams.noiseAmpl * rand(size(salmap.data)) + <span class="keyword">...</span>
+0030            salParams.noiseConst;
+0031 <a href="debugMsg.html" class="code" title="function debugMsg(message,varargin)">debugMsg</a>(<span class="string">'salmap input into WTA'</span>,wta.sm.I);
+0032 wta.sm.V = zeros(size(salmap.data));
+0033 
+0034 wta.exc = <a href="defaultLeakyIntFire.html" class="code" title="function LIF = defaultLeakyIntFire">defaultLeakyIntFire</a>;
+0035 wta.exc.I = zeros(size(salmap.data));
+0036 wta.exc.V = zeros(size(salmap.data));
+0037 wta.exc.Ginh = 1e-2;
+0038 
+0039 wta.inhib = <a href="defaultLeakyIntFire.html" class="code" title="function LIF = defaultLeakyIntFire">defaultLeakyIntFire</a>;</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

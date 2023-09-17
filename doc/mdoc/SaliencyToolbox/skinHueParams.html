@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of skinHueParams</title>
+  <meta name="keywords" content="skinHueParams">
+  <meta name="description" content="skinHueParams - returns a parameter set for skin hue.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; skinHueParams.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>skinHueParams
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>skinHueParams - returns a parameter set for skin hue.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function params = skinHueParams </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> skinHueParams - returns a parameter set for skin hue.
+
+ params = skinHueParams
+    Returns a set of hue parameters for skin hue. These
+    parameters were derived from the statistics over 
+    3947 faces in 1153 images from the word wide web. 
+    They were used as a benchmark in:
+    Walther, D., Serre,T., Poggio, T., Koch, C., 2005.
+    Modeling feature sharing between object detection
+    and top-down attention [abstract]. Journal of
+    Vision 5(8), 1041a.
+
+    The details are published in appendix A.4 of Dirk Walther's PhD thesis:
+      Dirk Walther (2006). Interactions of visual attention and object recognition: 
+      Computational modeling, algorithms, and psychophysics. Ph.D. thesis.
+      California Institute of Technology. 
+      http://resolver.caltech.edu/CaltechETD:etd-03072006-135433.
+
+    and in this book chapter:
+      Dirk B. Walther &amp; Christof Koch (2007). Attention in 
+      Hierarchical Models of Object Recognition. In P. Cisek, 
+      T. Drew &amp; J. F. Kalaska (Eds.), Progress in Brain Research: 
+      Computational Neuroscience: Theoretical insights into brain 
+      function. Amsterdam: Elsevier.
+
+ See also <a href="hueDistance.html" class="code" title="function result = hueDistance(col_img,hueParams)">hueDistance</a>, <a href="makeHuePyramid.html" class="code" title="function huePyr = makeHuePyramid(image,type,hueParams,varargin)">makeHuePyramid</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="makeFeaturePyramids.html" class="code" title="function pyrs = makeFeaturePyramids(img,featureType,salParams,varargin)">makeFeaturePyramids</a>	makeFeaturePyramids - creates a pyramid for featureType.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% skinHueParams - returns a parameter set for skin hue.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% params = skinHueParams</span>
+0004 <span class="comment">%    Returns a set of hue parameters for skin hue. These</span>
+0005 <span class="comment">%    parameters were derived from the statistics over</span>
+0006 <span class="comment">%    3947 faces in 1153 images from the word wide web.</span>
+0007 <span class="comment">%    They were used as a benchmark in:</span>
+0008 <span class="comment">%    Walther, D., Serre,T., Poggio, T., Koch, C., 2005.</span>
+0009 <span class="comment">%    Modeling feature sharing between object detection</span>
+0010 <span class="comment">%    and top-down attention [abstract]. Journal of</span>
+0011 <span class="comment">%    Vision 5(8), 1041a.</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">%    The details are published in appendix A.4 of Dirk Walther's PhD thesis:</span>
+0014 <span class="comment">%      Dirk Walther (2006). Interactions of visual attention and object recognition:</span>
+0015 <span class="comment">%      Computational modeling, algorithms, and psychophysics. Ph.D. thesis.</span>
+0016 <span class="comment">%      California Institute of Technology.</span>
+0017 <span class="comment">%      http://resolver.caltech.edu/CaltechETD:etd-03072006-135433.</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">%    and in this book chapter:</span>
+0020 <span class="comment">%      Dirk B. Walther &amp; Christof Koch (2007). Attention in</span>
+0021 <span class="comment">%      Hierarchical Models of Object Recognition. In P. Cisek,</span>
+0022 <span class="comment">%      T. Drew &amp; J. F. Kalaska (Eds.), Progress in Brain Research:</span>
+0023 <span class="comment">%      Computational Neuroscience: Theoretical insights into brain</span>
+0024 <span class="comment">%      function. Amsterdam: Elsevier.</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">% See also hueDistance, makeHuePyramid.</span>
+0027 
+0028 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0029 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0030 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0031 <span class="comment">% More information about this project is available at:</span>
+0032 <span class="comment">% http://www.saliencytoolbox.net</span>
+0033 
+0034 <a name="_sub0" href="#_subfunctions" class="code">function params = skinHueParams</a>
+0035 
+0036 params.muR = 0.434904;
+0037 params.muG = 0.301983;
+0038 params.sigR = 0.053375;
+0039 params.sigG = 0.024349;
+0040 params.rho = 0.5852;</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

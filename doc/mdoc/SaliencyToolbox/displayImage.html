@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of displayImage</title>
+  <meta name="keywords" content="displayImage">
+  <meta name="description" content="displayImage - displays an image in a convenient way in the current axes.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">SaliencyToolbox</a> &gt; displayImage.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for SaliencyToolbox&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>displayImage
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>displayImage - displays an image in a convenient way in the current axes.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function displayImage(img,doNormalize) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> displayImage - displays an image in a convenient way in the current axes.
+
+ displayImage(img) - displays image in the current axis (wrapper for imshow)
+    img can be of any numerical type or a logical, and it
+        must have two (gray-scale) or three (RGB) dimensions.
+    img can be an Image structure (see initializeImage).
+    The image is scaled appropriately.
+
+ displayImage(img,doNormalize)
+    If doNormalize is 1, the image is maximum-normalized 
+    (default: 0).
+
+ See also <a href="displayMap.html" class="code" title="function displayMap(map,varargin)">displayMap</a>, <a href="displayMaps.html" class="code" title="function displayMaps(maps,varargin)">displayMaps</a>, <a href="showImage.html" class="code" title="function h = showImage(img,varargin)">showImage</a>, <a href="initializeImage.html" class="code" title="function [Img,err] = initializeImage(varargin);">initializeImage</a>, <a href="dataStructures.html" class="code" title="">dataStructures</a>.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="displayImage.html" class="code" title="function displayImage(img,doNormalize)">displayImage</a>	displayImage - displays an image in a convenient way in the current axes.</li><li><a href="loadImage.html" class="code" title="function imgData = loadImage(Image)">loadImage</a>	loadImage - returns the imgData for the Image structure</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="displayImage.html" class="code" title="function displayImage(img,doNormalize)">displayImage</a>	displayImage - displays an image in a convenient way in the current axes.</li><li><a href="guiSaliency.html" class="code" title="function varargout = guiSaliency(varargin)">guiSaliency</a>	guiSaliency - a graphical user interface (GUI) version of the saliency code.</li><li><a href="plotSalientLocation.html" class="code" title="function plotSalientLocation(winner,lastWinner,img,params,varargin)">plotSalientLocation</a>	plotSalientLocation - plots the attended location into an existing figure.</li><li><a href="showImage.html" class="code" title="function h = showImage(img,varargin)">showImage</a>	showImage - displays an image in a convenient way.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">% displayImage - displays an image in a convenient way in the current axes.</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% displayImage(img) - displays image in the current axis (wrapper for imshow)</span>
+0004 <span class="comment">%    img can be of any numerical type or a logical, and it</span>
+0005 <span class="comment">%        must have two (gray-scale) or three (RGB) dimensions.</span>
+0006 <span class="comment">%    img can be an Image structure (see initializeImage).</span>
+0007 <span class="comment">%    The image is scaled appropriately.</span>
+0008 <span class="comment">%</span>
+0009 <span class="comment">% displayImage(img,doNormalize)</span>
+0010 <span class="comment">%    If doNormalize is 1, the image is maximum-normalized</span>
+0011 <span class="comment">%    (default: 0).</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% See also displayMap, displayMaps, showImage, initializeImage, dataStructures.</span>
+0014 
+0015 <span class="comment">% This file is part of the SaliencyToolbox - Copyright (C) 2006-2013</span>
+0016 <span class="comment">% by Dirk B. Walther and the California Institute of Technology.</span>
+0017 <span class="comment">% See the enclosed LICENSE.TXT document for the license agreement.</span>
+0018 <span class="comment">% More information about this project is available at:</span>
+0019 <span class="comment">% http://www.saliencytoolbox.net</span>
+0020 
+0021 <a name="_sub0" href="#_subfunctions" class="code">function displayImage(img,doNormalize)</a>
+0022 
+0023 <span class="keyword">if</span> (nargin &lt; 2)
+0024   doNormalize = 0;
+0025 <span class="keyword">end</span>
+0026 
+0027 <span class="keyword">if</span> (isa(img,<span class="string">'struct'</span>))
+0028   <a href="displayImage.html" class="code" title="function displayImage(img,doNormalize)">displayImage</a>(<a href="loadImage.html" class="code" title="function imgData = loadImage(Image)">loadImage</a>(img),doNormalize);
+0029   <span class="keyword">return</span>;
+0030 <span class="keyword">end</span>
+0031 
+0032 <span class="keyword">if</span> doNormalize
+0033   imshow(img,[]);
+0034 <span class="keyword">else</span>
+0035   imshow(img);
+0036 <span class="keyword">end</span>
+0037 axis image;</pre></div>
+<hr><address>Generated on Thu 18-Jul-2013 06:10:46 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

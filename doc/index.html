@@ -1,0 +1,112 @@
+<html>
+<head>
+<title>SaliencyToolbox 2.3</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+<!--
+.main_heading {  font-family: Arial, Helvetica, sans-serif; font-size: 250%; font-weight: bold; color: #336600}
+.main_text {  font-family: Arial, Helvetica, sans-serif; font-size: 120%}
+a {  color: #CC0000; text-decoration: none}
+a:hover { color: #FF0000; cursor: hand; text-decoration: underline}
+.sub_heading { font-family: Arial, Helvetica, sans-serif; font-size: 180%; font-weight: bold; color: #336600 }
+.datefield {  font-family: "Times New Roman", Times, serif; font-size: 90%; font-style: italic; color: #666666}
+.subsub_heading { font-family: Arial, Helvetica, sans-serif; font-size: 130%; font-weight: bold; color: #336600 ; font-style: italic}
+code {  font-size: 120%; font-weight: bold; color: #000066}
+.main_text_small { font-family: Arial, Helvetica, sans-serif; font-size: 100%}
+-->
+</style>
+</head>
+<body bgcolor="#FFFFFF" text="#000000">
+<p class="main_heading" align="center">SaliencyToolbox 2.3 - documentation</p>
+<hr>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr valign="top"> 
+    <td width="24%" height="53" class="main_text"> 
+      <p><a href="#installation">Installation<br>
+        </a><a href="#quick">Quick Start</a>
+      </p>
+    </td>
+    <td width="35%" height="53" class="main_text"> 
+      <p><a href="mdoc/index.html">m-file documentation<br>
+        </a><a href="#bugs">Bug reports</a></p>
+    </td>
+    <td width="41%" height="53" class="main_text"><a href="../license.html">License</a><br>
+      <a href="http://www.saliencytoolbox.net"> official SaliencyToolbox web 
+      page</a> </td>
+  </tr>
+</table>
+<hr>
+<p class="sub_heading"><a name="installation"></a>Installation</p>
+<p class="main_text">Unpacking the code creates a directory structure under SaliencyToolbox. 
+  Simply add the SaliencyToolbox directory  to your 
+  Matlab path:</p>
+<p class="main_text"><code>addpath('<i>&lt;your SaliencyToolbox path&gt;</i>');</code></p>
+<p class="main_text">If you want to have access to the toolbox everytime you start 
+  Matlab, then place the above command into your startup.m file, which is located 
+  in ~/matlab/startup.m for Linux, Mac OS X and other Unix flavors. Or go to &quot;File &gt; Set Path &gt; Add folder &gt; [Select the SaliencyToolbox folder] &gt; Save&quot;.</p>
+<hr>
+<p class="sub_heading"><a name="quick"></a>Quick Start</p>
+<p class="main_text">Okay, now that installation was so simple, you have some 
+  time left for a test drive, right? Version 2.0 sports a new graphical user interface 
+  (GUI) version of the saliency code. In Matlab, change to the SaliencyToolbox 
+  directory, then type:</p>
+<p class="main_text"><code>guiSaliency('img/balloons.png');</code></p>
+<p class="main_text">Hit &quot;Start&quot; to start the saliency computation. 
+  Everything else should be fairly intuitive.</p>
+<p class="main_text">There is also the command-line version of the program:</p>
+<p class="main_text"><code>runSaliency('img/balloons.png');</code></p>
+<p class="main_text">After a few moments, you should see four figure windows with 
+  various intermediate results, and in the Matlab window you will see details 
+  about the most salient location, which is also marked in the image. You can 
+  now hit Return to go to the next most salient location and so forth. To quit, 
+  simply enter 'q' and press Return.</p>
+<p class="main_text">If you want to compute the saliency maps and fixations for 
+  several images in batch mode, then check out <a href="mdoc/mfiles/batchSaliency.html">batchSaliency</a>.</p>
+<p class="main_text">The SaliencyToolbox/img directory contains a few example 
+  images for you to play with. The guiSaliency, runSaliency, and batchSaliency 
+  functions also takes an optional second argument, a saliencyParams structure. 
+  Start exploring the documentation for <a href="mdoc/mfiles/runSaliency.html">runSaliency</a>, 
+  <a href="mdoc/mfiles/batchSaliency.html">batchSaliency</a>, <a href="mdoc/mfiles/defaultSaliencyParams.html">defaultSaliencyParams</a>, 
+  and <a href="mdoc/mfiles/dataStructures.html">dataStructures</a> to get an idea 
+  of what is happening. It may be a good idea to make a copy of runSaliency and 
+start dissecting and adapting it for your purpose.</p>
+<p class="main_text">If you want to get more feedback on what is happening at 
+  each time step, then try switching debugging messages on in the GUI version. 
+  In the command-line version, you can do the following:</p>
+<p class="main_text"><code>declareGlobal;<br>
+  DEBUG_FID = 1;<br>
+  runSaliency('img/balloons.png');</code></p>
+<p class="main_text">See the documentations for <a href="mdoc/mfiles/initializeGlobal.html">initializeGlobal</a>, 
+  <a href="mdoc/mfiles/declareGlobal.html">declareGlobal</a>, and <a href="mdoc/mfiles/debugMsg.html">debugMsg</a> 
+  for what is happening here.</p>
+<p class="main_text">Here is another common application, computing the saliency map for an image and upsampling it to full image resolution. Use this piece of code:</p>
+<p class="main_text"><code>img = initializeImage('img/balloons.png');<br>
+params = defaultSaliencyParams;<br>
+salmap = makeSaliencyMap(img,params);<br>
+bigMap = imresize(salmap.data,img.size(1:2));<br>
+displayMaps(bigMap,1);</code></p>
+<hr>
+<p class="sub_heading">Generating the documentation</p>
+<p class="main_text">The documentation for the m-files is generated from within 
+  Matlab, using the <a href="http://www.artefact.tk/software/matlab/m2html/" target="_blank">m2html 
+  toolbox</a>. Make sure that m2html is in your Matlab path, then change to the 
+  SaliencyToolbox base directory and type:</p>
+<p class="main_text"><code>STBgenerateDoc;</code></p>
+<p class="main_text">And you'll have the <a href="mdoc/index.html">documentation</a> 
+  for the m-files in SaliencyToolbox/doc/mdoc.</p>
+<hr>
+<p class="sub_heading"><a name="bugs"></a>Bug reports</p>
+<p class="main_text">Please submit any bugs, feature requests and support requests 
+  to:</p>
+<p class="main_text"><a href="mailto:walther@saliencytoolbox.net">walther@saliencytoolbox.net</a></p>
+<hr>
+<a href="http://www.saliencytoolbox.net"><span class="main_text">SaliencyToolbox 
+homepage</span></a> 
+<div align="right"><span class="datefield"> last modified: 
+  <!-- #BeginDate format:Sw1 -->1 July, 2013<!-- #EndDate -->
+  </span> </div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>
