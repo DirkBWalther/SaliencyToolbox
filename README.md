@@ -2,7 +2,7 @@
 
 * [Getting started](https://htmlpreview.github.io/?https://github.com/DirkBWalther/SaliencyToolbox/blob/main/doc/index.html)
 * [Detailed function documentation](https://htmlpreview.github.io/?https://github.com/DirkBWalther/SaliencyToolbox/blob/main/doc/mdoc/index.html)
-* [a License](License.md)
+* [License](License.md)
 * [Publications](#publications)
 * [Contact](#contact)
 
