@@ -1,7 +1,7 @@
 # Saliency Toolbox
 
-* [Detailed function documentation]()
-* [Getting started]()
+* [Getting started](https://htmlpreview.github.io/?https://github.com/DirkBWalther/SaliencyToolbox/blob/main/doc/index.html)
+* [Detailed function documentation](https://htmlpreview.github.io/?https://github.com/DirkBWalther/SaliencyToolbox/blob/main/doc/mdoc/index.html)
 * [Publications](#publications)
 * [Contact](#contact)
 
@@ -40,6 +40,9 @@ Laurent Itti, Christof Koch, and Ernst Niebur (1998), A model of saliency-based 
 Laurent Itti and Christof Koch (2000), A saliency-based search mechanism for overt and covert shifts of visual attention. Vision Research, 40(10-12): p. 1489-1506.
 
 ## Contact
+
 email: [walther@saliencytoolbox.net](mailto:walther@saliencytoolbox.net)
+
 web: [bwlab.org](https://www.bwlab.org/)
+
 Twitter: [@DirkBWalther](https://twitter.com/DirkBWalther)
