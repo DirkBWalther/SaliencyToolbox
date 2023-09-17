@@ -2,8 +2,8 @@
 
 * [Detailed function documentation]()
 * [Getting started]()
-* [Publications](#Publictions)
-* [Contact](Contact)
+* [Publications](#publications)
+* [Contact](#contact)
 
 The SaliencyToolbox is a collection of Matlab functions and scripts for computing the saliency map for an image, for determining the extent of a proto-object, and for serially scanning the image with the focus of attention. It has been cited in more than 1500 papers.
 
